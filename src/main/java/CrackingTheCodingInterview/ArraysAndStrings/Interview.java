@@ -2,7 +2,7 @@ package CrackingTheCodingInterview.ArraysAndStrings;
 
 import java.util.ArrayList;
 
-public class StringTraining {
+public class Interview {
 
 
     public static void main(String[] args) {
@@ -12,7 +12,9 @@ public class StringTraining {
 //        System.out.println(URLify("Mr John Smith    "));
 //        System.out.println(little("hello1", "hello2"));
 //        System.out.println(oneAway("hello", "hello"));
-        System.out.println(oneAway("pppl", "pppe"));
+//        System.out.println(oneAway("pppl", "pppe"));
+//        stringCompression("aabcccccaaa");
+        stringCompression("aabcccccaaaddddddeeeeac");
     }
 
     public static boolean isUnique(String s) {
@@ -105,15 +107,13 @@ public class StringTraining {
                         break;
                     }
                 }
-            }
-            else{
-                if(pivot == false){
+            } else {
+                if (pivot == false) {
                     System.out.println("palindrome");
                 }
             }
         }
     }
-
 
 
     /* Example
@@ -154,7 +154,37 @@ public class StringTraining {
 //        return !(indexes.size() == 0);
     }
 
-    public static String little(String s1, String s2) {
-        return (s1.length() <= s2.length()) ? s1 : s2;
+    public static void stringCompression(String s) {
+        char[] tab = s.toCharArray();
+        int count = 1;
+        ArrayList indexes = new ArrayList();
+        ArrayList listToReturn = new ArrayList();
+
+        for (int i = 0; i < tab.length; i++) {
+            if (!indexes.contains(i)) {
+                for (int j = i + 1; j < tab.length; j++) {
+                    if (tab[i] != tab[j]) {
+                        listToReturn.add(tab[i]);
+                        listToReturn.add(count);
+                        count = 1;
+                        break;
+                    } else {
+                        indexes.add(j);
+                        count++;
+                        // Before it stops
+                        if (j == tab.length - 1) {
+                            listToReturn.add(tab[i]);
+                            listToReturn.add(count);
+                        }
+                    }
+                }
+                // We can have on letter alone at the end !!
+                if (i == tab.length - 1) {
+                    listToReturn.add(tab[i]);
+                    listToReturn.add(1);
+                }
+            }
+        }
+        listToReturn.forEach(o -> System.out.print(o.toString()));
     }
 }
