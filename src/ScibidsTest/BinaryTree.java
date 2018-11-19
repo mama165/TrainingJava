@@ -91,7 +91,7 @@ public class BinaryTree {
 
         List<String> list = new ArrayList<>();
 
-        try (Stream<String> stream = Files.lines(Paths.get("./tree_to_convert.txt"))) {
+        try (Stream<String> stream = Files.lines(Paths.get("C:\\Users\\Mael\\Desktop\\TrainingJava\\src\\ScibidsTest\\tree_to_convert.txt"))) {
 
             //1. filter line 3
             //2. convert all content to upper case
