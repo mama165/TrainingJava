@@ -9,22 +9,23 @@ public class LinkedList {
         Node node3 = new Node(3);
         Node node4 = new Node(3);
         Node node5 = new Node(3);
+        Node node6 = new Node(3);
+        Node node7 = new Node(3);
 
         head.next = node1;
         node1.next = node2;
         node2.next = node3;
         node3.next = node4;
         node4.next = node5;
+        node5.next = node6;
+        node6.next = node7;
 
-//        Node.deleteNodes(head, 0);
-//        Node.deleteNodes(head, 3);
-//        Node n = Node.deleteNode(head, 3);
-//        Node n = Node.deleteNodes(head, 1);
+//        Node.displayNodes(Node.deleteNodes(head, 0));
+//        Node.removeDupsBis(head);
+        Node.displayNodes(Node.removeDupsBis(head));
 //        Node.removeDups(head);
-//        Node.displayNodes(n);
 
-        Node.removeDupsBis(head);
-        Node.displayNodes(head);
+//        Node.displayNodes(head);
 //        Node.test(head);
     }
     public static class Node {
@@ -70,40 +71,40 @@ public class LinkedList {
 
         public static Node deleteNodes(Node head, int data) {
             Node node = head;
+//            boolean found = false;
 
             if (node.data == data) {
-                head = head.next;  /* moved head */
+//                head = head.next;  /* moved head */
+                node = head.next;  /* moved head */
             }
 
             while (node != null && node.next != null) {
-                if (node.next.data == data) {
-                    node.next = node.next.next;
-                }
-                node = node.next;
+                Node n = deleteNode(node.next, data);
+                node.next = n;
             }
             return head;
         }
 
-        public static void removeDups(Node head) {
-            Node node = head;
+//        public static void removeDups(Node head) {
+//            Node node = head;
+//
+//            while (node.next != null) {
+////                displayNodes(node);
+//                Node current = node;
+//                Node subNode = current.next;
+//                while (subNode.next != null) {
+//                    if (node.data == subNode.data) {
+//                        // We need to delete the sub-node
+////                        Node subNode = node.next.next;
+//                        deleteNode(subNode, node.data);
+//                    }
+//                    subNode = subNode.next;
+//                }
+//                node = node.next;
+//            }
+//        }
 
-            while (node.next != null) {
-//                displayNodes(node);
-                Node current = node;
-                Node subNode = current.next;
-                while (subNode.next != null) {
-                    if (node.data == subNode.data) {
-                        // We need to delete the sub-node
-//                        Node subNode = node.next.next;
-                        deleteNode(subNode, node.data);
-                    }
-                    subNode = subNode.next;
-                }
-                node = node.next;
-            }
-        }
-
-        public static void removeDupsBis(Node head) {
+        public static Node removeDupsBis(Node head) {
             Node node = head;
 
             while (node != null && node.next != null) {
@@ -111,10 +112,13 @@ public class LinkedList {
 //                Node subNode = node.next;
 //                Node subNode = node.next;
                 Node n = deleteNodes(node.next, node.data);
-
+//                System.out.println((n != null) ? n.data : "null");
+                // Current node has a new next
                 node.next = n;
-                node = n;
+//                node = n;
             }
+
+            return head;
 //            displayNodes(node);
         }
 
