@@ -3,14 +3,15 @@ package CrackingTheCodingInterview.LinkedList;
 public class LinkedList {
 
     public static void main(String [] args) {
-        Node head = new Node(0);
-        Node node1 = new Node(3);
-        Node node2 = new Node(3);
-        Node node3 = new Node(3);
-        Node node4 = new Node(3);
-        Node node5 = new Node(3);
-        Node node6 = new Node(3);
-        Node node7 = new Node(3);
+        Node head = new Node(1);
+        Node node1 = new Node(4);
+        Node node2 = new Node(4);
+        Node node3 = new Node(4);
+        Node node4 = new Node(5);
+        Node node5 = new Node(6);
+        Node node6 = new Node(7);
+        Node node7 = new Node(8);
+        Node node8= new Node(9);
 
         head.next = node1;
         node1.next = node2;
@@ -19,14 +20,16 @@ public class LinkedList {
         node4.next = node5;
         node5.next = node6;
         node6.next = node7;
+        node7.next = node8;
 
-//        Node.displayNodes(Node.deleteNodes(head, 0));
-//        Node.removeDupsBis(head);
-        Node.displayNodes(Node.removeDupsBis(head));
-//        Node.removeDups(head);
 
 //        Node.displayNodes(head);
-//        Node.test(head);
+
+        Node.displayNodes(Node.deleteMiddleNode(head));
+
+
+//        Node.displayNodes(Node.deleteNodes(head, 3));
+//        Node.displayNodes(Node.removeDups(head));
     }
     public static class Node {
 
@@ -73,72 +76,87 @@ public class LinkedList {
             Node node = head;
 //            boolean found = false;
 
-            if (node.data == data) {
+//            if (node.data == data) {
 //                head = head.next;  /* moved head */
-                node = head.next;  /* moved head */
-            }
+//                node = head.next;  /* moved head */
+//            }
 
             while (node != null && node.next != null) {
+//                Node n = deleteNode(node.next, data);
                 Node n = deleteNode(node.next, data);
                 node.next = n;
+                node = node.next;
             }
             return head;
         }
 
-//        public static void removeDups(Node head) {
-//            Node node = head;
-//
-//            while (node.next != null) {
-////                displayNodes(node);
-//                Node current = node;
-//                Node subNode = current.next;
-//                while (subNode.next != null) {
-//                    if (node.data == subNode.data) {
-//                        // We need to delete the sub-node
-////                        Node subNode = node.next.next;
-//                        deleteNode(subNode, node.data);
-//                    }
-//                    subNode = subNode.next;
-//                }
-//                node = node.next;
-//            }
-//        }
-
-        public static Node removeDupsBis(Node head) {
+        public static Node removeDups(Node head) {
             Node node = head;
 
+            // node vaut head !
             while (node != null && node.next != null) {
-//                displayNodes(node);
-//                Node subNode = node.next;
-//                Node subNode = node.next;
-                Node n = deleteNodes(node.next, node.data);
-//                System.out.println((n != null) ? n.data : "null");
-                // Current node has a new next
-                node.next = n;
-//                node = n;
+
+
+
+                Node tmp = null;
+                // On cherche parmi les sous-noeuds
+                Node subNode = node.next;
+
+                //-----------------
+                while (subNode != null) {
+
+
+                    if (subNode.data == node.data) {
+                        if(tmp == null) {
+                            subNode = deleteNode(subNode, node.data);
+//                            subNode = subNode.next;
+                        } else {
+//                     node.next = deleteNode(subNode, node.data);
+                            tmp.next = deleteNode(subNode, node.data);
+                            subNode = tmp; // Mon noeud temporaire devient le nouveau sous-noeud de reference
+                            subNode = subNode.next;
+                        }
+                    } else {
+                        tmp = subNode;
+                        subNode = subNode.next;
+                    }
+
+
+                }
+
+                node = node.next;
             }
 
-            return head;
-//            displayNodes(node);
+            return node;
         }
 
-
-        public static void test(Node head) {
+        /*
+          Head =>  {3 -> 3 -> 3 -> 4 -> 5 -> 6 -> 3 -> 8}   Fin .next = null
+         */
+        public void ReturnKthtoLast(Node head, int k) {
             Node node = head;
+            while (node != null) {
 
-            while (node.next != null) {
-                System.out.println("--");
-                System.out.println(node.data);
-                System.out.println("--");
+                node = node.next;
+            }
+        }
 
-                Node subNode = node.next;
-                while (subNode.next != null) {
-                    //displayNodes(node);
-                    System.out.println(subNode.data);
+        public static Node deleteMiddleNode(Node head) {
+            Node node = head;
+            Node subNode = node;
+            Node tmp = subNode;
+            int move = 0;
+
+            while (node != null) {
+                if (move > 0 && move % 2 == 0) {
+                    tmp = subNode;
                     subNode = subNode.next;
                 }
                 node = node.next;
+                move++;
             }
+            tmp.next = deleteNode(subNode, subNode.data);
+            return head;
         }
 
         public static void displayNodes(Node head) {
