@@ -6,12 +6,12 @@ public class LinkedList {
         Node head = new Node(1);
         Node node1 = new Node(4);
         Node node2 = new Node(4);
-        Node node3 = new Node(4);
-        Node node4 = new Node(5);
-        Node node5 = new Node(6);
-        Node node6 = new Node(7);
-        Node node7 = new Node(8);
-        Node node8= new Node(9);
+        Node node3 = new Node(5);
+        Node node4 = new Node(4);
+        Node node5 = new Node(4);
+        Node node6 = new Node(6);
+        Node node7 = new Node(4);
+        Node node8= new Node(4);
 
         head.next = node1;
         node1.next = node2;
@@ -25,7 +25,10 @@ public class LinkedList {
 
 //        Node.displayNodes(head);
 
-        Node.displayNodes(Node.deleteMiddleNode(head));
+//        Node.displayNodes(Node.removeDups(head));
+        Node.displayNodes(Node.removeDups(head));
+
+//        Node.displayNodes(Node.deleteMiddleNode(head));
 
 
 //        Node.displayNodes(Node.deleteNodes(head, 3));
@@ -72,62 +75,30 @@ public class LinkedList {
             return head;
         }
 
-        public static Node deleteNodes(Node head, int data) {
-            Node node = head;
-//            boolean found = false;
-
-//            if (node.data == data) {
-//                head = head.next;  /* moved head */
-//                node = head.next;  /* moved head */
-//            }
-
-            while (node != null && node.next != null) {
-//                Node n = deleteNode(node.next, data);
-                Node n = deleteNode(node.next, data);
-                node.next = n;
-                node = node.next;
-            }
-            return head;
-        }
-
         public static Node removeDups(Node head) {
             Node node = head;
 
-            // node vaut head !
-            while (node != null && node.next != null) {
-
-
-
-                Node tmp = null;
-                // On cherche parmi les sous-noeuds
+            while (node != null) {
                 Node subNode = node.next;
-
-                //-----------------
+                Node tmp = null;
                 while (subNode != null) {
-
-
                     if (subNode.data == node.data) {
+                        subNode = deleteNode(subNode, node.data);
                         if(tmp == null) {
-                            subNode = deleteNode(subNode, node.data);
-//                            subNode = subNode.next;
+                            tmp = subNode;
                         } else {
-//                     node.next = deleteNode(subNode, node.data);
-                            tmp.next = deleteNode(subNode, node.data);
-                            subNode = tmp; // Mon noeud temporaire devient le nouveau sous-noeud de reference
-                            subNode = subNode.next;
+                            tmp.next = subNode;
                         }
+                        node.next = subNode;
                     } else {
                         tmp = subNode;
                         subNode = subNode.next;
                     }
-
-
                 }
-
+//                node.next = subNode;
                 node = node.next;
             }
-
-            return node;
+            return head;
         }
 
         /*
