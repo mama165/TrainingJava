@@ -11,14 +11,17 @@ public class Node {
         this.myId = myId;
     }
 
-    // public void appendToTail(int d) {
-    //     Node n = this;
-    //     Node end = new Node(d);
-    //     while (n.next != null) {
-    //         n = n.next;
-    //     }
-    //     n.next = end;
-    // }
+
+
+//     public void appendToTail(int d) {
+//         Node n = this;
+//         Node end = new Node(d, 0);
+//         while (n.next != null) {
+//             n = n.next;
+//         }
+//         n.next = end;
+//         end.myId = ++n.next.myId;
+//     }
 
     /**
      * Return new head after deletion
@@ -26,7 +29,7 @@ public class Node {
      * @param data
      * @return
      */
-    public static Node deleteNode(Node head, int data) {
+    public Node deleteNode(Node head, int data) {
         Node node = head;
 
         if (node.data == data) {
@@ -51,9 +54,9 @@ public class Node {
     P        L
              L-1                           
     */
-    public static Node removeDups(Node head) {
+    public Node removeDups() {
 
-        Node upperNodeToCompare = head;
+        Node upperNodeToCompare = this;
         while (upperNodeToCompare != null) {
             Node lowerNodeToCompareWith = upperNodeToCompare.next;
             Node prevLower = upperNodeToCompare; //yes
@@ -69,10 +72,10 @@ public class Node {
             }
             upperNodeToCompare = upperNodeToCompare.next;
         }
-        return head;
+        return this;
     }
 
-    public static Node rmD(Node head) {
+    public Node rmD(Node head) {
 
         Node node = head;
         while (node != null) {
@@ -81,10 +84,10 @@ public class Node {
 
             while (subnode != null) {
                 if (node.data == subnode.data) {
-                    tmp.next = subnode.next; // On ne veut plus de référence vers le noeud "lowerNodeToCompareWith"
-                    tmp = node; // On stocke le "upperNodeToCompare" car "lowerNodeToCompareWith" a disparu !
+                    tmp.next = subnode.next; // On ne veut plus de référence vers le noeud "subnode"
+                    tmp = node; // On stocke le "node" parent en cours car "subnode" a disparu !
                 } else {
-                    tmp = subnode; // On stocke le "lowerNodeToCompareWith" car il est toujours présent
+                    tmp = subnode; // On stocke le "subnode" car il est toujours présent
                 }
                 subnode = subnode.next;
             }
@@ -93,7 +96,7 @@ public class Node {
         return head;
     }
 
-    public static Node removeDOldups(Node head) {
+    public Node removeDOldups(Node head) {
 
         Node upperNodeToCompare = head;
         while(upperNodeToCompare != null)
@@ -129,7 +132,7 @@ public class Node {
         }
     }
 
-    public static Node deleteMiddleNode(Node head) {
+    public Node deleteMiddleNode(Node head) {
         Node node = head;
         Node subNode = node;
         Node tmp = subNode;
@@ -147,12 +150,15 @@ public class Node {
         return head;
     }
 
-    public static void displayNodes(Node head) {
-        Node node = head;
+    public String displayNodes() {
+        Node node = this;
+        StringBuilder output = new StringBuilder();
 
         while (node != null) {
             System.out.println(node.data);
+            output.append(String.valueOf(node.data));
             node = node.next;
         }
+        return  output.toString();
     }
 }

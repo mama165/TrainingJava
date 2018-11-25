@@ -1,8 +1,14 @@
 package CrackingTheCodingInterview.LinkedList;
 
-public class Main {
+public class LinkedListMain {
 
     public static void main(String [] args) {
+
+        LinkedListMain linkedListMain = new LinkedListMain();
+        linkedListMain.start();
+    }
+
+    public void start() {
         Node head = new Node(1, 1);
         Node node1 = new Node(2, 2);
         Node node2 = new Node(1, 3);
@@ -25,30 +31,8 @@ public class Main {
         node7.next = node8;
         node8.next = node9;
 
-        Node.displayNodes(head); //Res 
+       head.displayNodes(); //Res
         System.out.println("------");
-        Node newHead = Node.removeDups(head);
-        Node.displayNodes(newHead); // Res
-        Thread.yield();
-        /* Debut
-
-1
-4
-4
-5
-4
-4
-6
-4
-4
-
-        */
-
-        /* Fin
-        1
-4
-1
-4   
-        */
+        head.removeDups().displayNodes(); // Res
     }
 }
