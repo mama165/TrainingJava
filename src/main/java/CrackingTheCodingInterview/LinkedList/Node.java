@@ -132,8 +132,8 @@ public class Node {
         }
     }
 
-    public Node deleteMiddleNode(Node head) {
-        Node node = head;
+    public Node deleteMiddleNode() {
+        Node node = this;
         Node subNode = node;
         Node tmp = subNode;
         int move = 0;
@@ -146,8 +146,8 @@ public class Node {
             node = node.next;
             move++;
         }
-        tmp.next = deleteNode(subNode, subNode.data);
-        return head;
+        tmp.next = subNode.next;
+        return this;
     }
 
     public String displayNodes() {

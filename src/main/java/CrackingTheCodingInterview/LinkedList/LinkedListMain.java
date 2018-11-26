@@ -31,6 +31,9 @@ public class LinkedListMain {
         node7.next = node8;
         node8.next = node9;
 
+        head.deleteMiddleNode().displayNodes();
+//        System.exit(1);
+
        head.displayNodes(); //Res
         System.out.println("------");
         head.removeDups().displayNodes(); // Res

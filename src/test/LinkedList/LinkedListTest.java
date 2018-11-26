@@ -8,11 +8,6 @@ import org.junit.jupiter.api.Test;
 
 public class LinkedListTest
 {
-    @Test
-    void myFirstTest() {
-        assertEquals(2, 1 + 1);
-    }
-
     // private Node processHeadNode(String inputs) //"16485485516"
     // {
     //     int idNb = 1
