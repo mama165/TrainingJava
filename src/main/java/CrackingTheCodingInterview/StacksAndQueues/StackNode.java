@@ -8,8 +8,8 @@ import java.util.EmptyStackException;
  */
 public class StackNode<T> {
 
-    private T data;
-    private StackNode<T> next;
+    public T data;
+    public StackNode<T> next;
 
     public StackNode(T data) {
         this.data = data;
@@ -21,10 +21,11 @@ public class StackNode<T> {
      * @return
      */
     public T pop() {
-        StackNode<T> stackNode = this;
-        if (stackNode == null) throw new EmptyStackException();
-        T item = stackNode.data;
-        stackNode = stackNode.next;
+        StackNode<T> top = this;
+        if (top == null) throw new EmptyStackException();
+        T item = top.data;
+        top.data = top.next.data;
+        top = top.next;
         return item;
     }
 
@@ -34,10 +35,10 @@ public class StackNode<T> {
      */
     public void push(T item) {
         if (this == null) throw new EmptyStackException();
-        StackNode stackNode = new StackNode(item);
-        stackNode.next = this;
-        this.data = (T) stackNode.data;
-        this.next = stackNode.next;
+        StackNode<T> top = this;
+        StackNode<T> t = new StackNode(item);
+        t.next = top;
+        top.next = t;
     }
 
     /**
@@ -55,5 +56,16 @@ public class StackNode<T> {
      */
     public boolean isEmpty() {
         return this == null;
+    }
+
+    public int size() {
+        StackNode stackNode = this;
+        int size = 0;
+
+        while (stackNode != null) {
+            size++;
+            stackNode = stackNode.next;
+        }
+        return size;
     }
 }
