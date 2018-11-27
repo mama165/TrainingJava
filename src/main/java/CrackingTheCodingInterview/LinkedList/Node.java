@@ -4,11 +4,11 @@ public class Node {
 
     public Node next;
     int data;
-    int myId;
+    int id;
 
-    public Node(int data, int myId) {
+    public Node(int data, int id) {
         this.data = data;
-        this.myId = myId;
+        this.id = id;
     }
 
 
@@ -20,7 +20,7 @@ public class Node {
 //             n = n.next;
 //         }
 //         n.next = end;
-//         end.myId = ++n.next.myId;
+//         end.id = ++n.next.id;
 //     }
 
     /**
@@ -147,6 +147,46 @@ public class Node {
             move++;
         }
         tmp.next = subNode.next;
+        return this;
+    }
+
+    /**
+     * input :        a1->a2->...->an->b1->b2->...->bn
+     * output :     a1->b1->a2->b2->...- >an->bn
+     * p1 fast pointer
+     * p2 slow pointer
+     */
+    public Node runnerTechnique() {
+        Node p1 = this;
+        Node p2 = this;
+        int move = 0;
+
+        while (p1 != null) {
+            if (move > 0 && move % 2 == 0) {
+                p2 = p2.next;
+            }
+            p1 = p1.next;
+            move++;
+        }
+        // p1 hit the end and p2 hit the midpoint
+        System.out.println(p2.data);
+        p1 = this;
+        Node tmp;
+        while (p2 != null) {
+//            tmp = p1.next;
+//            p1.next = p2;
+//            p1.next.next = tmp;
+//            p1 = p1.next.next;
+//            p2 = p2.next;
+            tmp = p1.next; // Stocke le voisin
+            p1.next = p2; // On place le noeud
+            p1.next.next = tmp;
+            p1 = p1.next.next;
+
+            p2 = p2.next;
+        }
+
+
         return this;
     }
 
