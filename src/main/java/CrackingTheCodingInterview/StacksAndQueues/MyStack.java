@@ -22,17 +22,29 @@ public class MyStack<T> {
         return item;
     }
 
+    /**
+     * Add an item to the top of the stack.
+     * @param item
+     */
     public void push(T item) {
-        StackNode<T> t = new StackNode<T>(item);
+        StackNode<T> t = new StackNode(item);
         t.next = top;
         top = t;
     }
 
+    /**
+     * Return the top of the stack.
+     * @return
+     */
     public T peek() {
         if (top == null) throw new EmptyStackException();
         return top.data;
     }
 
+    /**
+     * Return true if and only if the stack is empty.
+     * @return
+     */
     public boolean isEmpty() {
         return top == null;
     }

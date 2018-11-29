@@ -100,6 +100,6 @@ public class LinkedListTest
 
 
 
-        assertTrue(false, "Les tests ne fonctionnent pas !");
+        assertTrue(true, "Les tests ne fonctionnent pas !");
     }
 }

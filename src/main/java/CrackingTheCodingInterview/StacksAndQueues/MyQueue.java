@@ -12,8 +12,8 @@ public class MyQueue<T> {
         }
     }
 
-    private QueueNode<T> first;
-    private QueueNode<T> last;
+    private QueueNode<T> head;
+    private QueueNode<T> tail;
 
     /**
      * Add an item to the end of the list.
@@ -21,25 +21,25 @@ public class MyQueue<T> {
      */
     public void add(T item) {
         QueueNode<T> t = new QueueNode(item);
-        if (last != null) {
-            last.next = t;
+        if (tail != null) {
+            tail.next = t;
         }
-        last = t;
-        if (first == null) {
-            first = last;
+        tail = t;
+        if (head == null) {
+            head = tail;
         }
     }
 
     /**
-     * Remove the first item in the list.
+     * Remove the head item in the list.
      * @return
      */
     public T remove() {
-        if (first == null) throw new NoSuchElementException();
-        T data = first.data;
-        first = first.next;
-        if (first == null) {
-            last = null;
+        if (head == null) throw new NoSuchElementException();
+        T data = head.data;
+        head = head.next;
+        if (head == null) {
+            tail = null;
         }
         return data;
     }
@@ -49,8 +49,8 @@ public class MyQueue<T> {
      * @return
      */
     public T peek() {
-        if (first == null) throw new NoSuchElementException();
-        return first.data;
+        if (head == null) throw new NoSuchElementException();
+        return head.data;
     }
 
     /**
@@ -58,6 +58,6 @@ public class MyQueue<T> {
      * @return
      */
     public boolean isEmpty() {
-        return first == null;
+        return head == null;
     }
 }
