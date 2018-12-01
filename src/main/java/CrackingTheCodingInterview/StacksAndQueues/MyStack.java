@@ -8,6 +8,8 @@ public class MyStack<T> {
         private T data;
         private StackNode<T> next;
 
+        public StackNode() {}
+
         public StackNode(T data) {
             this.data = data;
         }
@@ -47,5 +49,25 @@ public class MyStack<T> {
      */
     public boolean isEmpty() {
         return top == null;
+    }
+
+
+    /**
+     * Reverse a string using a stack
+     * @param s
+     */
+    public void reverse(String s) {
+        StackNode<Character> top = new StackNode<>();
+         char [] c = s.toCharArray();
+
+         for(int i = 0; i < c.length; i++) {
+             top.data =  c[i];
+             top = top.next;
+         }
+
+         StringBuilder sb = new StringBuilder();
+         while (top != null) {
+             sb.append(top.data);
+         }
     }
 }
