@@ -38,7 +38,7 @@ public class Main {
 //        Node.searchBFS(root);
 //        Node.searchDFS(root);
 
-        System.out.println(Node.routeBetweenTwoNodes(root, 4, 5));
+        System.out.println(Node.routeBetweenTwoNodes(root, 0, 6));
 
     }
 }
