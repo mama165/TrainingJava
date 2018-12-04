@@ -89,25 +89,33 @@ public class Node {
         return foundFirst & foundSecond;
     }
 
-    public Node minimalTree(int[] nodes) {
-        Node root = new Node(nodes.length / 2);
+    public static Node minimalTree(int[] values) {
+//        if (values.length == 1) return new Node(values[0]);
+        if (values.length == 2) {
+            Node n = new Node(values[1]);
+            n.adjacent = new Node[]{new Node(values[0])};
+            return n;
+        }
 
-        if (nodes.length != 1) {
+        int index = values.length / 2;
+        int middle = values[index];
+        Node root = new Node(middle);
 
-//        minimalTree(root, nodes);
+        if (values.length != 1) {
 
-            int[] subNodesLeft = null;
-            int[] subNodesRight = null;
+            int[] subNodesLeft = new int[values.length / 2];
+            int[] subNodesRight = new int[values.length - values.length / 2 -1];
 
-//        int[] subNodesLeft = new int[nodes.length / 2];
-//        int[] subNodesRight = new int[nodes.length - nodes.length / 2 -1];
-
-            for (int i = 0; i < nodes.length / 2; i++) {
-                subNodesLeft[i] = nodes[i];
+            int j = 0;
+            for (int i = 0; i < values.length / 2; i++) {
+                subNodesLeft[j] = values[i];
+                j++;
             }
 
-            for (int i = nodes.length / 2; i < nodes.length; i++) {
-                subNodesRight[i] = nodes[i];
+            int k = 0;
+            for (int i = values.length / 2 + 1; i < values.length; i++) {
+                subNodesRight[k] = values[i];
+                k++;
             }
 
             root.adjacent = new Node[]{
