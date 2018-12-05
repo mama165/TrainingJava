@@ -1,10 +1,7 @@
 package CrackingTheCodingInterview.TreesAndGraphs;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Node {
     public int data;
@@ -92,110 +89,103 @@ public class Node {
         return foundFirst & foundSecond;
     }
 
-    public static Node minimalTree(int[] values) {
-
-        if (values.length == 2) {
-            Node n = new Node(values[1]);
-            n.adjacent = new Node[]{new Node(values[0])};
-            return n;
-        }
-
-        int index = values.length / 2;
-        int middle = values[index];
-        Node root = new Node(middle);
-
-        if (values.length == 1) return root;
-
-        int[] subNodesLeft = new int[values.length / 2];
-        int[] subNodesRight = new int[values.length - values.length / 2 - 1];
-
-        int j = 0;
-        for (int i = 0; i < values.length / 2; i++) {
-            subNodesLeft[j] = values[i];
-            j++;
-        }
-
-        int k = 0;
-        for (int i = values.length / 2 + 1; i < values.length; i++) {
-            subNodesRight[k] = values[i];
-            k++;
-        }
-
-        root.adjacent = new Node[]{
-                minimalTree(subNodesLeft),
-                minimalTree(subNodesRight)
-        };
-
-        return root;
+    public static Node minimalTree2(int[] values) {
+        return null;
     }
 
-    public static LinkedList[] listOfDepths(Node root) {
+    public static Node minimalTree(List<Integer> values) {
 
-        LinkedList<ArrayList<Node>> list = new LinkedList();
-        root.marked = true;
+        Node parentNode = new Node(values.get(0));
+        List<Integer> valuesrestantes = values.subList(1, values.size() - 1);
+        if (valuesrestantes.isEmpty()) {
+            return parentNode;
+        }
+        int middleLength = valuesrestantes.size() / 2;
+        List<Node> children = new LinkedList();
+        List<Integer> subListLeft = valuesrestantes.subList(0, middleLength - 1);
+        if (!subListLeft.isEmpty()) {
+            children.add(minimalTree(subListLeft));
+        }
+        List<Integer> subListRight = valuesrestantes.subList(middleLength, valuesrestantes.size() - 1);
+        if (!subListRight.isEmpty()) {
+            children.add(minimalTree(subListRight));
+        }
+        parentNode.adjacent = (Node[]) children.toArray();
+        return parentNode;
 
 
+        // if (values.length == 2) {
+        //     Node n = new Node(values[1]);
+        //     n.adjacent = new Node[]{new Node(values[0])};
+        //     return n;
+        // }
+
+        // int index = values.length / 2;
+        // int middle = values[index];
+        // Node root = new Node(middle);
+
+        // if (values.length == 1) return root;
+
+        // int[] subNodesLeft = new int[values.length / 2];
+        // int[] subNodesRight = new int[values.length - values.length / 2 - 1];
+
+        // int j = 0;
+        // for (int i = 0; i < values.length / 2; i++) {
+        //     subNodesLeft[j] = values[i];
+        //     j++;
+        // }
+
+        // int k = 0;
+        // for (int i = values.length / 2 + 1; i < values.length; i++) {
+        //     subNodesRight[k] = values[i];
+        //     k++;
+        // }
+
+        // root.adjacent = new Node[]{
+        //         minimalTree(subNodesLeft),
+        //         minimalTree(subNodesRight)
+        // };
+
+        // return root;
+    }
+
+    public static LinkedList<Node[]> listOfDepths(Node root) {
+
+        LinkedList<Node[]> results = new LinkedList<Node[]>();
         /*
 
-                    A
-                B       C
+                    A           -debut de boucle
+                B       C       -fin de boucle
             D   E       F   G
             HI  JK      LM  NO
 
-
         */
-        Deque<Node> q1 = new LinkedList();
-        q1.add(root);
+        results.add(new Node[]{root});
 
-        Deque<Node> q2 = new LinkedList();
-        q2.add(root);
+        LinkedList<Node> intermediateList = new LinkedList<Node>();
+        intermediateList.add(root);
 
-        ArrayList<Node> nodes = new ArrayList();
+        do {
+            //A chaque itération, on se trouve dans un étage différent.
 
-        while (!q1.isEmpty()) {
+            //todo faire en sorte que l'intermedaite list contiennent seulement les nodes de la rangée encore.
 
-            Node n1 = q1.pop();
-
-
-            //***************
-            Node n2 =  q2.pop();
-            nodes.add(n2); // On ajoute directement l'élément  dans la liste
-
-            if (q2.isEmpty()) {
-                // On  ajoute à la liste des noeuds
-                list.add(nodes);
-                // On réinit la liste
-                nodes = new ArrayList();
-                // On doit ajouter tout ce qui est dans la derniere queue
-//                ((LinkedList<Node>) q2).add(n1);
-
-            } else {
-                // Non vide !
-                // On doit ajouter à la liste car il reste encore des enfants !!
-            }
-            //***************
-
-            if(n1.adjacent == null) {
-                // On arrive aux feuilles
-                // On ajoute tous les éléments de "q1" dans la liste
-            }
-
-            if (n1.adjacent != null) {
-                for (Node child : n1.adjacent) {
-                    if (child.marked == false) {
-                        child.marked = true;
-                        q1.add(child);
-
-                        if(q2.isEmpty()) {
-                            // On ajoute seulement si c'est vide
-                            // On quitte cette ligne
-                            q2.add(child);
-                        }
-                    }
+            LinkedList<Node> tmpList = new LinkedList<Node>();
+            for (Node node : intermediateList) { // { HI  JK      LM  NO }
+                for (Node n : node.adjacent) { //{   }
+                    tmpList.add(n);  //vide
                 }
             }
-        }
 
-        return null;
+            intermediateList = tmpList;  //vide
+
+            //rajouter dans results
+            if (!intermediateList.isEmpty()) {
+                results.add((Node[]) intermediateList.toArray());
+            }
+        }
+        while (!intermediateList.isEmpty());
+
+        return results;
     }
 }
