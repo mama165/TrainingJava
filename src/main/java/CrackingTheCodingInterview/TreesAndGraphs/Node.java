@@ -90,9 +90,48 @@ public class Node {
     }
 
     public static Node minimalTree2(int[] values) {
-        return null;
+
+        if (values.length == 2) {
+            Node n = new Node(values[1]);
+            n.adjacent = new Node[]{new Node(values[0])};
+            return n;
+        }
+
+        int index = values.length / 2;
+        int middle = values[index];
+        Node root = new Node(middle);
+
+        if (values.length == 1) return root;
+
+        int[] subNodesLeft = new int[values.length / 2];
+        int[] subNodesRight = new int[values.length - values.length / 2 - 1];
+
+        int j = 0;
+        for (int i = 0; i < values.length / 2; i++) {
+            subNodesLeft[j] = values[i];
+            j++;
+        }
+
+        int k = 0;
+        for (int i = values.length / 2 + 1; i < values.length; i++) {
+            subNodesRight[k] = values[i];
+            k++;
+        }
+
+        root.adjacent = new Node[]{
+                minimalTree2(subNodesLeft),
+                minimalTree2(subNodesRight)
+        };
+
+        return root;
+
     }
 
+    /**
+     * By a teamate
+     * @param values
+     * @return
+     */
     public static Node minimalTree(List<Integer> values) {
 
         Node parentNode = new Node(values.get(0));
@@ -112,41 +151,6 @@ public class Node {
         }
         parentNode.adjacent = (Node[]) children.toArray();
         return parentNode;
-
-
-        // if (values.length == 2) {
-        //     Node n = new Node(values[1]);
-        //     n.adjacent = new Node[]{new Node(values[0])};
-        //     return n;
-        // }
-
-        // int index = values.length / 2;
-        // int middle = values[index];
-        // Node root = new Node(middle);
-
-        // if (values.length == 1) return root;
-
-        // int[] subNodesLeft = new int[values.length / 2];
-        // int[] subNodesRight = new int[values.length - values.length / 2 - 1];
-
-        // int j = 0;
-        // for (int i = 0; i < values.length / 2; i++) {
-        //     subNodesLeft[j] = values[i];
-        //     j++;
-        // }
-
-        // int k = 0;
-        // for (int i = values.length / 2 + 1; i < values.length; i++) {
-        //     subNodesRight[k] = values[i];
-        //     k++;
-        // }
-
-        // root.adjacent = new Node[]{
-        //         minimalTree(subNodesLeft),
-        //         minimalTree(subNodesRight)
-        // };
-
-        // return root;
     }
 
     public static LinkedList<Node[]> listOfDepths(Node root) {
