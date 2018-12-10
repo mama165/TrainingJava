@@ -187,4 +187,26 @@ public class Main {
         }
         listToReturn.forEach(o -> System.out.print(o.toString()));
     }
+
+    public static int min(int[] array) {
+        int min = array[0];
+
+        for (int a : array) {
+            if (a < min) {
+                min = a;
+            }
+        }
+        return min;
+    }
+
+    public static int max(int[] array) {
+        int max = array[0];
+
+        for (int a : array) {
+            if (a > max) {
+                max = a;
+            }
+        }
+        return max;
+    }
 }
