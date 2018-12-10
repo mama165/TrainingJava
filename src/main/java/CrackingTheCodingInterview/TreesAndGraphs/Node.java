@@ -192,4 +192,29 @@ public class Node {
 
         return results;
     }
+
+    public static boolean checkBalanced(Node root) {
+        ArrayList<Node> nodes = new ArrayList();
+        ArrayList<Node> tmpnodes = new ArrayList();
+        nodes.add(root);
+
+        do {
+            for (Node node : nodes) {
+                if (node.adjacent != null) {
+                    for (Node child : node.adjacent) {
+                        if (child.adjacent != null) {
+                            if (child.adjacent.length == 1
+                                    && child.adjacent[0].adjacent != null) {
+                                return false;
+                            }
+                        }
+                        tmpnodes.add(child);
+                    }
+                }
+                nodes = tmpnodes;
+                tmpnodes = new ArrayList<>();
+            }
+        } while (!nodes.isEmpty());
+        return true;
+    }
 }
