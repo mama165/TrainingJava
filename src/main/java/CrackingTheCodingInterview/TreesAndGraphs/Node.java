@@ -33,16 +33,17 @@ public class Node {
         }
     }
 
-    public static void searchBFS(Node root) {
-        if (root == null) return;
+    public static String searchBFS(Node root) {
 
         Deque<Node> queue = new LinkedList();
         root.marked = true;
         queue.add(root);
 
+        StringBuilder sb = new StringBuilder();
+
         while (!queue.isEmpty()) {
             Node node = queue.pop();
-            System.out.println(node.data);
+            sb.append(node.data);
             if (node.adjacent != null) {
                 for (Node child : node.adjacent) {
                     if (child.marked == false) {
@@ -52,6 +53,7 @@ public class Node {
                 }
             }
         }
+        return sb.toString();
     }
 
     public static boolean routeBetweenTwoNodes(Node root, int first, int second) {
@@ -216,5 +218,18 @@ public class Node {
             }
         } while (!nodes.isEmpty());
         return true;
+    }
+
+    public static boolean validateBST(Node root) {
+        if(root != null) {
+            // action(root);
+
+
+            for(Node child : root.adjacent) {
+                validateBST(child);
+            }
+        }
+
+        return false;
     }
 }
