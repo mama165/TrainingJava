@@ -18,7 +18,7 @@ public class Main {
     }
 
     public static boolean isUnique(String s) {
-        char[] tab = s.toCharArray();
+        char[] tab = s.toLowerCase().toCharArray();
 
         for (int i = 0; i < tab.length; i++) {
             for (int j = i + 1; j < tab.length; j++) {
@@ -32,8 +32,8 @@ public class Main {
 
     // No data structure
     public static boolean isUniqueNoDataStructure(String s) {
-        for (int i = 0; i < s.toCharArray().length; i++) {
-            for (int j = i + 1; j < s.toCharArray().length; j++) {
+        for (int i = 0; i < s.toLowerCase().toCharArray().length; i++) {
+            for (int j = i + 1; j < s.toLowerCase().toCharArray().length; j++) {
                 if (s.charAt(i) == s.charAt(j)) {
                     return false;
                 }
@@ -43,8 +43,8 @@ public class Main {
     }
 
     public static boolean checkPermutation(String s1, String s2) {
-        char[] c1 = s1.toCharArray();
-        char[] c2 = s2.toCharArray();
+        char[] c1 = s1.toLowerCase().toCharArray();
+        char[] c2 = s2.toLowerCase().toCharArray();
 
         if (c1.length != c2.length)
             return false;
@@ -90,7 +90,7 @@ public class Main {
         return String.valueOf(cToReturn);
     }
 
-    public void palindromePermutation(String s) {
+    public static boolean palindromePermutation(String s) {
         char[] tab = s.toCharArray();
 
         ArrayList indexes = new ArrayList();
@@ -113,6 +113,7 @@ public class Main {
                 }
             }
         }
+        return false;
     }
 
 
@@ -154,7 +155,7 @@ public class Main {
 //        return !(indexes.size() == 0);
     }
 
-    public static void stringCompression(String s) {
+    public static String stringCompression(String s) {
         char[] tab = s.toCharArray();
         int count = 1;
         ArrayList indexes = new ArrayList();
@@ -186,6 +187,7 @@ public class Main {
             }
         }
         listToReturn.forEach(o -> System.out.print(o.toString()));
+        return "";
     }
 
     public static int min(int[] array) {
