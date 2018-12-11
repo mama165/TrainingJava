@@ -1,13 +1,13 @@
 package CrackingTheCodingInterview.TreesAndGraphs;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Node {
     public int data;
     public Node[] adjacent;
-    //    public Node left;
-//    public Node right;
     public boolean marked;
 
     public Node(int data) {
@@ -20,7 +20,7 @@ public class Node {
         this.marked = node.marked;
     }
 
-    public static void searchDFS(Node root) {
+    public void searchDFS(Node root) {
         if (root == null) return;
         root.marked = true;
         System.out.println(root.data);
@@ -33,7 +33,8 @@ public class Node {
         }
     }
 
-    public static String searchBFS(Node root) {
+    public String searchBFS() {
+        Node root = this;
 
         Deque<Node> queue = new LinkedList();
         root.marked = true;
@@ -56,9 +57,10 @@ public class Node {
         return sb.toString();
     }
 
-    public static boolean routeBetweenTwoNodes(Node root, int first, int second) {
+    public boolean routeBetweenTwoNodes(int first, int second) {
         if (first == second) return true;
 
+        Node root = this;
         boolean foundFirst = false;
         boolean foundSecond = false;
 
@@ -91,72 +93,9 @@ public class Node {
         return foundFirst & foundSecond;
     }
 
-    public static Node minimalTree2(int[] values) {
+    public LinkedList<Node[]> listOfDepths() {
 
-        if (values.length == 2) {
-            Node n = new Node(values[1]);
-            n.adjacent = new Node[]{new Node(values[0])};
-            return n;
-        }
-
-        int index = values.length / 2;
-        int middle = values[index];
-        Node root = new Node(middle);
-
-        if (values.length == 1) return root;
-
-        int[] subNodesLeft = new int[values.length / 2];
-        int[] subNodesRight = new int[values.length - values.length / 2 - 1];
-
-        int j = 0;
-        for (int i = 0; i < values.length / 2; i++) {
-            subNodesLeft[j] = values[i];
-            j++;
-        }
-
-        int k = 0;
-        for (int i = values.length / 2 + 1; i < values.length; i++) {
-            subNodesRight[k] = values[i];
-            k++;
-        }
-
-        root.adjacent = new Node[]{
-                minimalTree2(subNodesLeft),
-                minimalTree2(subNodesRight)
-        };
-
-        return root;
-
-    }
-
-    /**
-     * By a teamate
-     * @param values
-     * @return
-     */
-    public static Node minimalTree(List<Integer> values) {
-
-        Node parentNode = new Node(values.get(0));
-        List<Integer> valuesrestantes = values.subList(1, values.size() - 1);
-        if (valuesrestantes.isEmpty()) {
-            return parentNode;
-        }
-        int middleLength = valuesrestantes.size() / 2;
-        List<Node> children = new LinkedList();
-        List<Integer> subListLeft = valuesrestantes.subList(0, middleLength - 1);
-        if (!subListLeft.isEmpty()) {
-            children.add(minimalTree(subListLeft));
-        }
-        List<Integer> subListRight = valuesrestantes.subList(middleLength, valuesrestantes.size() - 1);
-        if (!subListRight.isEmpty()) {
-            children.add(minimalTree(subListRight));
-        }
-        parentNode.adjacent = (Node[]) children.toArray();
-        return parentNode;
-    }
-
-    public static LinkedList<Node[]> listOfDepths(Node root) {
-
+        Node root = this;
         LinkedList<Node[]> results = new LinkedList<Node[]>();
         /*
 
@@ -195,7 +134,12 @@ public class Node {
         return results;
     }
 
-    public static boolean checkBalanced(Node root) {
+
+
+
+    public boolean checkBalanced() {
+        Node root = this;
+
         ArrayList<Node> nodes = new ArrayList();
         ArrayList<Node> tmpnodes = new ArrayList();
         nodes.add(root);
@@ -218,18 +162,5 @@ public class Node {
             }
         } while (!nodes.isEmpty());
         return true;
-    }
-
-    public static boolean validateBST(Node root) {
-        if(root != null) {
-            // action(root);
-
-
-            for(Node child : root.adjacent) {
-                validateBST(child);
-            }
-        }
-
-        return false;
     }
 }

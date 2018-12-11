@@ -1,13 +1,14 @@
 package TreesAndGraphs;
 
-import static org.junit.Assert.*;
-
 import CrackingTheCodingInterview.TreesAndGraphs.Node;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TreesAndGraphsTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+public class NodeTest {
     private Node root;
 
     @Before
@@ -38,25 +39,24 @@ public class TreesAndGraphsTest {
     }
 
     @Test
+    public void testRouteBetweenNodes() {
+        assertTrue(root.routeBetweenTwoNodes(20, 25));
+    }
+
+    @Test
     public void testSearchBFS() {
         String expected = "30205015223857425174532405360";
-        String output =  Node.searchBFS(root);
+        String output =  root.searchBFS();
         assertEquals(expected, output);
     }
 
     @Test
     public void testListOfDepths() {
-        assertTrue(Node.listOfDepths(root).size() == 4);
+        assertTrue(root.listOfDepths().size() == 4);
     }
 
     @Test
     public void testCheckBalanced() {
-        assertTrue(Node.checkBalanced(root));
-    }
-
-    @Test
-    public void testValidateBST() {
-
-        assertTrue(Node.validateBST(root));
+        assertTrue(root.checkBalanced());
     }
 }
