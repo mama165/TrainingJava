@@ -159,14 +159,14 @@ public class Main {
         char[] tab = s.toCharArray();
         int count = 1;
         ArrayList indexes = new ArrayList();
-        ArrayList listToReturn = new ArrayList();
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < tab.length; i++) {
             if (!indexes.contains(i)) {
                 for (int j = i + 1; j < tab.length; j++) {
                     if (tab[i] != tab[j]) {
-                        listToReturn.add(tab[i]);
-                        listToReturn.add(count);
+                        sb.append(tab[i]);
+                        sb.append(count);
                         count = 1;
                         break;
                     } else {
@@ -174,20 +174,19 @@ public class Main {
                         count++;
                         // Before it stops
                         if (j == tab.length - 1) {
-                            listToReturn.add(tab[i]);
-                            listToReturn.add(count);
+                            sb.append(tab[i]);
+                            sb.append(count);
                         }
                     }
                 }
                 // We can have on letter alone at the end !!
                 if (i == tab.length - 1) {
-                    listToReturn.add(tab[i]);
-                    listToReturn.add(1);
+                    sb.append(tab[i]);
+                    sb.append(1);
                 }
             }
         }
-        listToReturn.forEach(o -> System.out.print(o.toString()));
-        return "";
+        return sb.toString();
     }
 
     public static int min(int[] array) {

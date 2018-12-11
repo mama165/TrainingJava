@@ -77,9 +77,16 @@ public class ArraysAndStringTest {
 
     @Test
     public void testStringCompression() {
-        String expected = "a2c4a3";
+        String expected = "a2b1c5a3";
         String output = Main.stringCompression("aabcccccaaa");
         assertEquals(expected, output);
+    }
+
+    @Test
+    public void testNotStringCompression() {
+        String unexpected = "a1f1g2e2y11";
+        String output = Main.stringCompression("afggeey");
+        assertNotSame(unexpected, output);
     }
 
     @Test
