@@ -67,4 +67,9 @@ public class BinaryNodeTest {
         assertTrue(root.validateBST());
     }
 
+    @Test
+    public  void testValidateBSTRecursive() {
+        assertTrue(BinaryNode.validateBSTRecursive(root));
+    }
+
 }

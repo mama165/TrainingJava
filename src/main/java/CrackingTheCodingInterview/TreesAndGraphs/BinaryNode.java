@@ -79,20 +79,18 @@ public class BinaryNode {
     }
 
 
-    public boolean validateBSTRecursive(BinaryNode root) {
-        if (root != null
-                && root.left != null && root.right != null) {
-
-            boolean required = root.left.data < root.data
-                    && root.data < root.right.data;
-
-            if (root.left.data < root.data && root.data < root.right.data) {
-
+    public static boolean validateBSTRecursive(BinaryNode root) {
+        if (root != null) {
+            if (root.left != null && root.left.data > root.data) {
+                return false;
+            }
+            if (root.right != null && root.right.data < root.data) {
+                return false;
             }
             validateBSTRecursive(root.left);
             validateBSTRecursive(root.right);
         }
-        return false;
+        return true;
     }
 
     public boolean validateBST() {
