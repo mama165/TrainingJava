@@ -1,4 +1,4 @@
-package StacksAndQueuesTest;
+package StacksAndQueues;
 
 import CrackingTheCodingInterview.StacksAndQueues.StackNode;
 import org.junit.jupiter.api.Test;

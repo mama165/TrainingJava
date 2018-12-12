@@ -3,6 +3,7 @@ package CrackingTheCodingInterview.TreesAndGraphs;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class BinaryNode {
     public int data;
@@ -139,5 +140,20 @@ public class BinaryNode {
         }
 
         return left & right;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BinaryNode that = (BinaryNode) o;
+        return data == that.data &&
+                Objects.equals(left, that.left) &&
+                Objects.equals(right, that.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(data, left, right);
     }
 }

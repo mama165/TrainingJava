@@ -1,4 +1,4 @@
-package StacksAndQueuesTest;
+package StacksAndQueues;
 
 public class UnitTestObject {
     int data;

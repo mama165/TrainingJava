@@ -1,23 +1,29 @@
-package TreesAndGraphs;
+package TreesAndGraphs.ParameterBinaryNode;
 
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
-import CrackingTheCodingInterview.TreesAndGraphs.Node;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Collection;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-public class BinaryNodeTest {
+@RunWith(Parameterized.class)
+public class ValidateBinarySearchTreeTest {
+    private BinaryNode node;
+    private boolean expected;
 
-    private BinaryNode root;
+    public ValidateBinarySearchTreeTest(BinaryNode node, boolean expected) {
+        this.node = node;
+        this.expected = expected;
+    }
 
-    @Before
-    public void setup() throws Exception {
-        root = new BinaryNode(30);
+    @Parameters
+    public static Collection<Object[]> sampleNodes() {
+        BinaryNode root = new BinaryNode(30);
         BinaryNode a = new BinaryNode(20);
         BinaryNode b = new BinaryNode(50);
         BinaryNode c = new BinaryNode(15);
@@ -53,23 +59,26 @@ public class BinaryNodeTest {
 
         f.left = m;
         f.right = n;
-    }
 
-    @Test
-    public void testMinimalTree() {
-        Integer [] myArray = {1, 3, 4, 6, 7, 8, 10, 13, 14};
-        Node node = root.minimalTree(new LinkedList(Arrays.asList(myArray)));
-        assertFalse(true);
+        //****
+
+        BinaryNode second = new BinaryNode(15);
+        second.left = new BinaryNode(86);
+
+        return Arrays.asList(new Object[][]{
+                {root, true},
+                {second, false},
+                {new BinaryNode(1), true},
+        });
     }
 
     @Test
     public void testValidateBST() {
-        assertTrue(root.validateBST());
+        assertEquals(expected, node.validateBST());
     }
 
     @Test
-    public  void testValidateBSTRecursive() {
-        assertTrue(BinaryNode.validateBSTRecursive(root));
+    public void testValidateBSTRecursive() {
+        assertEquals(expected, BinaryNode.validateBSTRecursive(node));
     }
-
 }
