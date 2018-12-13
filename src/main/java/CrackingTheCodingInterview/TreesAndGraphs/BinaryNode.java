@@ -9,10 +9,36 @@ public class BinaryNode {
     public int data;
     public BinaryNode left;
     public BinaryNode right;
+    public BinaryNode parent;
 
     public BinaryNode(int data) {
         this.data = data;
     }
+
+    public void inOrderTraversal(BinaryNode root) {
+        if (root != null) {
+            inOrderTraversal(root.left);
+            System.out.println(root.data);
+            inOrderTraversal(root.right);
+        }
+    }
+
+    public void preOrderTraversal(BinaryNode root) {
+        if (root != null) {
+            System.out.println(root.data);
+            preOrderTraversal(root.left);
+            preOrderTraversal(root.right);
+        }
+    }
+
+    public void postOrderTraversal(BinaryNode root) {
+        if (root != null) {
+            postOrderTraversal(root.left);
+            postOrderTraversal(root.right);
+            System.out.println(root.data);
+        }
+    }
+
 
     public Node minimalTree2(int[] values) {
 
@@ -140,6 +166,41 @@ public class BinaryNode {
         }
 
         return left & right;
+    }
+
+    public static BinaryNode successor(BinaryNode root, int data) {
+        if (root != null) {
+            successor(root.left, data);
+            if (root.data == data) {
+                // Value found !
+                return reverseEngineer(root);
+            }
+            successor(root.right, data);
+        }
+        return new BinaryNode(1);
+    }
+
+    public static BinaryNode reverseEngineer(BinaryNode node) {
+        BinaryNode root = node;
+        int data = root.data;
+
+        while (root.parent != null) {
+            root = root.parent;
+        }
+
+        return findSuccessor(root, data);
+    }
+
+    public static BinaryNode findSuccessor(BinaryNode node, int data) {
+        if (node != null) {
+            findSuccessor(node.left, data);
+            if (node.data > data) {
+                // on a trouvé le prochain
+                return node;
+            }
+            findSuccessor(node.right, data);
+        }
+        return null;
     }
 
     @Override

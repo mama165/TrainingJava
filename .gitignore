@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/git,java,node,intellij
-# Edit at https://www.gitignore.io/?templates=git,java,node,intellij
+# Created by https://www.gitignore.io/api/git,java,root,intellij
+# Edit at https://www.gitignore.io/?templates=git,java,root,intellij
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -156,7 +156,7 @@ coverage
 # Bower dependency directory (https://bower.io/)
 bower_components
 
-# node-waf configuration
+# root-waf configuration
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
@@ -205,4 +205,4 @@ typings/
 # FuseBox cache
 .fusebox/
 
-# End of https://www.gitignore.io/api/git,java,node,intellij
+# End of https://www.gitignore.io/api/git,java,root,intellij
