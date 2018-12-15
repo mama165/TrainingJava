@@ -52,7 +52,7 @@ class Graph {
         }
     }
 
-    // Driver method to
+    // Driver extractLines to
     public static void main(String args[]) {
         Graph g = new Graph(4);
 

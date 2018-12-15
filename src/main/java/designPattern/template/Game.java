@@ -7,7 +7,7 @@ public abstract class Game {
 
     abstract void endPlay();
 
-    //template method
+    //template extractLines
     public final void play() {
 
         //initialize the game
