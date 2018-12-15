@@ -1,32 +1,42 @@
-package InterviewQuestions;
-
-import InterviewQuestions.model.FileHandler;
+package InterviewQuestions.model;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        ToDeleteClass toDeleteClass = new ToDeleteClass();
-        toDeleteClassnew.DoSomething();
-        
-        // String path = "/home/takima/Documents/projetsPerso/CrackingTheCodingInterview/src/main/java/InterviewQuestions/tree_to_convert.txt";
-        // FileHandler fileHandler = new FileHandler(path);
-        // fileHandler.extractLines();
+public class FileHandler {
+    String path;
+
+    public FileHandler(String path) {
+        this.path = path;
     }
 
+    public void extractLines() throws IOException {
+        String path = this.path;
+        try (Stream<String> stream = Files.lines(Paths.get(path))) {
+            stream.forEach(line -> parseLine(line));
 
-    public static void parseLine(String line) {
-        // https://regex101.com/
-        // regex ([0-9]+):\[(.*?)\] (yes)=([0-9]+),(no)=([0-9]+)
-        // exemple : 0:[device_type=pc||or||browser=7] yes=2,no=1
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
-        Pattern p = Pattern.compile("([0-9]+):\\[(.*?)\\] (yes)=([0-9]+),(no)=([0-9]+)");
-
+    private void parseLine(String line) {
+        String rgx = "([0-9]+):\\[(.*?)\\] (yes)=([0-9]+),(no)=([0-9]+)";
+        Pattern p = Pattern.compile(rgx);
         Matcher m = p.matcher(line);
 
         if(m.find()) {
+            Integer data = Integer.valueOf(m.group(0));
+            String feature = String.valueOf(m.group(1));
+            String e = String.valueOf(m.group(2));
+            Node node = new Node.Builder(1, 1, 1);
+
+
 //            System.out.println(line);
 //            System.out.println(m.group(0));
 //            System.out.println(m.group(1));
@@ -35,7 +45,6 @@ public class Main {
 //            System.out.println(m.group(4));
 //            System.out.println(m.group(5));
 //            System.out.println(m.group(6));
-//            System.exit(1);
         }
 
         //**** leaf
