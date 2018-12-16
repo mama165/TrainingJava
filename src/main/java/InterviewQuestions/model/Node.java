@@ -1,61 +1,13 @@
 package InterviewQuestions.model;
 
-public class Node {
-    private int data;
-    private String feature;
-    private Orientation orientation; // yes or no pas obligatoire
+public abstract class Node {
+    protected int nodeNumber;
+    protected int profondeur; // root : 1,
 
-    private Node() {
+    public Node(int nodeNumber) {
+        this.nodeNumber = nodeNumber;
     }
 
-    public int getData() {
-        return data;
-    }
+    public abstract String toString();
 
-    public void setData(int data) {
-        this.data = data;
-    }
-
-    public String getFeature() {
-        return feature;
-    }
-
-    public void setFeature(String feature) {
-        this.feature = feature;
-    }
-
-    public Orientation getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
-    }
-
-    public Bar getBar() {
-        return bar;
-    }
-
-    public void setBar(Bar bar) {
-        this.bar = bar;
-    }
-
-    public static class Builder {
-        private int data;
-        private String feature;
-        private Bar bar;
-
-        public Builder(int data, String feature, Bar bar) {
-            this.data = data;
-            this.feature = feature;
-            this.bar = bar;
-        }
-    }
-
-    private Node(Builder builder) {
-        data = builder.data;
-        feature = builder.feature;
-        orientation = builder.orientation;
-        bar = builder.bar;
-    }
 }

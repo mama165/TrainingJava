@@ -1,15 +1,17 @@
 package InterviewQuestions;
 
 import InterviewQuestions.model.FileHandler;
+import InterviewQuestions.model.ToDeleteClass;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) /*throws IOException*/ {
         ToDeleteClass toDeleteClass = new ToDeleteClass();
-        toDeleteClassnew.DoSomething();
+        toDeleteClass.DoSomething();
+
         
         // String path = "/home/takima/Documents/projetsPerso/CrackingTheCodingInterview/src/main/java/InterviewQuestions/tree_to_convert.txt";
         // FileHandler fileHandler = new FileHandler(path);

@@ -34,7 +34,7 @@ public class FileHandler {
             Integer data = Integer.valueOf(m.group(0));
             String feature = String.valueOf(m.group(1));
             String e = String.valueOf(m.group(2));
-            Node node = new Node.Builder(1, 1, 1);
+//            Node node = new Node.Builder(1, 1, 1);
 
 
 //            System.out.println(line);
