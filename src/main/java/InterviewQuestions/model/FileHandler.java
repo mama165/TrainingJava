@@ -1,5 +1,8 @@
 package InterviewQuestions.model;
 
+import InterviewQuestions.mapper.NodeMapper;
+import InterviewQuestions.mapper.RowMapper;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,14 +20,32 @@ public class FileHandler {
 
     public void extractLines() throws IOException {
         String path = this.path;
-        LinkedList<String> list = new LinkedList<>();
+        Rows rows = new Rows();
+        RowMapper rowMapper = new RowMapper();
+        NodeMapper nodeMapper = new NodeMapper();
+
+
+
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
-            stream.forEach(line -> list.add(line));
+            stream.forEach(line -> rows.addRow(getRowFromLine(rowMapper, line)));
+
+
+
+            Node root = nodeMapper.map(rows);
+
 
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public Row getRowFromLine(RowMapper rowMapper, String line) {
+        return rowMapper.map(line);
+    }
+
+    public void getNode() {
+
     }
 
     public void method(LinkedList<String> list) {
@@ -52,12 +73,17 @@ public class FileHandler {
             node.yes = nodeYes;
             node.no = nodeNo;
 
-            search(childYes, list);
-            search(childNo, list);
+            search(nodeYes, list);
+            search(nodeNo, list);
         }
     }
 
-    public Node findLineWithData(LinkedList<String> list) {
+    public String findLine(LinkedList<String> list, int data) {
+
+        return null;
+    }
+
+    public Node convert(String line) {
 
         return null;
     }

@@ -12,7 +12,29 @@ public class ParentNode extends Node {
         this.feature = feature;
     }
 
+    public Node getYes() {
+        return yes;
+    }
 
+    public void setYes(Node yes) {
+        this.yes = yes;
+    }
+
+    public Node getNo() {
+        return no;
+    }
+
+    public void setNo(Node no) {
+        this.no = no;
+    }
+
+    public String getFeature() {
+        return feature;
+    }
+
+    public void setFeature(String feature) {
+        this.feature = feature;
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();

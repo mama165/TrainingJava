@@ -94,8 +94,8 @@ public class BinaryTree {
         try (Stream<String> stream = Files.lines(Paths.get("C:\\Users\\Mael\\Desktop\\TrainingJava\\src\\ScibidsTest\\tree_to_convert.txt"))) {
 
             //1. filter line 3
-            //2. convert all content to upper case
-            //3. convert it into a List
+            //2. map all content to upper case
+            //3. map it into a List
             list = stream
                     //.map(line -> line.split("\t")[1])
                     .collect(Collectors.toList());
