@@ -1,0 +1,13 @@
+Voici l’exercice en question : il faut le coder comme s’il passait une code review chez nous, c’est-à-dire avec le niveau de qualité maximal
+
+Il faut coder une fonction qui enlève un élément dans un tableau de String et qui renvoie un nouveau tableau avec l’élément en moins, et la taille diminuée.
+La signature de la méthode est de ce type public String[] removeElementAtIndice(String[] array, int indice) et l’indice passé en paramètre indique l’indice de l’élément à enlever,
+mais en comptant comme les humains, à partir de un.
+
+Exemples :
+
+{A,B,C} et 1 => {B,C}
+
+{A,B,C} et 2 => {A,C}
+
+Pour toute demande impossible à adresser, on renverra null.
