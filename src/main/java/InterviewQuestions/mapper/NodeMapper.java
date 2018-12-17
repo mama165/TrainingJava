@@ -24,25 +24,39 @@ public class NodeMapper  implements GenericMapper<Node, Rows > {
     }
 
     public Node convert(Row row) {
+        Node node = null;
         String value = row.getLine();
-        String [] rgxs = {
-                "([0-9]+):\\[(.*?)\\] (yes)=([0-9]+),(no)=([0-9]+)",
-                "([0-9]+):(leaf)=([+-]?[1-9][0-9]*|0[.,][0-9]+)"
-        };
 
-        for(String regex  : rgxs) {
-            Pattern p = Pattern.compile(regex);
-            Matcher m = p.matcher(value);
-            if(m.find()) {
-                if(true) {
-                   Node parentNode = new ParentNode();
-                } else {
-                    Node leaf = new LeafNode();
+        String regexParent =  "([0-9]+):\\[(.*?)\\] (yes)=([0-9]+),(no)=([0-9]+)";
+        String regexLeaf = "([0-9]+):(leaf)=([+-]?[1-9][0-9]*|0[.,][0-9]+)";
 
-                }
-            }
+        Pattern patternParent = Pattern.compile(regexParent);
+        Matcher matcherParent = patternParent.matcher(value);
+
+        Pattern patternLeaf = Pattern.compile(regexLeaf);
+        Matcher matcherLeaf = patternLeaf.matcher(value);
+
+
+        if(matcherParent.find()) {
+            int data = Integer.parseInt(matcherParent.group(1));
+            String feature = String.valueOf(matcherParent.group(2));
+            int yes = Integer.parseInt(matcherParent.group(4));
+            int no = Integer.parseInt(matcherParent.group(6));
+
+            node = new ParentNode.Builder()
+                    .addData(data)
+                    .withFeature(feature)
+                    .build();
+        }
+        if (matcherLeaf.find()) {
+            int data = Integer.parseInt(matcherLeaf.group(1));
+            Double element = Double.parseDouble(matcherLeaf.group(3));
+            node = new LeafNode(element, data);
         }
 
-        return null;
+
+
+
+        return node;
     }
 }

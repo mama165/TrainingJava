@@ -8,6 +8,8 @@ public abstract class Node {
         this.nodeNumber = nodeNumber;
     }
 
+    public Node() {}
+
     public abstract String toString();
 
 }

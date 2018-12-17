@@ -21,13 +21,19 @@ public class FileHandler {
     public void extractLines() throws IOException {
         String path = this.path;
         Rows rows = new Rows();
+        LinkedList<Row> rowList = new LinkedList();
         RowMapper rowMapper = new RowMapper();
         NodeMapper nodeMapper = new NodeMapper();
 
 
 
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
-            stream.forEach(line -> rows.addRow(getRowFromLine(rowMapper, line)));
+            stream.forEach(line -> {
+                Row row = getRowFromLine(rowMapper, line);
+                rowList.add(row);
+            });
+
+            rows.setRows(rowList);
 
 
 
@@ -62,20 +68,20 @@ public class FileHandler {
 //        if(node instanceof LeafNode) {
 //            // do Nothing
 //        }
-        if(node instanceof ParentNode) {
-            int dataYes = node.getYes();
-            int dataNo = node.getNo();
-            String lineYes = findLine(list, dataYes);
-            String lineNo = findLine(list, dataNo);
-            Node nodeYes = convert(lineYes);
-            Node nodeNo = convert(lineNo);
-
-            node.yes = nodeYes;
-            node.no = nodeNo;
-
-            search(nodeYes, list);
-            search(nodeNo, list);
-        }
+//        if(node instanceof ParentNode) {
+//            int dataYes = node.getYes();
+//            int dataNo = node.getNo();
+//            String lineYes = findLine(list, dataYes);
+//            String lineNo = findLine(list, dataNo);
+//            Node nodeYes = convert(lineYes);
+//            Node nodeNo = convert(lineNo);
+//
+//            node.yes = nodeYes;
+//            node.no = nodeNo;
+//
+//            search(nodeYes, list);
+//            search(nodeNo, list);
+//        }
     }
 
     public String findLine(LinkedList<String> list, int data) {
@@ -112,7 +118,7 @@ public class FileHandler {
 
         if(m.find()) {
 //            Integer data = Integer.valueOf(m.group(0));
-//            String feature = String.valueOf(m.group(1));
+//            String withFeature = String.valueOf(m.group(1));
 //            String e = String.valueOf(m.group(2));
 //            Node node = new Node.Builder(1, 1, 1);
 
