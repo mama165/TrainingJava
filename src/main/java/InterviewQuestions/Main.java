@@ -8,14 +8,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static void main(String[] args) /*throws IOException*/ {
+    public static void main(String[] args) throws IOException {
         ToDeleteClass toDeleteClass = new ToDeleteClass();
-        toDeleteClass.DoSomething();
+//        toDeleteClass.DoSomething();
 
         
-        // String path = "/home/takima/Documents/projetsPerso/CrackingTheCodingInterview/src/main/java/InterviewQuestions/tree_to_convert.txt";
-        // FileHandler fileHandler = new FileHandler(path);
-        // fileHandler.extractLines();
+         String path = "/home/takima/Documents/projetsPerso/CrackingTheCodingInterview/src/main/java/InterviewQuestions/tree_to_convert.txt";
+         FileHandler fileHandler = new FileHandler(path);
+         fileHandler.extractLines();
     }
 
 

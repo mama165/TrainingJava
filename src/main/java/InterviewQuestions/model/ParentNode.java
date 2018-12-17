@@ -12,6 +12,8 @@ public class ParentNode extends Node {
         this.feature = feature;
     }
 
+
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.nodeNumber + ":" + this.feature + " " + "yes=" + this.yes.nodeNumber + "," + "no=" + this.no.nodeNumber + "\n");
