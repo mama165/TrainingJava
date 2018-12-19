@@ -4,12 +4,18 @@ public abstract class Node {
     protected int nodeNumber;
     protected int profondeur; // root : 1,
 
+
+    public Node() {
+    }
+
     public Node(int nodeNumber) {
         this.nodeNumber = nodeNumber;
     }
 
-    public Node() {}
+    public int getNodeNumber() {
+        return nodeNumber;
+    }
 
-    public abstract String toString();
+    //    public abstract String toString();
 
 }

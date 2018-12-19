@@ -10,17 +10,65 @@ public class NodeMapper  implements GenericMapper<Node, Rows > {
 
     @Override
     public Node map(Rows rows) {
-        LinkedList<Row> rowList = rows.getRows();
 
-        Row row = rowList.get(0);
+        Row row = rows.getRows().get(0);
         Node node =  convert(row);
 
-//        rowList.stream().forEach(row -> {
-//
-//            System.out.println("");
-//        });
+
+
+        if(node == null) {
+            // Issue !
+        }
+
+        LinkedList<Node> nodes = new LinkedList();
+
+        rows.getRows().stream().forEach(r -> {
+            nodes.add(convert(r));
+            System.out.println("");
+        });
+
+
+        buildTree(rows);
 
         return null;
+    }
+
+    private void buildTree(Rows rows) {
+        Row row = rows.getRows().get(0);
+        Node node = convert(row);
+
+        search(node, rows);
+    }
+
+    private void search(Node node, Rows rows) {
+        if (node instanceof ParentNode) {
+            ParentNode parentNode = (ParentNode) node;
+
+            int dataYes = parentNode.getYes().getNodeNumber();
+            int dataNo = parentNode.getNo().getNodeNumber();
+
+            Row rowYes = findRow(dataYes, rows);
+            Row rowNo = findRow(dataNo, rows);
+
+            Node nodeYes = convert(rowYes);
+            Node nodeNo = convert(rowNo);
+
+            parentNode.setYes(nodeYes);
+            parentNode.setNo(nodeNo);
+
+            search(nodeYes, rows);
+            search(nodeNo, rows);
+        }
+    }
+
+    public Row findRow(int data, Rows rows) {
+
+        rows.getRows().stream().forEach(row -> {
+
+        });
+
+
+        return new Row();
     }
 
     public Node convert(Row row) {

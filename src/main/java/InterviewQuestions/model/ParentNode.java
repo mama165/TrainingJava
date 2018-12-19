@@ -57,7 +57,7 @@ public class ParentNode extends Node {
     }
 
     public Node getYes() {
-        return yes;
+        return this.yes;
     }
 
     public void setYes(Node yes) {
@@ -65,7 +65,7 @@ public class ParentNode extends Node {
     }
 
     public Node getNo() {
-        return no;
+        return this.no;
     }
 
     public void setNo(Node no) {
@@ -73,7 +73,7 @@ public class ParentNode extends Node {
     }
 
     public String getFeature() {
-        return feature;
+        return this.feature;
     }
 
     public void setFeature(String feature) {
@@ -82,9 +82,9 @@ public class ParentNode extends Node {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.nodeNumber + ":" + this.feature + " " + "yes=" + this.yes.nodeNumber + "," + "no=" + this.no.nodeNumber + "\n");
-        sb.append(this.yes.toString());
-        sb.append(this.no.toString());
+//        sb.append(this.nodeNumber + ":" + this.feature + " " + "yes=" + this.yes.nodeNumber + "," + "no=" + this.no.nodeNumber + "\n");
+//        sb.append(this.yes.toString());
+//        sb.append(this.no.toString());
         return sb.toString();
     }
 }
