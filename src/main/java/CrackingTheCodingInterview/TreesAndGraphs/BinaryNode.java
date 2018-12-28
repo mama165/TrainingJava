@@ -15,30 +15,44 @@ public class BinaryNode {
         this.data = data;
     }
 
-    public void inOrderTraversal(BinaryNode root) {
-        if (root != null) {
-            inOrderTraversal(root.left);
-            System.out.println(root.data);
-            inOrderTraversal(root.right);
-        }
+    public String inOrderTraversal(BinaryNode root) {
+        return inOrderTraversal(root, new StringBuilder());
     }
 
-    public void preOrderTraversal(BinaryNode root) {
+    public String inOrderTraversal(BinaryNode root, StringBuilder sb) {
         if (root != null) {
-            System.out.println(root.data);
-            preOrderTraversal(root.left);
-            preOrderTraversal(root.right);
+            inOrderTraversal(root.left, sb);
+            sb.append(root.data);
+            inOrderTraversal(root.right, sb);
         }
+        return sb.toString();
     }
 
-    public void postOrderTraversal(BinaryNode root) {
-        if (root != null) {
-            postOrderTraversal(root.left);
-            postOrderTraversal(root.right);
-            System.out.println(root.data);
-        }
+    public String preOrderTraversal(BinaryNode root) {
+        return preOrderTraversal(root, new StringBuilder());
     }
 
+    public String preOrderTraversal(BinaryNode root, StringBuilder sb) {
+        if (root != null) {
+            sb.append(root.data);
+            preOrderTraversal(root.left, sb);
+            preOrderTraversal(root.right, sb);
+        }
+        return sb.toString();
+    }
+
+    public String postOrderTraversal(BinaryNode root) {
+        return postOrderTraversal(root, new StringBuilder());
+    }
+
+    public String postOrderTraversal(BinaryNode root, StringBuilder sb) {
+        if (root != null) {
+            postOrderTraversal(root.left, sb);
+            postOrderTraversal(root.right, sb);
+            sb.append(root.data);
+        }
+        return sb.toString();
+    }
 
     public Node minimalTree2(int[] values) {
 
