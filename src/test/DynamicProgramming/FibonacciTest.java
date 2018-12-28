@@ -1,7 +1,8 @@
 package DynamicProgramming;
 
-import CrackingTheCodingInterview.DynamicProgramming.Foo;
+import CrackingTheCodingInterview.DynamicProgramming.Fibonacci;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -15,10 +16,16 @@ import java.util.Collection;
 public class FibonacciTest {
     private int value;
     private int expected;
+    private Fibonacci fibonacci;
 
     public FibonacciTest(int value, int expected) {
         this.value = value;
         this.expected = expected;
+    }
+
+    @Before
+    public void setup() {
+        fibonacci = new Fibonacci();
     }
 
     @Parameters
@@ -38,14 +45,14 @@ public class FibonacciTest {
     @Test
     @DisplayName("Test with recursive programming")
     public void testFibonacciRecursive() {
-        int output = Foo.fibonacciRecursive(value);
+        int output = fibonacci.fibonacciRecursive(value);
         Assert.assertEquals(expected, output);
     }
 
     @Test
     @DisplayName("Test with dynamic programming")
     public void testFibonacci() {
-        int output = Foo.fibonacci(value);
+        int output = fibonacci.fibonacci(value);
         Assert.assertEquals(expected, output);
     }
 }
