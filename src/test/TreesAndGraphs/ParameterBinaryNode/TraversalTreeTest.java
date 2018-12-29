@@ -60,6 +60,14 @@ public class TraversalTreeTest {
     }
 
     @Test
+    @DisplayName("Test if we can traverse the tree in order no recursive")
+    public void testInOrderTraversalNoRecursive() {
+        String expected = "41525201722453032384050535760";
+        String output = root.inOrderTraversalNoRecursive(root);
+        assertEquals(expected, output);
+    }
+
+    @Test
     @DisplayName("Test if we can traverse the tree pre order")
     public void testPreOrderTraversal() {
         String expected = "30201542522174550383240575360";
@@ -68,10 +76,27 @@ public class TraversalTreeTest {
     }
 
     @Test
+    @DisplayName("Test if we can traverse the tree pre order no recursive")
+    public void testPreOrderTraversalNoRecursive() {
+        String expected = "30201542522174550383240575360";
+        String output = root.preOrderTraversalNoRecursive(root);
+        assertEquals(expected, output);
+    }
+
+
+    @Test
     @DisplayName("Test if we can traverse the tree post order")
     public void testPostOrderTraversal() {
         String expected = "42515174522203240385360575030";
         String output = root.postOrderTraversal(root);
+        assertEquals(expected, output);
+    }
+
+    @Test
+    @DisplayName("Test if we can traverse the tree post order no recursive")
+    public void testPostOrderTraversalNoRecursive() {
+        String expected = "42515174522203240385360575030";
+        String output = root.postOrderTraversalNoRecursive(root);
         assertEquals(expected, output);
     }
 }

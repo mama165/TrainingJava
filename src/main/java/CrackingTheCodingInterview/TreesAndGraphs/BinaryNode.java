@@ -1,15 +1,13 @@
 package CrackingTheCodingInterview.TreesAndGraphs;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class BinaryNode {
     public int data;
     public BinaryNode left;
     public BinaryNode right;
     public BinaryNode parent;
+    public boolean visited;
 
     public BinaryNode(int data) {
         this.data = data;
@@ -28,6 +26,31 @@ public class BinaryNode {
         return sb.toString();
     }
 
+    public String inOrderTraversalNoRecursive(BinaryNode root) {
+        StringBuilder sb = new StringBuilder();
+        Stack<BinaryNode> stack = new Stack<>();
+        stack.add(root);
+
+        while (!stack.isEmpty()) {
+            root.visited = true;
+            if (root.left != null && !root.left.visited) {
+                stack.add(root);
+                root = root.left;
+                continue;
+            }
+
+            sb.append(root.data);
+
+            if (root.right != null && !root.right.visited) {
+                root = root.right;
+                continue;
+            }
+            root = stack.pop();
+        }
+
+        return sb.toString();
+    }
+
     public String preOrderTraversal(BinaryNode root) {
         return preOrderTraversal(root, new StringBuilder());
     }
@@ -41,6 +64,35 @@ public class BinaryNode {
         return sb.toString();
     }
 
+    public String preOrderTraversalNoRecursive(BinaryNode root) {
+        StringBuilder sb = new StringBuilder();
+        Stack<BinaryNode> stack = new Stack<>();
+        stack.add(root);
+
+        while (!stack.isEmpty()) {
+            if (!root.visited) sb.append(root.data);
+
+            root.visited = true;
+
+            if (root.left != null && !root.left.visited) {
+                stack.add(root);
+                root = root.left;
+                continue;
+            }
+
+            if (root.right != null && !root.right.visited) {
+                stack.add(root);
+                root = root.right;
+                continue;
+            }
+
+            root = stack.pop();
+
+        }
+
+        return sb.toString();
+    }
+
     public String postOrderTraversal(BinaryNode root) {
         return postOrderTraversal(root, new StringBuilder());
     }
@@ -50,6 +102,32 @@ public class BinaryNode {
             postOrderTraversal(root.left, sb);
             postOrderTraversal(root.right, sb);
             sb.append(root.data);
+        }
+        return sb.toString();
+    }
+
+    public String postOrderTraversalNoRecursive(BinaryNode root) {
+        StringBuilder sb = new StringBuilder();
+        Stack<BinaryNode> stack = new Stack<>();
+        stack.add(root);
+
+        while (!stack.isEmpty()) {
+            root.visited = true;
+
+            if (root.left != null && !root.left.visited) {
+                stack.add(root);
+                root = root.left;
+                continue;
+            }
+
+            if (root.right != null && !root.right.visited) {
+                stack.add(root);
+                root = root.right;
+                continue;
+            }
+
+            sb.append(root.data);
+            root = stack.pop();
         }
         return sb.toString();
     }
