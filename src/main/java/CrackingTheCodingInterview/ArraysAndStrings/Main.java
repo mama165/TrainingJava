@@ -14,7 +14,6 @@ public class Main {
 //        System.out.println(oneAway("hello", "hello"));
 //        System.out.println(oneAway("pppl", "pppe"));
 //        stringCompression("aabcccccaaa");
-        stringCompression("aabcccccaaaddddddeeeeac");
     }
 
     public static boolean isUnique(String s) {
