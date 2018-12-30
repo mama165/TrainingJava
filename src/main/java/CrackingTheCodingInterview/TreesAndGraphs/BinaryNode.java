@@ -1,6 +1,7 @@
 package CrackingTheCodingInterview.TreesAndGraphs;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class BinaryNode {
     public int data;
@@ -293,6 +294,52 @@ public class BinaryNode {
             findSuccessor(node.right, data);
         }
         return null;
+    }
+
+    public int[] shortestPath(int value) {
+        BinaryNode root = this;
+        Stack<BinaryNode> stack = new Stack<>();
+        stack.add(root);
+
+        while (!stack.isEmpty()) {
+            root.visited = true;
+
+            if (root.data == value) {
+                stack.add(root);
+                return convert(stack);
+            }
+
+            if (root.left != null && !root.left.visited) {
+                stack.add(root);
+                root = root.left;
+                continue;
+            }
+
+            if (root.right != null && !root.right.visited) {
+                stack.add(root);
+                root = root.right;
+                continue;
+            }
+
+            root = stack.pop();
+        }
+
+        return null;
+    }
+
+    public int[] convert(Stack<BinaryNode> stack) {
+        LinkedList<Integer> list = new LinkedList();
+        for (BinaryNode node : stack) {
+            list.add(node.data);
+        }
+
+        int[] a = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            a[i] = list.get(i);
+        }
+
+        return a;
     }
 
     @Override
