@@ -2,20 +2,7 @@ package CrackingTheCodingInterview.ArraysAndStrings;
 
 import java.util.ArrayList;
 
-public class Main {
-
-
-    public static void main(String[] args) {
-//        System.out.println(isUnique("maison"));
-//        System.out.println(checkPermutation("asimon", "maison"));
-//        System.out.println(replace("MR rrzfed ezgzrg re     "));
-//        System.out.println(URLify("Mr John Smith    "));
-//        System.out.println(little("hello1", "hello2"));
-//        System.out.println(oneAway("hello", "hello"));
-//        System.out.println(oneAway("pppl", "pppe"));
-//        stringCompression("aabcccccaaa");
-    }
-
+public class Foo {
     public static boolean isUnique(String s) {
         char[] tab = s.toLowerCase().toCharArray();
 
@@ -186,6 +173,10 @@ public class Main {
             }
         }
         return sb.toString();
+    }
+
+    public static boolean stringRotation(String a, String b) {
+        return false;
     }
 
     public static int min(int[] array) {
