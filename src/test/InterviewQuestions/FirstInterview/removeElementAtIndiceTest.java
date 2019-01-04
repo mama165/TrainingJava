@@ -1,4 +1,4 @@
-package fr.kelkoo.interview;
+package InterviewQuestions.FirstInterview;
 
 import InterviewQuestions.SecondInterview.Foo;
 import org.junit.Before;
