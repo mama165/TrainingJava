@@ -3,7 +3,7 @@ package TreesAndGraphs.ParameterBinaryNode;
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class ShortestPath {
     private BinaryNode root;
@@ -51,8 +51,8 @@ public class ShortestPath {
 
     @Test
     public void testShortestPath() {
-        int[] expected = root.shortestPath(45);
-        int[] output = {30, 20, 22, 45};
+        int[] output= root.shortestPath(45);
+        int[] expected  = {30, 20, 22, 45};
         Assert.assertArrayEquals(expected, output);
     }
 }

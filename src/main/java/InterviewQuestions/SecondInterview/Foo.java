@@ -1,4 +1,4 @@
-package fr.kelkoo.interview;
+package InterviewQuestions.SecondInterview;
 
 public class Foo {
 

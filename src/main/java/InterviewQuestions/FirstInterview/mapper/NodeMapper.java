@@ -1,12 +1,12 @@
-package InterviewQuestions.mapper;
+package InterviewQuestions.FirstInterview.mapper;
 
-import InterviewQuestions.model.*;
+import InterviewQuestions.FirstInterview.model.*;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NodeMapper  implements GenericMapper<Node, Rows > {
+public class NodeMapper  implements GenericMapper<Node, Rows> {
 
     @Override
     public Node map(Rows rows) {

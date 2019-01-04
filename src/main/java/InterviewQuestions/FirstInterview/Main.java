@@ -1,7 +1,7 @@
-package InterviewQuestions;
+package InterviewQuestions.FirstInterview;
 
-import InterviewQuestions.model.FileHandler;
-import InterviewQuestions.model.ToDeleteClass;
+import InterviewQuestions.FirstInterview.model.FileHandler;
+import InterviewQuestions.FirstInterview.model.ToDeleteClass;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

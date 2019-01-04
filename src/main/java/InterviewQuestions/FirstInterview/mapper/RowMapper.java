@@ -1,6 +1,6 @@
-package InterviewQuestions.mapper;
+package InterviewQuestions.FirstInterview.mapper;
 
-import InterviewQuestions.model.Row;
+import InterviewQuestions.FirstInterview.model.Row;
 
 public class RowMapper implements GenericMapper<Row, String> {
     @Override

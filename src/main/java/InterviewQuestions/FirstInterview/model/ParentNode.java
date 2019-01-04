@@ -1,4 +1,4 @@
-package InterviewQuestions.model;
+package InterviewQuestions.FirstInterview.model;
 
 public class ParentNode extends Node {
     private Node yes;

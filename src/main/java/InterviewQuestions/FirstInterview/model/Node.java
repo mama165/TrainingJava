@@ -1,4 +1,4 @@
-package InterviewQuestions.model;
+package InterviewQuestions.FirstInterview.model;
 
 public abstract class Node {
     protected int nodeNumber;

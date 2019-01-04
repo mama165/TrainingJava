@@ -342,6 +342,18 @@ public class BinaryNode {
         return a;
     }
 
+    /**
+     * Problem Statement : Given a Binary Search Tree, keyed on positive integers.
+     * The task is to find the Shortest path in Binary Search Tree which adds up to the number K.
+     * If no such path exists, return a message accordingly.
+     * @param node
+     * @param value
+     * @return
+     */
+    public int[] shortestSum(BinaryNode node, int value) {
+        return null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

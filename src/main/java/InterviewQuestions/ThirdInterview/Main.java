@@ -1,4 +1,4 @@
-package Ogury;
+package InterviewQuestions.ThirdInterview;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

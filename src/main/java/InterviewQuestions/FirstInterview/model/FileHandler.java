@@ -1,7 +1,7 @@
-package InterviewQuestions.model;
+package InterviewQuestions.FirstInterview.model;
 
-import InterviewQuestions.mapper.NodeMapper;
-import InterviewQuestions.mapper.RowMapper;
+import InterviewQuestions.FirstInterview.mapper.NodeMapper;
+import InterviewQuestions.FirstInterview.mapper.RowMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;

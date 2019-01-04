@@ -1,6 +1,6 @@
-package InterviewQuestions.converter;
+package InterviewQuestions.FirstInterview.converter;
 
-import InterviewQuestions.model.Node;
+import InterviewQuestions.FirstInterview.model.Node;
 
 import java.util.regex.Matcher;
 

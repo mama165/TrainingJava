@@ -1,4 +1,4 @@
-package InterviewQuestions.model;
+package InterviewQuestions.FirstInterview.model;
 
 public enum Orientation {
     YES("yes"),

@@ -1,4 +1,4 @@
-package InterviewQuestions.Utils;
+package InterviewQuestions.FirstInterview.Utils;
 
 public class Utils {
     class RegexUtils {
