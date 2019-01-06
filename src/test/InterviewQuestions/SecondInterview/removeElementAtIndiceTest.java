@@ -1,4 +1,4 @@
-package InterviewQuestions.FirstInterview;
+package InterviewQuestions.SecondInterview;
 
 import InterviewQuestions.SecondInterview.Foo;
 import org.junit.Before;
