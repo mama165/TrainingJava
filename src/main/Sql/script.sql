@@ -38,3 +38,24 @@ UPDATE student SET name='Tom', major='Undecided' WHERE major='Biology';
 -- Select only the names
 
 SELECT name FROM student;
+
+-- Select name and major  with alphabetic order
+
+SELECT name, major FROM student ORDER BY name;
+
+-- Select with descendant order
+SELECT name, major FROM student ORDER BY name DESC;
+
+-- Select all order by major then student_id
+-- Explaination : if two student have the same same, well we compare their id
+SELECT * FROM student ORDER BY major, student_id;
+
+-- Select all order by major then student_id (in descending order)
+SELECT * FROM student ORDER BY major, student_id DESC;
+
+-- Select only 2 results
+SELECT * FROM  student LIMIT 2;
+
+
+-- Select student with Biology
+SELECT * FROM student WHERE major='Biology';
