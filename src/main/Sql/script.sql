@@ -165,6 +165,11 @@ CREATE TABLE works_with(emp_id INT, client_id INT, total_sales INT, PRIMARY KEY(
 CREATE TABLE branch_supplier(branch_id INT, supplier_name INT, supply_type VARCHAR(40), PRIMARY KEY(branch_id, supplier_name), FOREIGN  KEY(branch_id) REFERENCES branch(branch_id) ON DELETE CASCADE);
 
 
+SELECT first_name AS forename, last_name AS surname FROM employee;
+
+-- Select all different genders
+
+SELECT DISTINCT sex FROM employee;
 
 
 
