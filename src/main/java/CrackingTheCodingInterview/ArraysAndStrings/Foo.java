@@ -1,6 +1,11 @@
 package CrackingTheCodingInterview.ArraysAndStrings;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Foo {
     public static boolean isUnique(String s) {
@@ -177,6 +182,18 @@ public class Foo {
 
     public static boolean stringRotation(String a, String b) {
         return false;
+    }
+
+
+    public int closestToZero(int [] values) {
+        IntStream s = Arrays.stream(values);
+        s.forEach(x -> System.out.println(x));
+        List elements = Arrays.asList(values);
+        elements.stream().forEach(e -> System.out.println(e));
+//        elements.forEach(e -> {
+//            System.out.println(e);
+//        });
+        return 0;
     }
 
     public static int min(int[] array) {

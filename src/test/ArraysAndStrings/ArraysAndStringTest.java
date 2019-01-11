@@ -182,6 +182,37 @@ public class ArraysAndStringTest {
             }
 
             @Nested
+            @DisplayName("Test for closest to zero")
+            class closest {
+                @Test
+                @DisplayName("Test with parameter 5")
+                public void testWithSameAbsoluteValues() {
+                    int  [] values = {-5, 5};
+                    int output = foo.closestToZero(values);
+                    int expected = 5;
+                    assertEquals(expected, output);
+                }
+
+                @Test
+                @DisplayName("Test with parameter 5")
+                public void testWithResultNotInTheInput() {
+                    int  [] values = {-5, -5};
+                    int output = foo.closestToZero(values);
+                    int expected = -5;
+                    assertEquals(expected, output);
+                }
+
+                @Test
+                @DisplayName("")
+                public void testWithEmptyArray() {
+                    int  [] values = {};
+                    int output = foo.closestToZero(values);
+                    int expected = 0;
+                    assertEquals(expected, output);
+                }
+            }
+
+            @Nested
             @DisplayName("Test for random methods")
             class Random {
                 @Test
