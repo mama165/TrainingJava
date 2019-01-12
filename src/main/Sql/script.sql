@@ -172,7 +172,8 @@ SELECT first_name AS forename, last_name AS surname FROM employee;
 SELECT DISTINCT sex FROM employee;
 
 
-
+-- Select the client, their employee and the branch
+SELECT works_with.client_id, client.client_name AS Theclient, employee.first_name AS THeEmployee, branch.branch_name AS Branch FROM works_with JOIN employee ON employee.emp_id=works_with.emp_id JOIN client ON client.client_id=works_with.client_id JOIN branch ON branch.branch_id=client.branch_id ORDER BY client_id;
 
 
 
