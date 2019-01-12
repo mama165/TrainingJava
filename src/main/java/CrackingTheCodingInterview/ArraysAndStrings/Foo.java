@@ -1,11 +1,9 @@
 package CrackingTheCodingInterview.ArraysAndStrings;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Foo {
     public static boolean isUnique(String s) {
@@ -185,15 +183,11 @@ public class Foo {
     }
 
 
-    public int closestToZero(int [] values) {
-        IntStream s = Arrays.stream(values);
-        s.forEach(x -> System.out.println(x));
-        List elements = Arrays.asList(values);
-        elements.stream().forEach(e -> System.out.println(e));
-//        elements.forEach(e -> {
-//            System.out.println(e);
-//        });
-        return 0;
+    public static int closestToZero(int [] values) {
+        if (values.length == 0) return 0;
+
+        IntStream intStream = Arrays.stream(values);
+        return intStream.reduce(1 << 15, (r, i) -> r * r - r < i * i ? r : i);
     }
 
     public static int min(int[] array) {

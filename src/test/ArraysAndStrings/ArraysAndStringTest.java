@@ -4,12 +4,18 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 import CrackingTheCodingInterview.ArraysAndStrings.Foo;
+import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class ArraysAndStringTest {
     Foo foo;
+
+    @Before
+    public void setup() {
+        foo = new Foo();
+    }
     @Nested
     @DisplayName("Unit tests for Arrays and Strings")
     class InnerTest {
@@ -183,29 +189,38 @@ public class ArraysAndStringTest {
 
             @Nested
             @DisplayName("Test for closest to zero")
-            class closest {
+            class closestToZero {
                 @Test
-                @DisplayName("Test with parameter 5")
+                @DisplayName("Test with a good behaviour")
+                public void testWithStandardParameters() {
+                    int[] values = {456, 34, -45, -32, -87, 90, 32, -34};
+                    int output = foo.closestToZero(values);
+                    int expected = 32;
+                    assertEquals(expected, output);
+                }
+
+                @Test
+                @DisplayName("Test with same absolute parameters -5 and 5")
                 public void testWithSameAbsoluteValues() {
-                    int  [] values = {-5, 5};
+                    int[] values = {-5, 5};
                     int output = foo.closestToZero(values);
                     int expected = 5;
                     assertEquals(expected, output);
                 }
 
                 @Test
-                @DisplayName("Test with parameter 5")
+                @DisplayName("Test with parameters -5 and 5")
                 public void testWithResultNotInTheInput() {
-                    int  [] values = {-5, -5};
+                    int[] values = {-5, -5};
                     int output = foo.closestToZero(values);
                     int expected = -5;
                     assertEquals(expected, output);
                 }
 
                 @Test
-                @DisplayName("")
-                public void testWithEmptyArray() {
-                    int  [] values = {};
+                @DisplayName("Test with an empty array should return 0")
+                public void testWithEmptyArrayShouldReturnZero() {
+                    int[] values = {};
                     int output = foo.closestToZero(values);
                     int expected = 0;
                     assertEquals(expected, output);
