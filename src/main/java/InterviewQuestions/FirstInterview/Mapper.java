@@ -1,43 +1,24 @@
-package InterviewQuestions.FirstInterview.mapper;
+package InterviewQuestions.FirstInterview;
 
-import InterviewQuestions.FirstInterview.model.*;
+import InterviewQuestions.FirstInterview.models.*;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NodeMapper  implements GenericMapper<Node, Rows> {
-
+public class Mapper implements IMapper {
     @Override
-    public Node map(Rows rows) {
-
-        Row row = rows.getRows().get(0);
-        Node node =  convert(row);
-
-
-
-        if(node == null) {
-            // Issue !
-        }
-
-        LinkedList<Node> nodes = new LinkedList();
-
-        rows.getRows().stream().forEach(r -> {
-            nodes.add(convert(r));
-            System.out.println("");
-        });
-
-
-        buildTree(rows);
-
-        return null;
+    public Node build(Rows rows) {
+        List<Node> nodes = rows.createNode();
+        Node node = buildTree(nodes);
+        return node;
     }
 
-    private void buildTree(Rows rows) {
-        Row row = rows.getRows().get(0);
-        Node node = convert(row);
 
-        search(node, rows);
+
+    public Node buildTree(List<Node> nodes) {
+
+        return null;
     }
 
     private void search(Node node, Rows rows) {
@@ -59,16 +40,6 @@ public class NodeMapper  implements GenericMapper<Node, Rows> {
             search(nodeYes, rows);
             search(nodeNo, rows);
         }
-    }
-
-    public Row findRow(int data, Rows rows) {
-
-        rows.getRows().stream().forEach(row -> {
-
-        });
-
-
-        return new Row();
     }
 
     public Node convert(Row row) {
@@ -106,5 +77,15 @@ public class NodeMapper  implements GenericMapper<Node, Rows> {
 
 
         return node;
+    }
+
+    public Row findRow(int data, Rows rows) {
+
+        rows.getRows().stream().forEach(row -> {
+
+        });
+
+
+        return new Row();
     }
 }

@@ -1,4 +1,4 @@
-package InterviewQuestions.FirstInterview.model;
+package InterviewQuestions.FirstInterview.models;
 
 public class LeafNode extends Node {
     private double value;

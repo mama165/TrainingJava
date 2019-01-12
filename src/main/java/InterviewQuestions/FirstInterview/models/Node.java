@@ -1,4 +1,4 @@
-package InterviewQuestions.FirstInterview.model;
+package InterviewQuestions.FirstInterview.models;
 
 public abstract class Node {
     protected int nodeNumber;
@@ -16,6 +16,8 @@ public abstract class Node {
         return nodeNumber;
     }
 
-    //    public abstract String toString();
+    public Node buildTree() {
 
+        return null;
+    }
 }
