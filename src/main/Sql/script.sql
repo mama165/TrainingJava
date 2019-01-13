@@ -175,6 +175,19 @@ SELECT DISTINCT sex FROM employee;
 -- Select the client, their employee and the branch
 SELECT works_with.client_id, client.client_name AS Theclient, employee.first_name AS THeEmployee, branch.branch_name AS Branch FROM works_with JOIN employee ON employee.emp_id=works_with.emp_id JOIN client ON client.client_id=works_with.client_id JOIN branch ON branch.branch_id=client.branch_id ORDER BY client_id;
 
+DELIMITER $$
+CREATE
+    TRIGGER my_trigger BEFORE INSERT
+    ON employee
+    FOR EACH ROW BEGIN
+        INSERT INTO trigger_test VALUES('added new employee');
+     END$$
+DELIMITER;
+
+INSERT INTO employee
+VALUES(109, 'Oscar', 'Martinez', '1968-02-19', 'M', 69000, 106, 3);
+
+SELECT * FROM trigger_test;
 
 
 
