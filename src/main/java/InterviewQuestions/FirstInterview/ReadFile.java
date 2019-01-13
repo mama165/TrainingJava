@@ -1,9 +1,6 @@
 package InterviewQuestions.FirstInterview;
 
-import InterviewQuestions.FirstInterview.models.BaseLine;
-import InterviewQuestions.FirstInterview.models.LeafLine;
-import InterviewQuestions.FirstInterview.models.ParentLine;
-import InterviewQuestions.FirstInterview.models.Rows;
+import InterviewQuestions.FirstInterview.models.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,10 +43,47 @@ public class ReadFile implements IReadFile {
                     map.put(leafData, new LeafLine(leafData, element));
                 }
 
+                // the map is built
+
+                map.entrySet().stream().forEach(element -> {
+                    if(element instanceof ParentLine) {
+                        ParentLine parentLine =
+                                new ParentLine(
+                                        ((ParentLine) element).getData(),
+                                        ((ParentLine) element).getYes(),
+                                        ((ParentLine) element).getNo(),
+                                        ((ParentLine) element).getFeature());
+
+                        BaseLine baseLineYes = map.get(parentLine.getYes());
+                        BaseLine baseLineNo = map.get(parentLine.getNo());
+
+                        Node nodeYes;
+                        Node nodeNo;
+
+                        if(baseLineYes instanceof ParentLine) {
+                            nodeYes = new ParentNode.Builder()
+                                    .addData(parentLine.getData())
+                                    .withFeature(parentLine.getFeature())
+                                    .yes()
+                                    .no();
+                        } else {
+                            nodeYes = new LeafNode(((LeafLine)baseLineYes).getValue(), baseLineYes.getData());
+                        }
+
+                        ParentNode parentNode = new ParentNode.Builder()
+                                .addData(parentLine.getData())
+                                .withFeature(parentLine.getFeature())
+                                .yes()
+                                .no();
+                    }
+                });
+
                 //                Row row = new Row(line);
                 //                rows.addRow(row);
             });
         }
+
+
         return rows;
     }
 }
