@@ -3,6 +3,10 @@ package InterviewQuestions.FirstInterview.models;
 public class LeafNode extends Node {
     private double value;
 
+    public LeafNode(Double value) {
+        this.value = value;
+    }
+
     public LeafNode(Double value, int nodeNumber) {
         super(nodeNumber);
         this.value = value;

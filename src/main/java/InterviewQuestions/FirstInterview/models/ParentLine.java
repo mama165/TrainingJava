@@ -2,7 +2,8 @@ package InterviewQuestions.FirstInterview.models;
 
 public class ParentLine extends BaseLine {
     private int yes;
-    private int no;   public ParentLine(Integer data, Integer yes, Integer no, String feature) {
+    private int no;
+    public ParentLine(Integer data, Integer yes, Integer no, String feature) {
         super(data);
         this.yes = yes;
         this.no = no;

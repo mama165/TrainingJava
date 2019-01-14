@@ -3,7 +3,7 @@ package InterviewQuestions.FirstInterview;
 import InterviewQuestions.FirstInterview.models.Rows;
 import java.io.IOException;
 
-public class Extract  implements IExtract {
+public class Extract implements IExtract {
     IValidateFile validateFile;
     IReadFile readFile;
 
