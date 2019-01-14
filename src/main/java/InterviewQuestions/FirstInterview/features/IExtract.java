@@ -1,4 +1,4 @@
-package InterviewQuestions.FirstInterview;
+package InterviewQuestions.FirstInterview.features;
 
 import InterviewQuestions.FirstInterview.models.Rows;
 

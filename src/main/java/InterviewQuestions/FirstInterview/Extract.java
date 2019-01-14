@@ -1,5 +1,8 @@
 package InterviewQuestions.FirstInterview;
 
+import InterviewQuestions.FirstInterview.features.IExtract;
+import InterviewQuestions.FirstInterview.features.IReadFile;
+import InterviewQuestions.FirstInterview.features.IValidateFile;
 import InterviewQuestions.FirstInterview.models.Rows;
 import java.io.IOException;
 
