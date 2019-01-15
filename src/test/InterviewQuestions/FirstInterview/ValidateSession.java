@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import static java.time.Duration.ofMillis;
@@ -27,10 +26,9 @@ public class ValidateSession {
 
 //        File output = decisionTree.doCalcul("");
 
-        File expectedFirst = getFile("samples/expected/flattened_1.txt");
-        File expectedSecond = getFile("samples/expected/flattened_2.txt");
-        File expectedThird = getFile("samples/expected/flattened_3.txt");
-
+        File expectedFirst = getFile("samples/outputs/strategie_1.txt");
+        File expectedSecond = getFile("samples/outputs/strategie_2.txt");
+        File expectedThird = getFile("samples/outputs/strategie_3.txt");
 
 
         assertAll("Trees",
