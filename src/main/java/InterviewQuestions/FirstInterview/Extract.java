@@ -1,5 +1,6 @@
 package InterviewQuestions.FirstInterview;
 
+import InterviewQuestions.FirstInterview.exceptions.IllegalExtensionFile;
 import InterviewQuestions.FirstInterview.features.IExtract;
 import InterviewQuestions.FirstInterview.features.IReadFile;
 import InterviewQuestions.FirstInterview.features.IValidateFile;
@@ -15,7 +16,7 @@ public class Extract implements IExtract {
         this.readFile = bar;
     }
 
-    public Rows extractLines(String path) throws IOException {
+    public Rows extractLines(String path) throws IllegalExtensionFile, IOException {
         validateFile.validate(path);
         return readFile.read(path);
     }

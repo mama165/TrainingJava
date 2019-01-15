@@ -1,5 +1,6 @@
 package InterviewQuestions.FirstInterview;
 
+import InterviewQuestions.FirstInterview.exceptions.IllegalExtensionFile;
 import InterviewQuestions.FirstInterview.models.Node;
 import InterviewQuestions.FirstInterview.models.Rows;
 
@@ -21,10 +22,9 @@ public class DecisionTree {
         Rows rows = null;
         try {
             rows = extract.extractLines(path);
-        } catch (IOException e) {
+        } catch (IOException | IllegalExtensionFile e) {
             e.printStackTrace();
         }
-        
         Node node = convert.convert(rows);
         return write.buildFile(node);
     }

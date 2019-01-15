@@ -14,6 +14,7 @@
         <junit.surefire.version>1.0.3</junit.surefire.version>
         <junit-bom.version>5.2.0</junit-bom.version>
         <mockito.version>2.23.4</mockito.version>
+        <common-io.version>2.6</common-io.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -58,6 +59,12 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${common-io.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -73,7 +80,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
             </plugin>
-
         </plugins>
     </build>
 

@@ -1,11 +1,15 @@
 package InterviewQuestions.FirstInterview;
 
+import InterviewQuestions.FirstInterview.exceptions.IllegalExtensionFile;
 import InterviewQuestions.FirstInterview.features.IValidateFile;
-
-import java.io.File;
+import org.apache.commons.io.FilenameUtils;
 
 public class Validate implements IValidateFile {
-    public File validate(String path) {
-        return null;
+    public void validate(String path) throws IllegalExtensionFile {
+        String extension = FilenameUtils.getExtension(path);
+
+        if (!"txt\n".equals(extension)) {
+            throw new IllegalExtensionFile(extension);
+        }
     }
 }
