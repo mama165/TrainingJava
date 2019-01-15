@@ -5,6 +5,8 @@ import InterviewQuestions.FirstInterview.features.IExtract;
 import InterviewQuestions.FirstInterview.features.IReadFile;
 import InterviewQuestions.FirstInterview.features.IValidateFile;
 import InterviewQuestions.FirstInterview.models.Rows;
+
+import java.io.File;
 import java.io.IOException;
 
 public class Extract implements IExtract {
@@ -16,8 +18,8 @@ public class Extract implements IExtract {
         this.readFile = bar;
     }
 
-    public Rows extractLines(String path) throws IllegalExtensionFile, IOException {
-        validateFile.validate(path);
-        return readFile.read(path);
+    public Rows extractLines(File file) throws IllegalExtensionFile, IOException {
+        validateFile.validate(file);
+        return readFile.read(file);
     }
 }

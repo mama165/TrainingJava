@@ -3,6 +3,7 @@ package InterviewQuestions.FirstInterview;
 import InterviewQuestions.FirstInterview.features.IReadFile;
 import InterviewQuestions.FirstInterview.models.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 
 public class ReadFile implements IReadFile {
     @Override
-    public Rows read(String path) throws IOException {
+    public Rows read(File file) throws IOException {
         Rows rows = new Rows();
 
         String regexParent = "([0-9]+):\\[(.*?)\\] (yes)=([0-9]+),(no)=([0-9]+)";
@@ -21,7 +22,7 @@ public class ReadFile implements IReadFile {
         Pattern patternParent = Pattern.compile(regexParent);
         Pattern patternLeaf = Pattern.compile(regexLeaf);
 
-        try (Stream<String> stream = Files.lines(Paths.get(path))) {
+        try (Stream<String> stream = Files.lines(Paths.get(file.getAbsolutePath()))) {
             stream.forEach(line -> {
                 Matcher matcherParent = patternParent.matcher(line);
                 Matcher matcherLeaf = patternLeaf.matcher(line);

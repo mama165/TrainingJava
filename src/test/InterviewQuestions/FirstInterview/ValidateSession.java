@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import java.io.File;
-import java.net.URL;
 
 import static java.time.Duration.ofMillis;
 import static junit.framework.Assert.assertTrue;
@@ -24,17 +23,22 @@ public class ValidateSession {
                 new Convert(), new Write()
         );
 
-//        File output = decisionTree.doCalcul("");
+        File inputFirst = FileUtils.getFile("samples/inputs/tree_1.txt");
+        File inputSecond = FileUtils.getFile("samples/inputs/tree_2.txt");
+        File inputThird = FileUtils.getFile("samples/inputs/tree_3.txt");
 
-        File expectedFirst = getFile("samples/outputs/strategie_1.txt");
-        File expectedSecond = getFile("samples/outputs/strategie_2.txt");
-        File expectedThird = getFile("samples/outputs/strategie_3.txt");
+        File expectedFirst = FileUtils.getFile("samples/outputs/strategie_1.txt");
+        File expectedSecond = FileUtils.getFile("samples/outputs/strategie_2.txt");
+        File expectedThird = FileUtils.getFile("samples/outputs/strategie_3.txt");
 
+        File outputFirst = decisionTree.doCalcul(inputFirst);
+        File outputSecond = decisionTree.doCalcul(inputSecond);
+        File outputThird = decisionTree.doCalcul(inputThird);
 
         assertAll("Trees",
-                () -> assertTrue(FileUtils.contentEquals(expectedFirst, expectedFirst)),
-                () -> assertTrue(FileUtils.contentEquals(expectedSecond, expectedSecond)),
-                () -> assertTrue(FileUtils.contentEquals(expectedThird, expectedThird))
+                () -> assertTrue(FileUtils.contentEquals(expectedFirst, outputFirst)),
+                () -> assertTrue(FileUtils.contentEquals(expectedSecond, outputSecond)),
+                () -> assertTrue(FileUtils.contentEquals(expectedThird, outputThird))
         );
     }
 
@@ -47,20 +51,12 @@ public class ValidateSession {
                 ),
                 new Convert(), new Write()
         );
-        String path = "/home/mael/Documents/TrainingJava/src/main/java/InterviewQuestions/FirstInterview/samples/tree_to_convert.txt\n";
 
         long timeout = 2;  //ms
 
         assertTimeout(ofMillis(timeout), () -> {
-            decisionTree.doCalcul(path);
+            File input = FileUtils.getFile("samples/inputs/tree_1");
+            decisionTree.doCalcul(input);
         });
-    }
-
-    public File getFile(String path) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(path);
-        File file = new File(resource.getPath());
-
-        return file;
     }
 }

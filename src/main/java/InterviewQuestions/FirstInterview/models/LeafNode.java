@@ -13,6 +13,6 @@ public class LeafNode extends Node {
     }
 
     public String toString() {
-        return this.nodeNumber + ":leaf=" + this.value + "\n";
+        return this.data + ":leaf=" + this.value + "\n";
     }
 }

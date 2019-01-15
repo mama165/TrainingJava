@@ -18,10 +18,10 @@ public class DecisionTree {
         this.write = write;
     }
 
-    public File doCalcul(String path) {
+    public File doCalcul(File file) {
         Rows rows = null;
         try {
-            rows = extract.extractLines(path);
+            rows = extract.extractLines(file);
         } catch (IOException | IllegalExtensionFile e) {
             e.printStackTrace();
         }

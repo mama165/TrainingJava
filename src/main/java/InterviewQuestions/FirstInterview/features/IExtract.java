@@ -3,8 +3,9 @@ package InterviewQuestions.FirstInterview.features;
 import InterviewQuestions.FirstInterview.exceptions.IllegalExtensionFile;
 import InterviewQuestions.FirstInterview.models.Rows;
 
+import java.io.File;
 import java.io.IOException;
 
 public interface IExtract {
-    Rows extractLines(String path) throws IOException, IllegalAccessException, IllegalExtensionFile;
+    Rows extractLines(File file) throws IOException, IllegalExtensionFile;
 }

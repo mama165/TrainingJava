@@ -4,11 +4,13 @@ import InterviewQuestions.FirstInterview.exceptions.IllegalExtensionFile;
 import InterviewQuestions.FirstInterview.features.IValidateFile;
 import org.apache.commons.io.FilenameUtils;
 
-public class Validate implements IValidateFile {
-    public void validate(String path) throws IllegalExtensionFile {
-        String extension = FilenameUtils.getExtension(path);
+import java.io.File;
 
-        if (!"txt\n".equals(extension)) {
+public class Validate implements IValidateFile {
+    public void validate(File file) throws IllegalExtensionFile {
+        String extension = FilenameUtils.getExtension(file.getPath());
+
+        if (!"txt".equals(extension)) {
             throw new IllegalExtensionFile(extension);
         }
     }

@@ -1,23 +1,16 @@
 package InterviewQuestions.FirstInterview.models;
 
 public abstract class Node {
-    protected int nodeNumber;
-    protected int profondeur; // root : 1,
-
+    protected int data;
 
     public Node() {
     }
 
-    public Node(int nodeNumber) {
-        this.nodeNumber = nodeNumber;
+    public Node(int data) {
+        this.data = data;
     }
 
-    public int getNodeNumber() {
-        return nodeNumber;
-    }
-
-    public Node buildTree() {
-
-        return null;
+    public int getData() {
+        return data;
     }
 }

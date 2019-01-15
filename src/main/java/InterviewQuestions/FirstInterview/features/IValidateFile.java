@@ -5,5 +5,5 @@ import InterviewQuestions.FirstInterview.exceptions.IllegalExtensionFile;
 import java.io.File;
 
 public interface IValidateFile {
-    void validate(String path) throws IllegalExtensionFile;
+    void validate(File file) throws IllegalExtensionFile;
 }
