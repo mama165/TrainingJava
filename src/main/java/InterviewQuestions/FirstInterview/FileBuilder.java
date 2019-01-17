@@ -2,12 +2,14 @@ package InterviewQuestions.FirstInterview;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBuilder {
-    BaseCondition baseCondition;
+    List<BaseCondition> baseConditions;
 
-    public FileBuilder(BaseCondition baseCondition) {
-        this.baseCondition = baseCondition;
+    public FileBuilder(List<BaseCondition> baseConditions) {
+        this.baseConditions = baseConditions;
     }
 
     private File buildFile() throws IOException {
@@ -18,7 +20,7 @@ public class FileBuilder {
         );
 
         try (BufferedWriter writer = new BufferedWriter(outputStreamWriter)) {
-            baseCondition.getConditions().forEach(baseCondition -> {
+            baseConditions.forEach(baseCondition -> {
                 try {
                     writer.write(baseCondition.toString());
                     writer.newLine();

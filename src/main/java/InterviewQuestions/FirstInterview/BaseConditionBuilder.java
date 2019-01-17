@@ -2,6 +2,8 @@ package InterviewQuestions.FirstInterview;
 
 import InterviewQuestions.FirstInterview.models.Node;
 
+import java.util.List;
+
 public class BaseConditionBuilder {
     Node root;
 
@@ -9,11 +11,11 @@ public class BaseConditionBuilder {
         this.root = root;
     }
 
-    private BaseCondition builder() {
-        return root.baseCondition();
+    private List<BaseCondition> builder() {
+        return root.baseConditions();
     }
 
-    public BaseCondition build() {
+    public List<BaseCondition> build() {
         return builder();
     }
 }
