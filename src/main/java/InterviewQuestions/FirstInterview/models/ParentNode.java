@@ -90,6 +90,11 @@ public class ParentNode extends Node {
         this.feature = feature;
     }
 
+    public ParentNode addFeature(String feature) {
+        this.feature = feature;
+        return this;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
 //        sb.append(this.data + ":" + this.feature + " " + "yes=" + this.yes.data + "," + "no=" + this.no.data + "\n");

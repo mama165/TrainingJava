@@ -26,6 +26,14 @@ public class DecisionTree {
             e.printStackTrace();
         }
         Node node = convert.convert(rows);
-        return write.buildFile(node);
+
+        File f = null;
+        try {
+            f = write.buildFile(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return f;
     }
 }
