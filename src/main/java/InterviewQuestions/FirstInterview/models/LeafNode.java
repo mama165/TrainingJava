@@ -15,4 +15,14 @@ public class LeafNode extends Node {
     public String toString() {
         return this.data + ":leaf=" + this.value + "\n";
     }
+
+    @Override
+    public Node getYes() {
+        return null;
+    }
+    @Override
+    public Node getNo() {
+        return null;
+    }
+
 }

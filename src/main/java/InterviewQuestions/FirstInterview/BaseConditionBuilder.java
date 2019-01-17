@@ -2,17 +2,15 @@ package InterviewQuestions.FirstInterview;
 
 import InterviewQuestions.FirstInterview.models.Node;
 
-
 public class BaseConditionBuilder {
-    Node node;
+    Node root;
 
-    public BaseConditionBuilder(Node node) {
-        this.node = node;
+    public BaseConditionBuilder(Node root) {
+        this.root = root;
     }
 
     private BaseCondition builder() {
-
-        return null;
+        return root.baseCondition();
     }
 
     public BaseCondition build() {

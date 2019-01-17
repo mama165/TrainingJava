@@ -26,10 +26,10 @@ public class BaseCondition {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
-        IntStream.range(0, list.size() - 1)
+        int length = list.size();
+        IntStream.range(0, length - 1)
                 .forEach(index -> {
-                    if (index == list.size()) {
+                    if (index == length - 1) {
                         sb.append(list.get(index));
                     } else {
                         sb.append(list.get(index)).append(" & ");
