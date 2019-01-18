@@ -20,9 +20,24 @@ public class LeafNode extends Node {
     public Node getYes() {
         return null;
     }
+
     @Override
     public Node getNo() {
         return null;
     }
 
+    @Override
+    public boolean isLeaf() {
+        return true;
+    }
+
+    @Override
+    public String buidCondition(String side) {
+        if("yes".equals(side)) {
+
+        } else {
+
+        }
+        return null;
+    }
 }

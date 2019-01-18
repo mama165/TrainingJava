@@ -1,6 +1,7 @@
     package InterviewQuestions.FirstInterview.models;
 
-public class ParentNode extends Node {
+
+    public class ParentNode extends Node {
     private Node yes;
     private Node no;
     private String feature;
@@ -73,7 +74,22 @@ public class ParentNode extends Node {
         return this.no;
     }
 
-    public void setNo(Node no) {
+    @Override
+    public boolean isLeaf() {
+        return false;
+    }
+
+    @Override
+    public String buidCondition(String side) {
+        if("yes".equals(side)) {
+
+        } else {
+
+        }
+        return null;
+    }
+
+        public void setNo(Node no) {
         this.no = no;
     }
 

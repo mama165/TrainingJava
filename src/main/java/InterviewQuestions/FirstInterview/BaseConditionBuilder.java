@@ -12,7 +12,7 @@ public class BaseConditionBuilder {
     }
 
     private List<BaseCondition> builder() {
-        return root.baseConditions();
+        return root.getAllBaseConditions();
     }
 
     public List<BaseCondition> build() {
