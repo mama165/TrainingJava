@@ -1,7 +1,6 @@
 package CrackingTheCodingInterview.TreesAndGraphs;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class BinaryNode {
     public int data;
@@ -294,6 +293,33 @@ public class BinaryNode {
             findSuccessor(node.right, data);
         }
         return null;
+    }
+
+    public ArrayList<int[]> findAllRootToLeaf() {
+        BinaryNode root = this;
+        Queue<BinaryNode> queue = new LinkedList();
+        return findAllRootToLeaf(root, queue, new ArrayList());
+    }
+
+    public ArrayList<int []> findAllRootToLeaf(BinaryNode root, Queue<BinaryNode> queue, ArrayList<int []> values) {
+        if (root != null) {
+            queue.add(root);
+            findAllRootToLeaf(root.left, queue, values);
+            if (root.left == null && root.right == null) {
+                // keep the queue
+                ArrayList<BinaryNode> nodes = new ArrayList(queue);
+                int[] tab  = nodes.stream().mapToInt(node -> node.data).toArray();
+//                int[] tab = new ArrayList(queue).stream().mapToInt(node -> (int) i).toArray();
+                values.add(tab);
+//                queue.forEach(element -> {
+//                    values.add(element.data);
+//                    System.out.println(element.data));
+//                });
+            }
+            findAllRootToLeaf(root.right, queue, values);
+            queue.remove();
+        }
+        return values;
     }
 
     public int[] shortestPath(int value) {
