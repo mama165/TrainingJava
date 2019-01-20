@@ -1,17 +1,17 @@
 package TreesAndGraphs.ParameterBinaryNode;
 
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ValidateAllrootToLeaf {
     BinaryNode root;
+
     @Before
     public void setup() {
         root = new BinaryNode(30);
@@ -53,19 +53,10 @@ public class ValidateAllrootToLeaf {
     }
 
     @Test
-    public void testAllRootToLeaf() {
-        ArrayList<int []> output = root.findAllRootToLeaf();
-        ArrayList<int []> expected = new ArrayList();
-        expected.add(new int[]{30, 20, 15, 4});
-        expected.add(new int[]{30, 20, 15, 25});
-        expected.add(new int[]{30, 20, 22, 17});
-        expected.add(new int[]{30, 20, 22, 45});
-        expected.add(new int[]{30, 50, 38, 32});
-        expected.add(new int[]{30, 50, 38, 40});
-        expected.add(new int[]{30, 50, 57, 53});
-        expected.add(new int[]{30, 50, 57, 60});
-
-        assertArrayEquals(expected.toArray(), output.toArray());
-
+    public void testPrint() {
+        //"30 20 15 4 30 20 15 25 30 20 22 17 30 20 22 45 30 50 38 32 30 50 38 40 30 50 57 53 30 50 57 60";
+        String output = root.leafPaths();
+        String expected = "302015430201525302022173020224530503832305038403050575330505760";
+        assertEquals(expected, output);
     }
 }

@@ -295,6 +295,35 @@ public class BinaryNode {
         return null;
     }
 
+    public String leafPaths() {
+        BinaryNode root = this;
+        int path[] = new int[1000];
+        return leafPaths(root, path, 0, new StringBuilder());
+    }
+
+    private String leafPaths(BinaryNode node, int path[], int pathLen, StringBuilder sb) {
+        if (node != null) {
+            path[pathLen] = node.data;
+            pathLen++;
+
+            if (node.left == null && node.right == null)
+                storeElements(path, pathLen, sb);
+            else {
+                leafPaths(node.left, path, pathLen, sb);
+                leafPaths(node.right, path, pathLen, sb);
+            }
+        }
+        return sb.toString();
+    }
+
+    /* Utility function that prints out an array on a line. */
+    void storeElements(int ints[], int len, StringBuilder sb) {
+        int i;
+        for (i = 0; i < len; i++) {
+            sb.append(ints[i]);
+        }
+    }
+
     public ArrayList<int[]> findAllRootToLeaf() {
         BinaryNode root = this;
         Queue<BinaryNode> queue = new LinkedList();
