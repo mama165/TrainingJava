@@ -7,11 +7,6 @@ public class LeafNode extends Node {
         this.value = value;
     }
 
-    public LeafNode(Double value, int nodeNumber) {
-        super(nodeNumber);
-        this.value = value;
-    }
-
     public String toString() {
         return this.data + ":leaf=" + this.value + "\n";
     }
@@ -32,12 +27,7 @@ public class LeafNode extends Node {
     }
 
     @Override
-    public String buidCondition(String side) {
-        if("yes".equals(side)) {
-
-        } else {
-
-        }
-        return null;
+    public String buildCondition(boolean condition) {
+        return "leaf=" + this.value;
     }
 }

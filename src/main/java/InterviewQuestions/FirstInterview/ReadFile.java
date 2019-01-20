@@ -22,6 +22,8 @@ public class ReadFile implements IReadFile {
         Pattern patternParent = Pattern.compile(regexParent);
         Pattern patternLeaf = Pattern.compile(regexLeaf);
 
+
+
         try (Stream<String> stream = Files.lines(Paths.get(file.getAbsolutePath()))) {
             stream.forEach(line -> {
                 Matcher matcherParent = patternParent.matcher(line);

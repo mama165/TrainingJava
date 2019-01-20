@@ -24,7 +24,8 @@ class ParentNodeBuilder extends BaseNodeBuilder {
 
     private Node buildNode(Integer index) {
         BaseLine line = rows.getElement(index);
-        if (line instanceof ParentLine) {
+
+        if (!line.isLeaf()) {
             return new ParentNodeBuilder(rows, (ParentLine) line).Build();
         } else {
             return new LeafNodeBuilder((LeafLine) line).Build();

@@ -47,4 +47,9 @@ public class ParentLine extends BaseLine {
         this.no = no;
         this.feature = feature;
     }
+
+    @Override
+    public boolean isLeaf() {
+        return false;
+    }
 }

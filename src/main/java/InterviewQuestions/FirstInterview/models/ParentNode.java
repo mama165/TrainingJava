@@ -1,6 +1,9 @@
     package InterviewQuestions.FirstInterview.models;
 
 
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
+
     public class ParentNode extends Node {
     private Node yes;
     private Node no;
@@ -80,16 +83,42 @@
     }
 
     @Override
-    public String buidCondition(String side) {
-        if("yes".equals(side)) {
+    public String buildCondition(boolean side) {
+        // ([A-Za-z0-9_]+)=([a-z]+).*\||([a-z]+)(=)
+
+        // ([^||]+)
+        String regex = "([^||]+)";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(feature);
+
+        String subRegex = "[^=]+";
+
+        Pattern subPattern = Pattern.compile(subRegex);
+
+        while (matcher.find()) {
+            // All before, between and after ||
+            String result = matcher.group(1);
+            Matcher subMatcher = subPattern.matcher(result);
+
+            if (subMatcher.find()) {
+
+            }
+
+
+        }
+
+        if (side) {
+
+
 
         } else {
 
         }
-        return null;
+        return "";
     }
 
-        public void setNo(Node no) {
+    public void setNo(Node no) {
         this.no = no;
     }
 

@@ -3,7 +3,8 @@ package InterviewQuestions.FirstInterview.models;
 public abstract class BaseLine {
     private Integer data;
 
-    public BaseLine() {}
+    public BaseLine() {
+    }
 
     public BaseLine(Integer data) {
         this.data = data;
@@ -16,4 +17,6 @@ public abstract class BaseLine {
     public void setData(Integer data) {
         this.data = data;
     }
+
+    public abstract boolean isLeaf();
 }

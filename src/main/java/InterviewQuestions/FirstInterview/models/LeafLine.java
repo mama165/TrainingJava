@@ -15,4 +15,9 @@ public class LeafLine extends BaseLine {
     public void setValue(double value) {
         this.value = value;
     }
+
+    @Override
+    public boolean isLeaf() {
+        return true;
+    }
 }
