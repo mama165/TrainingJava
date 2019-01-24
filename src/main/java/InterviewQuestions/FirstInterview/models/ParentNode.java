@@ -82,40 +82,56 @@
         return false;
     }
 
+        public static void main(String[] args) {
+//            String feature = "device_type=pc||or||browser=7";
+            // condition = "device_type=pc||or||browser=7"
+            // condition = "device_type!=pc & browser!=7"
+            String feature = "device_type=pc";
+
+            String regex = "([^=^||^=^ ]+)";
+
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(feature);
+
+            while (matcher.find()) {
+                String yo = matcher.group(1);
+                if(!"or".equals(yo)) {
+                    System.out.printf(yo);
+                }
+                System.out.printf("\n");
+            }
+        }
+
     @Override
     public String buildCondition(boolean side) {
+//            String feature = "device_type=pc||or||browser=7";
+        // condition = "device_type=pc||or||browser=7"
+        // condition = "device_type!=pc & browser!=7"
         // ([A-Za-z0-9_]+)=([a-z]+).*\||([a-z]+)(=)
 
         // ([^||]+)
-        String regex = "([^||]+)";
+
+        // ([^=^||^=^]+)
+
+        String regex = "([^=^||^=^]+)";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(feature);
 
-        String subRegex = "[^=]+";
-
-        Pattern subPattern = Pattern.compile(subRegex);
+        StringBuilder sb = new StringBuilder();
 
         while (matcher.find()) {
-            // All before, between and after ||
-            String result = matcher.group(1);
-            Matcher subMatcher = subPattern.matcher(result);
-
-            if (subMatcher.find()) {
+            // All before, between and after |
+            if(side) {
+                sb.append(matcher.group(1));
+                sb.append("!=");
+            } else {
 
             }
 
-
         }
 
-        if (side) {
-
-
-
-        } else {
-
-        }
-        return "";
+        return sb.toString();
     }
 
     public void setNo(Node no) {
