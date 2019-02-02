@@ -13,6 +13,46 @@ public class BinaryNode {
         this.data = data;
     }
 
+    public void setLeft(BinaryNode left) {
+        this.left = left;
+    }
+
+    public void setRight(BinaryNode right) {
+        this.right = right;
+    }
+
+    public BinaryNode addLeft(int data) {
+        this.left = new BinaryNode(data);
+        return this;
+    }
+
+    public BinaryNode addLeft(BinaryNode left) {
+        this.setLeft(left);
+        return this;
+    }
+
+    public BinaryNode addRight(int data) {
+        this.right = new BinaryNode(data);
+        return this;
+    }
+
+    public BinaryNode addRight(BinaryNode right) {
+        this.setRight(right);
+        return this;
+    }
+
+    public BinaryNode addChildren(int p, int q) {
+        this.addLeft(p);
+        this.addRight(q);
+        return this;
+    }
+
+    public BinaryNode addChildren(BinaryNode left, BinaryNode right) {
+        this.setLeft(left);
+        this.setRight(right);
+        return this;
+    }
+
     public String inOrderTraversal(BinaryNode root) {
         return inOrderTraversal(root, new StringBuilder());
     }
@@ -295,9 +335,25 @@ public class BinaryNode {
         return null;
     }
 
-    public BinaryNode firstCommonAncestor(BinaryNode root, int p, int q) {
+    public BinaryNode firstCommonAncestor(int p, int q) {
+        return firstCommonAncestor(this, p, q);
+    }
 
-        return null;
+    private BinaryNode firstCommonAncestor(BinaryNode root, int p, int q) {
+        if (root == null) return null;
+        if (root.data == p || root.data == q) return root;
+
+        BinaryNode left = firstCommonAncestor(root.left, p, q);
+        BinaryNode right = firstCommonAncestor(root.right, p, q);
+
+        if (left != null && right != null) {
+            return root;
+        }
+        if (left == null && right == null) {
+            return null;
+        }
+
+        return left != null ? left : right;
     }
 
     public String leafPaths() {
@@ -335,14 +391,14 @@ public class BinaryNode {
         return findAllRootToLeaf(root, queue, new ArrayList());
     }
 
-    public ArrayList<int []> findAllRootToLeaf(BinaryNode root, Queue<BinaryNode> queue, ArrayList<int []> values) {
+    public ArrayList<int[]> findAllRootToLeaf(BinaryNode root, Queue<BinaryNode> queue, ArrayList<int[]> values) {
         if (root != null) {
             queue.add(root);
             findAllRootToLeaf(root.left, queue, values);
             if (root.left == null && root.right == null) {
                 // keep the queue
                 ArrayList<BinaryNode> nodes = new ArrayList(queue);
-                int[] tab  = nodes.stream().mapToInt(node -> node.data).toArray();
+                int[] tab = nodes.stream().mapToInt(node -> node.data).toArray();
 //                int[] tab = new ArrayList(queue).stream().mapToInt(node -> (int) i).toArray();
                 values.add(tab);
 //                queue.forEach(element -> {
@@ -406,6 +462,7 @@ public class BinaryNode {
      * Problem Statement : Given a Binary Search Tree, keyed on positive integers.
      * The task is to find the Shortest path in Binary Search Tree which adds up to the number K.
      * If no such path exists, return a message accordingly.
+     *
      * @param node
      * @param value
      * @return

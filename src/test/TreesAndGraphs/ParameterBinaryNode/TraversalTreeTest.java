@@ -49,7 +49,6 @@ public class TraversalTreeTest {
 
         f.left = m;
         f.right = n;
-
     }
 
     @Test
