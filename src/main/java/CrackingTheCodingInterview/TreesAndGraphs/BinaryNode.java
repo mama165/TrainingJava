@@ -176,7 +176,7 @@ public class BinaryNode {
      * @param values
      * @return
      */
-    public Node minimalTree(List<Integer> values) {
+    public static Node minimalTree(List<Integer> values) {
 
         Node parentNode = new Node(values.get(0));
         List<Integer> valuesrestantes = values.subList(1, values.size() - 1);
@@ -292,6 +292,11 @@ public class BinaryNode {
             }
             findSuccessor(node.right, data);
         }
+        return null;
+    }
+
+    public BinaryNode firstCommonAncestor(BinaryNode root, int p, int q) {
+
         return null;
     }
 

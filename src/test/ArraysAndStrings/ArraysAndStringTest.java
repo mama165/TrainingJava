@@ -1,18 +1,17 @@
 package ArraysAndStrings;
 
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
-
 import CrackingTheCodingInterview.ArraysAndStrings.Foo;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ArraysAndStringTest {
     Foo foo;
 
-    @Before
+    @BeforeEach
     public void setup() {
         foo = new Foo();
     }

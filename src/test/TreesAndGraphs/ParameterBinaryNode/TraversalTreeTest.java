@@ -1,16 +1,17 @@
 package TreesAndGraphs.ParameterBinaryNode;
 
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
-import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TraversalTreeTest {
     private BinaryNode root;
 
-    @Before
+    @BeforeEach
     public void setup() {
         root = new BinaryNode(30);
         BinaryNode a = new BinaryNode(20);

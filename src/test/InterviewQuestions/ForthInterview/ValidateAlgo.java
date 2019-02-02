@@ -4,18 +4,18 @@ import InterviewQuestions.ForthInterview.beans.Buyer;
 import InterviewQuestions.ForthInterview.beans.Parameters;
 import InterviewQuestions.ForthInterview.beans.Winner;
 import InterviewQuestions.ForthInterview.features.Algo;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ValidateAlgo {
     Algo algo;
 
-    @Before
+    @BeforeEach
     public void setup() {
         algo = new Algo();
     }

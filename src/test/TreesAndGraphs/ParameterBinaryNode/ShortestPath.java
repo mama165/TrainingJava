@@ -1,14 +1,15 @@
 package TreesAndGraphs.ParameterBinaryNode;
 
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class ShortestPath {
     private BinaryNode root;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         root = new BinaryNode(30);
         BinaryNode a = new BinaryNode(20);
@@ -53,6 +54,6 @@ public class ShortestPath {
     public void testShortestPath() {
         int[] output= root.shortestPath(45);
         int[] expected  = {30, 20, 22, 45};
-        Assert.assertArrayEquals(expected, output);
+        assertArrayEquals(expected, output);
     }
 }

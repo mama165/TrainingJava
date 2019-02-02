@@ -1,28 +1,24 @@
 package TreesAndGraphs.ParameterBinaryNode;
 
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 
-import java.util.Arrays;
-import java.util.Collection;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.assertEquals;
-
-@RunWith(Parameterized.class)
 public class ValidateBinarySearchTreeTest {
-    private BinaryNode node;
-    private boolean expected;
 
-    public ValidateBinarySearchTreeTest(BinaryNode node, boolean expected) {
-        this.node = node;
-        this.expected = expected;
+    @ParameterizedTest
+    @MethodSource("createNodes")
+    @DisplayName("Test validate a Binary search tree")
+    public void given_nodes_should_validate_BST(BinaryNode node, boolean expected) {
+        assertEquals(expected, node.validateBST());
     }
 
-    @Parameters
-    public static Collection<Object[]> sampleNodes() {
+    private static Stream<Arguments> createNodes() {
         BinaryNode root = new BinaryNode(30);
         BinaryNode a = new BinaryNode(20);
         BinaryNode b = new BinaryNode(50);
@@ -60,25 +56,20 @@ public class ValidateBinarySearchTreeTest {
         f.left = m;
         f.right = n;
 
-        //****
-
         BinaryNode second = new BinaryNode(15);
         second.left = new BinaryNode(86);
 
-        return Arrays.asList(new Object[][]{
-                {root, true},
-                {second, false},
-                {new BinaryNode(1), true},
-        });
+        return Stream.of(
+                Arguments.of(root, true),
+                Arguments.of(second, false),
+                Arguments.of(new BinaryNode(1), true));
     }
 
-    @Test
-    public void testValidateBST() {
-        assertEquals(expected, node.validateBST());
-    }
-
-    @Test
-    public void testValidateBSTRecursive() {
+    @ParameterizedTest
+    @MethodSource("createNodes")
+    @DisplayName("Test validate a Binary search tree with recursive call")
+    public void given_nodes_should_validate_BST_recursive(BinaryNode node, boolean expected) {
         assertEquals(expected, BinaryNode.validateBSTRecursive(node));
+
     }
 }

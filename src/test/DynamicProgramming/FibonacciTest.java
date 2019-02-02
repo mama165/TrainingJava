@@ -1,58 +1,49 @@
 package DynamicProgramming;
 
 import CrackingTheCodingInterview.DynamicProgramming.Fibonacci;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FibonacciTest {
-    private int value;
-    private int expected;
     private Fibonacci fibonacci;
 
-    public FibonacciTest(int value, int expected) {
-        this.value = value;
-        this.expected = expected;
-    }
-
-    @Before
+    @BeforeEach
     public void setup() {
         fibonacci = new Fibonacci();
     }
 
-    @Parameters
-    public static Collection<Object[]> valuesSamples() {
+    private static Stream<Arguments> createValues() {
         int value = 5;
         int expected = 5;
 
         int valueSecond = 10;
         int expectedSecond = 55;
 
-        return Arrays.asList(new Object[][]{
-                {value, expected},
-                {valueSecond, expectedSecond}
-        });
+        return Stream.of(
+                Arguments.of(value, expected),
+                Arguments.of(valueSecond, expectedSecond));
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("createValues")
     @DisplayName("Test with recursive programming")
-    public void testFibonacciRecursive() {
+    public void testFibonacciRecursive(int value, int expected) {
         int output = fibonacci.fibonacciRecursive(value);
-        Assert.assertEquals(expected, output);
+        assertEquals(expected, output);
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("createValues")
     @DisplayName("Test with dynamic programming")
-    public void testFibonacci() {
+    public void testFibonacci(int value, int expected) {
         int output = fibonacci.fibonacci(value);
-        Assert.assertEquals(expected, output);
+        assertEquals(expected, output);
     }
 }

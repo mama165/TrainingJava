@@ -3,18 +3,18 @@ package InterviewQuestions.FirstInterview;
 import InterviewQuestions.FirstInterview.models.LeafNode;
 import InterviewQuestions.FirstInterview.models.ParentNode;
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidateFileBuilder {
     ParentNode root;
 
-    @Before
+    @BeforeEach
     public void setup() {
         root = buildTree();
     }

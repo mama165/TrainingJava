@@ -1,15 +1,15 @@
 package InterviewQuestions.FirstInterview;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 import static java.time.Duration.ofMillis;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidateSession {
     @Test

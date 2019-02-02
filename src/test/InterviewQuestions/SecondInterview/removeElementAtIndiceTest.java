@@ -1,38 +1,35 @@
 package InterviewQuestions.SecondInterview;
 
-import InterviewQuestions.SecondInterview.Foo;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(Parameterized.class)
 public class removeElementAtIndiceTest {
-    public String[] array;
-    public int indice;
-    public String[] expected;
     public Foo foo;
 
-    public removeElementAtIndiceTest(String[] array, int indice, String[] expected) {
-        this.array = array;
-        this.indice = indice;
-        this.expected = expected;
-    }
-
-    @Before
+    @BeforeEach
     public void setup() {
-        foo  = new Foo();
+        foo = new Foo();
     }
 
-    @Parameters
-    public static Collection<Object[]> sampleArrays() {
+
+    @ParameterizedTest
+    @MethodSource("createArrays")
+    @DisplayName("Testing if we can remove an element from an array")
+    public void given_array_should_return_new_array_without_element(String[] array, int indice, String[] expected) {
+        String[] output = foo.removeElementAtIndice(array, indice);
+        boolean compare = Arrays.equals(output, expected);
+        assertTrue(compare);
+    }
+
+    private static Stream<Arguments> createArrays() {
         String[] arrayFirst = {"A", "B", "C", "D", "E"};
         int a = 1;
         String[] expectedFirst = {"B", "C", "D", "E"};
@@ -61,22 +58,13 @@ public class removeElementAtIndiceTest {
         int g = 5;
         String[] expectedSeventh = null;
 
-        return Arrays.asList(new Object[][]{
-                {arrayFirst, a, expectedFirst},
-                {arraySecond, b, expectedSecond},
-                {arrayThird, c, expectedThird},
-                {arrayFourth, d, expectedFourth},
-                {arrayFifth, e, expectedFifth},
-                {arraySixth, f, expectedSixth},
-                {arraySeventh, g, expectedSeventh},
-        });
-    }
-
-    @Test
-    @DisplayName("Testing if we can remove an element from an array")
-    public void testRemoveElementAtIndice() {
-        String[] output = foo.removeElementAtIndice(array, indice);
-        boolean compare = Arrays.equals(output, expected);
-       assertTrue(compare);
+        return Stream.of(
+                Arguments.of(arrayFirst, a, expectedFirst),
+                Arguments.of(arraySecond, b, expectedSecond),
+                Arguments.of(arrayThird, c, expectedThird),
+                Arguments.of(arrayFourth, d, expectedFourth),
+                Arguments.of(arrayFifth, e, expectedFifth),
+                Arguments.of(arraySixth, f, expectedSixth),
+                Arguments.of(arraySeventh, g, expectedSeventh));
     }
 }

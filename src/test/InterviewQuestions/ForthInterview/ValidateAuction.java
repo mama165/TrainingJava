@@ -6,29 +6,20 @@ import InterviewQuestions.ForthInterview.beans.Winner;
 import InterviewQuestions.ForthInterview.features.Algo;
 import InterviewQuestions.ForthInterview.features.Auction;
 import InterviewQuestions.ForthInterview.features.Checker;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.stream.Stream;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class ValidateAuction {
-    private Parameters parameters;
-    private Winner expected;
 
-    public ValidateAuction(Parameters parameters, Winner expected) {
-        this.parameters = parameters;
-        this.expected = expected;
-    }
-
-    @Parameterized.Parameters
-    public static Collection<Object[]> valuesSamples() {
+    private static Stream<Arguments> createValues() {
         Parameters inputFirst = new Parameters(new LinkedList(Arrays.asList(
                 new Buyer("A", Arrays.asList(110, 130)),
                 new Buyer("B", Arrays.asList(0)),
@@ -59,15 +50,16 @@ public class ValidateAuction {
 
         Winner winnerThird = new Winner("D", 165);
 
-        return Arrays.asList(new Object[][]{
-                {inputFirst, winnerFirst},
-                {inputSecond, winnerSecond},
-                {inputThird, winnerThird},
-        });
+        return Stream.of(
+                Arguments.of(inputFirst, winnerFirst),
+                Arguments.of(inputSecond, winnerSecond),
+                Arguments.of(inputThird, winnerThird));
     }
 
-    @Test
-    public void validateAuctionWithCheckAndAlgo() {
+    @ParameterizedTest
+    @MethodSource("createValues")
+    @DisplayName("Test running checking and algorithm")
+    public void given_parameters_should_return_winner(Parameters parameters, Winner expected) {
         Auction auction = new Auction(new Checker(), new Algo());
         Winner output = auction.doCalcul(parameters);
         assertEquals(expected, output);

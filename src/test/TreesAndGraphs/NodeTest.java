@@ -1,16 +1,16 @@
 package TreesAndGraphs;
 
 import CrackingTheCodingInterview.TreesAndGraphs.Node;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NodeTest {
     private Node root;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
         root = new Node(30);
         Node a = new Node(20);

@@ -1,30 +1,26 @@
 package TreesAndGraphs.ParameterBinaryNode;
 
 import CrackingTheCodingInterview.TreesAndGraphs.BinaryNode;
-import static org.junit.Assert.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import java.util.Arrays;
-import java.util.Collection;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class SuccessorTest {
-    private BinaryNode root;
-    private int data;
-    private int expected;
 
-    public SuccessorTest(BinaryNode root, int data, int expected) {
-        this.root = root;
-        this.data = data;
-        this.expected = expected;
+
+    @ParameterizedTest
+    @MethodSource("createNodes")
+    @DisplayName("Test validate a Binary search tree")
+    public void testSuccessorRetrieve(BinaryNode root, int data, int expected) {
+        BinaryNode output = root.successor(root, data);
+        assertEquals(expected, output);
     }
 
-    @Parameters
-    public static Collection<Object[]> valuesSamples() {
-
-
+    private static Stream<Arguments> createNodes() {
         BinaryNode root = new BinaryNode(20);
         BinaryNode a = new BinaryNode(8);
         BinaryNode b = new BinaryNode(22);
@@ -52,15 +48,8 @@ public class SuccessorTest {
 
         f.parent = d;
 
-        return Arrays.asList(new Object[][]{
-                {root, 8, 10},
-//                {root, 14, 1}
-        });
-    }
-
-    @Test
-    public void testSuccessorRetrieve() {
-        BinaryNode output = root.successor(root, data);
-        assertEquals(expected, output);
+        return Stream.of(
+                Arguments.of(root, 8, 10),
+                Arguments.of(root, 14, 1));
     }
 }

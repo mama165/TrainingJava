@@ -191,7 +191,7 @@ public class Foo {
     }
 
     public static int min(int[] array) {
-        int min = array[0];
+        int min = Integer.MAX_VALUE;
 
         for (int a : array) {
             if (a < min) {
@@ -202,7 +202,7 @@ public class Foo {
     }
 
     public static int max(int[] array) {
-        int max = array[0];
+        int max = Integer.MIN_VALUE;
 
         for (int a : array) {
             if (a > max) {
