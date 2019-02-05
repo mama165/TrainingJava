@@ -1,8 +1,6 @@
 package CrackingTheCodingInterview.ArraysAndStrings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Foo {
@@ -210,5 +208,32 @@ public class Foo {
             }
         }
         return max;
+    }
+
+    public static boolean balancedBrackets(String s) {
+        // if length of string is odd, then it is not balanced
+        if (s.length() % 2 != 0) return false;
+
+        // set matching pairs
+        HashMap<Character, Character> map = new HashMap();
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+
+        Stack<Character> stack = new Stack<>();
+
+        // travel half until openings are found and compare with
+        // remaining if the closings matches
+        for (char c : s.toCharArray()) {
+            if (map.containsKey(c)) {
+                stack.push(map.get(c));
+                // if stack is empty or if closing bracket is not equal to top of stack,
+                // then braces are not balanced
+            } else if (stack.isEmpty() || c != stack.pop()) {
+                return false;
+            }
+        }
+
+        return stack.isEmpty();
     }
 }

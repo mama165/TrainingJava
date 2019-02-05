@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -242,6 +244,25 @@ public class ArraysAndStringTest {
                     int output = Foo.max(array);
 
                     assertEquals(52436, output);
+                }
+            }
+            @Nested
+            @DisplayName("Test for balanced parenthesis")
+            class Parenthesis {
+                @ParameterizedTest
+                @CsvSource({
+                        "'{}',true",
+                        "{{)(}}, false",
+                        "({)}, false",
+                        "[({})], true",
+                        "{}([]), true",
+                        "{()}[[{}]], true",
+                        "{} [[, false"
+                })
+                @DisplayName("Test with numbers separated with custom delimiter")
+                void testBalancedParenthesis(String input, boolean expected) {
+                    boolean output = Foo.balancedBrackets(input);
+                    assertEquals(expected, output);
                 }
             }
         }
