@@ -5,13 +5,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.Optional;
 
 import static java.time.Duration.ofMillis;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ValidateSession {
+public class ValidateDecisionTree {
     @Test
     public void allTreeSamplesShouldPass() {
 //        Extract extract = new Extract(new Validate(), new ReadFile());
@@ -31,9 +32,15 @@ public class ValidateSession {
         File expectedSecond = FileUtils.getFile("samples/outputs/strategie_2.txt");
         File expectedThird = FileUtils.getFile("samples/outputs/strategie_3.txt");
 
-        File outputFirst = decisionTree.doCalcul(inputFirst);
-        File outputSecond = decisionTree.doCalcul(inputSecond);
-        File outputThird = decisionTree.doCalcul(inputThird);
+        Optional<File> optionalOutputFirst = decisionTree.doCalcul(inputFirst);
+        File outputFirst = optionalOutputFirst.orElse(null);
+
+        Optional<File> optionalOutputSecond = decisionTree.doCalcul(inputSecond);
+        File outputSecond = optionalOutputSecond.orElse(null);
+
+        Optional<File> optionalOutputThird = decisionTree.doCalcul(inputThird);
+        File outputThird = optionalOutputThird.orElse(null);
+
 
         assertAll("Trees",
                 () -> assertTrue(FileUtils.contentEquals(expectedFirst, outputFirst)),

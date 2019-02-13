@@ -6,6 +6,9 @@ import InterviewQuestions.FirstInterview.models.Rows;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+
+import static java.util.Optional.*;
 
 public class DecisionTree {
     Extract extract;
@@ -18,7 +21,7 @@ public class DecisionTree {
         this.write = write;
     }
 
-    public File doCalcul(File file) {
+    public Optional<File> doCalcul(File file) {
         Rows rows = null;
         try {
             rows = extract.extractLines(file);
@@ -27,13 +30,13 @@ public class DecisionTree {
         }
         Node node = convert.convert(rows);
 
-        File f = null;
+        Optional<File> optional = empty();
         try {
-            f = write.buildFile(node);
+            optional = write.buildFile(node);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return f;
+        return optional;
     }
 }

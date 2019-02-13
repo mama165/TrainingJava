@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +23,9 @@ public class ValidateFileBuilder {
     @Test
     public void fileShouldBeBuiltWithNode() throws IOException {
         File expected = FileUtils.getFile("samples/outputs/tree_1.txt");
-        File output = new Write().buildFile(root);
+        Optional<File> optionalOutput = new Write().buildFile(root);
+
+        File output = optionalOutput.orElse(null);
 
         boolean identical = FileUtils.contentEquals(expected, output);
 
