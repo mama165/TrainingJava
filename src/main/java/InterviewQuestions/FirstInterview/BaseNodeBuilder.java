@@ -6,7 +6,7 @@ import InterviewQuestions.FirstInterview.models.Rows;
 abstract class BaseNodeBuilder {
     protected Rows rows;
 
-    public abstract Node Build();
+    public abstract Node build();
 
     public BaseNodeBuilder() {
     }

@@ -1,6 +1,7 @@
 package InterviewQuestions.FirstInterview;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidateDecisionTree {
+    DecisionTree decisionTree;
+    Extract extract;
+
+    @BeforeEach
+    public void setup() {
+        extract = new Extract(new Validate(), new ReadFile());
+        decisionTree = new DecisionTree(extract, new Convert(), new Write());
+    }
+
     @Test
     public void allTreeSamplesShouldPass() {
 //        Extract extract = new Extract(new Validate(), new ReadFile());
-
-        DecisionTree decisionTree = new DecisionTree(
-                new Extract(
-                        new Validate(), new ReadFile()
-                ),
-                new Convert(), new Write()
-        );
 
         File inputFirst = FileUtils.getFile("samples/inputs/tree_1.txt");
         File inputSecond = FileUtils.getFile("samples/inputs/tree_2.txt");
@@ -52,17 +55,10 @@ public class ValidateDecisionTree {
     @Test
     @DisplayName("Test with a timeout")
     public void testWithTimeout() {
-        DecisionTree decisionTree = new DecisionTree(
-                new Extract(
-                        new Validate(), new ReadFile()
-                ),
-                new Convert(), new Write()
-        );
-
         long timeout = 2;  //ms
 
         assertTimeout(ofMillis(timeout), () -> {
-            File input = FileUtils.getFile("samples/inputs/tree_1");
+            File input = FileUtils.getFile("samples/inputs/tree_1.txt");
             decisionTree.doCalcul(input);
         });
     }

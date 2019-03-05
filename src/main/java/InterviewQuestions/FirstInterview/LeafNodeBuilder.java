@@ -11,7 +11,7 @@ class LeafNodeBuilder extends BaseNodeBuilder {
         this.leafLine = leafLine;
     }
 
-    public Node Build() {
+    public Node build() {
         return new LeafNode(leafLine.getValue());
     }
 }

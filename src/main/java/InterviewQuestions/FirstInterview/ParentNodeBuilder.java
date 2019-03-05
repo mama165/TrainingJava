@@ -10,7 +10,7 @@ class ParentNodeBuilder extends BaseNodeBuilder {
         this.parentLine = parentLine;
     }
 
-    public Node Build() {
+    public Node build() {
         Node yes = buildNode(parentLine.getYes());
         Node no = buildNode(parentLine.getNo());
 
@@ -26,9 +26,9 @@ class ParentNodeBuilder extends BaseNodeBuilder {
         BaseLine line = rows.getElement(index);
 
         if (!line.isLeaf()) {
-            return new ParentNodeBuilder(rows, (ParentLine) line).Build();
+            return new ParentNodeBuilder(rows, (ParentLine) line).build();
         } else {
-            return new LeafNodeBuilder((LeafLine) line).Build();
+            return new LeafNodeBuilder((LeafLine) line).build();
         }
     }
 }

@@ -8,7 +8,7 @@ public class Convert implements IConvert {
 
         Integer rootIndex = rows.getRootIndex(); //0
         BaseLine rootLine = rows.getElement(rootIndex);
-        Node rootNode = new ParentNodeBuilder(rows, (ParentLine) rootLine).Build();
+        Node rootNode = new ParentNodeBuilder(rows, (ParentLine) rootLine).build();
 
         return rootNode;
     }
