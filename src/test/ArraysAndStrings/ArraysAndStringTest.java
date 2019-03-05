@@ -1,6 +1,7 @@
 package ArraysAndStrings;
 
 import CrackingTheCodingInterview.ArraysAndStrings.Foo;
+import CrackingTheCodingInterview.ArraysAndStrings.sorting.Bar;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -8,14 +9,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ArraysAndStringTest {
     Foo foo;
+    Bar bar;
 
     @BeforeEach
     public void setup() {
         foo = new Foo();
+        bar = new Bar();
     }
     @Nested
     @DisplayName("Unit tests for Arrays and Strings")
@@ -263,6 +268,25 @@ public class ArraysAndStringTest {
                 void testBalancedParenthesis(String input, boolean expected) {
                     boolean output = Foo.balancedBrackets(input);
                     assertEquals(expected, output);
+                }
+            }
+        }
+
+        @Nested
+        @DisplayName("Unit tests for sorting")
+        class Sorting {
+            @Nested
+            @DisplayName("Unit test for insert sort")
+            class insertSorting {
+                @Test
+                @DisplayName("insert sort")
+                public void insertSort() {
+                    int[] input = {5, 2, 4, 6, 1, 3};
+                    int[] expected = {1, 2, 3, 4, 5, 6};
+
+                    int[] output = bar.insertSort(input);
+                    assertTrue(Arrays.equals(expected, output));
+                    //assertArrayEquals(expected, output);
                 }
             }
         }
