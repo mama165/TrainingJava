@@ -289,6 +289,20 @@ public class ArraysAndStringTest {
                     //assertArrayEquals(expected, output);
                 }
             }
+            @Nested
+            @DisplayName("Unit test for merge sort")
+            class MergeSort {
+                @Test
+                @DisplayName("merge sort")
+                public void mergeSort() {
+                    int[] input = {5, 2, 4, 6, 1, 3};
+                    int[] expected = {1, 2, 3, 4, 5, 6};
+
+                    int[] output = bar.mergeSort(input);
+                    assertTrue(Arrays.equals(expected, output));
+                    //assertArrayEquals(expected, output);
+                }
+            }
         }
     }
 }
