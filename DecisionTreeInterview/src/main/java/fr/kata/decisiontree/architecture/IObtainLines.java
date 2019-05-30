@@ -1,4 +1,4 @@
-package fr.kata.decisiontree.services;
+package fr.kata.decisiontree.architecture;
 
 import java.util.List;
 

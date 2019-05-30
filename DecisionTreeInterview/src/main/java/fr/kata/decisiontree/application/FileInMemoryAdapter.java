@@ -1,4 +1,7 @@
-package fr.kata.decisiontree.services;
+package fr.kata.decisiontree.application;
+
+import fr.kata.decisiontree.domain.IRequestLines;
+import fr.kata.decisiontree.services.IWriteLines;
 
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class FileInMemoryAdapter {
     }
 
     public void flatten() {
-        List<String> lines = fileReader.giveMeSomeLines();
+        List<String> lines = fileReader.giveMeSomeFlattenedLines();
         inMemoryPublicationStrategy.buildFile(lines);
     }
 

@@ -1,5 +1,11 @@
 package fr.kata.decisiontree.services;
 
+import fr.kata.decisiontree.application.FileInMemoryAdapter;
+import fr.kata.decisiontree.architecture.FileAdapter;
+import fr.kata.decisiontree.architecture.IObtainLines;
+import fr.kata.decisiontree.domain.FileReader;
+import fr.kata.decisiontree.domain.IRequestLines;
+
 import java.io.IOException;
 
 public class DecisionTreeService implements IBuildTree {
@@ -13,8 +19,5 @@ public class DecisionTreeService implements IBuildTree {
         final FileInMemoryAdapter fileInMemoryAdapter = new FileInMemoryAdapter(fileReader);
 //        FileInMemoryAdapter fileInMemoryAdapter = new FileInMemoryAdapter(new FileReader(new FileAdapter(path)));
         fileInMemoryAdapter.flatten();
-
-//        List<BaseLine> baseLines = BaseLineFormatter.format(file);
-//        List<Nodes> nodes = ParentNodeBuilder(baseLines).build();
     }
 }
