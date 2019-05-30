@@ -2,6 +2,9 @@ package fr.kata.decisiontree.services;
 
 import java.util.List;
 
+/**
+ * Lecture du fichier !!
+ */
 public class FileReader implements IRequestLines {
     private IObtainLines fileAdapter;
 
@@ -15,12 +18,14 @@ public class FileReader implements IRequestLines {
 
     @Override
     public List<String> giveMeSomeLines() {
-        return fileAdapter.getLines();
+        List<String> linesFromFile = fileAdapter.extractLines();
+        return new LineFormatter(linesFromFile).format();
     }
 
-    private class HardCodedFileReader  implements  IObtainLines{
+    private class HardCodedFileReader implements IObtainLines {
         @Override
-        public List<String> getLines() {
+        public List<String> extractLines() {
+            // TODO : traitement métier
             return null;
         }
     }

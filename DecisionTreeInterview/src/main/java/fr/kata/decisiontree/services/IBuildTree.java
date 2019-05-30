@@ -1,5 +1,7 @@
 package fr.kata.decisiontree.services;
 
+import java.io.IOException;
+
 public interface IBuildTree {
-    void buildTree(String path);
+    void buildFile(String path) throws IOException;
 }

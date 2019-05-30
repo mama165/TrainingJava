@@ -3,26 +3,26 @@ package fr.kata.decisiontree.services;
 import java.util.List;
 
 public class FileInMemoryAdapter {
-    private FileReader fileReader;
+    private IRequestLines fileReader;
     private IWriteLines inMemoryPublicationStrategy;
 
-    public FileInMemoryAdapter(FileReader fileReader) {
+    public FileInMemoryAdapter(IRequestLines fileReader) {
         new FileInMemoryAdapter(fileReader, new InMemoryPublicationStrategy());
     }
 
-    public FileInMemoryAdapter(FileReader fileReader, IWriteLines inMemoryPublicationStrategy) {
+    public FileInMemoryAdapter(IRequestLines fileReader, IWriteLines inMemoryPublicationStrategy) {
         this.fileReader = fileReader;
         this.inMemoryPublicationStrategy = inMemoryPublicationStrategy;
     }
 
-    public void buildFile() {
-        List<String> strings = fileReader.giveMeSomeLines();
-        inMemoryPublicationStrategy.buildFile(strings);
+    public void flatten() {
+        List<String> lines = fileReader.giveMeSomeLines();
+        inMemoryPublicationStrategy.buildFile(lines);
     }
 
     private class InMemoryPublicationStrategy implements IWriteLines {
         @Override
-        public  void  buildFile(List<String> strings) {
+        public  void  buildFile(List<String> lines) {
 
         }
     }
