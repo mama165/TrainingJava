@@ -1,10 +1,12 @@
+package fr.kata.decisionTree;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FileUtilValidate {
+public class DecisionTreeTest {
     @Test
-    void setup() {
+    public void should_fail() {
         assertTrue(false);
     }
 }
