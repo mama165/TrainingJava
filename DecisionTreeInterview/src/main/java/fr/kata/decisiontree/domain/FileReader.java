@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class FileReader implements IRequestLines {
     private  IObtainLines fileAdapter;
-    private Flattener flattener;
+    private IFlattener flattener;
 
     public FileReader() {
         new HardCodedFileReader();
@@ -19,15 +19,15 @@ public class FileReader implements IRequestLines {
         new FileReader(fileAdapter, new Flattener());
     }
 
-    private FileReader(IObtainLines fileAdapter, Flattener flattener) {
+    private FileReader(IObtainLines fileAdapter, IFlattener flattener) {
         this.fileAdapter = fileAdapter;
         this.flattener = flattener;
     }
 
     @Override
-    public List<String> giveMeSomeFlattenedLines() throws InvalidFileTreeFormat {
+    public List<String> getFlattenedLines() throws InvalidFileTreeFormat {
         List<String> linesFromFile = fileAdapter.extractLines();
-        return flattener.format(linesFromFile);
+        return flattener.flatten(linesFromFile);
     }
 
     private class HardCodedFileReader implements IObtainLines {

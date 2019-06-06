@@ -1,7 +1,9 @@
 package fr.kata.decisiontree.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public interface IWriteLines {
-    void  buildFile(List<String> strings);
+    File buildFile(List<String> strings) throws IOException;
 }

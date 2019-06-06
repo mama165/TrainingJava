@@ -5,6 +5,7 @@ import fr.kata.decisiontree.architecture.FileAdapter;
 import fr.kata.decisiontree.architecture.IObtainLines;
 import fr.kata.decisiontree.domain.FileReader;
 import fr.kata.decisiontree.domain.IRequestLines;
+import fr.kata.decisiontree.domain.InvalidFileTreeFormat;
 
 import java.io.IOException;
 
@@ -13,7 +14,7 @@ public class DecisionTreeService implements IBuildTree {
     // TODO : https://blog.octo.com/architecture-hexagonale-trois-principes-et-un-exemple-dimplementation/#orga
 
     @Override
-    public void buildFile(String path) throws IOException {
+    public void buildFile(String path) throws IOException, InvalidFileTreeFormat {
         final IObtainLines fileAdapter = new FileAdapter(path);
         final IRequestLines fileReader = new FileReader(fileAdapter);
         final FileInMemoryAdapter fileInMemoryAdapter = new FileInMemoryAdapter(fileReader);
