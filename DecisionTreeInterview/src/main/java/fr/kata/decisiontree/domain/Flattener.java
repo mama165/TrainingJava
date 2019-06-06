@@ -29,17 +29,18 @@ public class Flattener implements IFlattener {
     }
 
     private List<String> buildRecursivelyConditions(Node root, ArrayList<Node> list) {
-        if (root == null) return null;
+//        if (root == null) return null;
+//
+//        list.add(root);
+//        if (root.getYes() == null && root.getNo() == null) {
+//            printlnArray(arr);
+//        } else {
+//            printPaths(r.left, arr);
+//            printPaths(r.right, arr);
+//        }
+//
+//        arr.remove(arr.size() - 1);
 
-        list.add(root);
-        if (root.getYes() == null && root.getNo() == null) {
-            printlnArray(arr);
-        } else {
-            printPaths(r.left, arr);
-            printPaths(r.right, arr);
-        }
-
-        arr.remove(arr.size() - 1);
-
+        return null;
     }
 }

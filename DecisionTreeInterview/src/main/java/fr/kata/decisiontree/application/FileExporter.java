@@ -15,9 +15,9 @@ public class FileExporter {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        FileExporter fileExporter = new FileExporter();
-        FlattenExporterWriter flattenExporterWriter = new FlattenExporterWriter();
-        fileExporter.exportFile("flattened.txt", flattenExporterWriter::writeContent);
-    }
+//    public static void main(String[] args) throws IOException {
+//        FileExporter fileExporter = new FileExporter();
+//        FlattenExporterWriter flattenExporterWriter = new FlattenExporterWriter();
+//        fileExporter.exportFile("flattened.txt", flattenExporterWriter::writeContent);
+//    }
 }
