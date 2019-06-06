@@ -51,6 +51,7 @@
     </dependencies>
     <modules>
         <module>DecisionTreeInterview</module>
+        <module>BankAccountKata</module>
     </modules>
     <build>
         <plugins>
