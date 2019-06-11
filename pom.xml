@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.cracking.interview</groupId>
-    <artifactId>CrackingTheCodingInterview</artifactId>
+    <artifactId>TrainingJava</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
@@ -13,6 +13,7 @@
         <module>DecisionTreeFlattening</module>
         <module>BankAccount</module>
         <module>StringCalculator</module>
+        <module>CrackingTheCodingInterview</module>
     </modules>
 
     <properties>
