@@ -33,8 +33,8 @@ public class AccountService implements IDeposit, IWithdraw, IReport {
     }
 
     @Override
-    public void withdraw(Long accountID, String input) throws AmountNegativeException, NotEnoughMoneyOnAccountException, AccountNotFoundException {
-        Amount amount = Amount.create(input);
+    public void withdraw(Long accountID, String value) throws AmountNegativeException, NotEnoughMoneyOnAccountException, AccountNotFoundException {
+        Amount amount = Amount.create(value);
         BigDecimal amountExtracted = amount.getValue();
 
         Operation withdrawalOperation = Operation.create(accountID, amount, OperationType.WITHDRAWAL, dateService.getDate());

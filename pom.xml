@@ -10,8 +10,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>DecisionTreeInterview</module>
-        <module>BankAccountKata</module>
+        <module>DecisionTreeFlattening</module>
+        <module>BankAccount</module>
+        <module>StringCalculator</module>
     </modules>
 
     <properties>
