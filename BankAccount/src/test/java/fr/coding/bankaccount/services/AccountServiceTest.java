@@ -55,9 +55,8 @@ class AccountServiceTest {
         void should_not_record_when_an_exception_occured_on_deposit_negative_amount() {
             String amount = "-564";
 
-            Throwable throwable = assertThrows(AmountNegativeException.class, () -> {
-                        accountService.deposit(ACCOUNT_ID, amount);
-                    }
+            Throwable throwable = assertThrows(AmountNegativeException.class, () ->
+                    accountService.deposit(ACCOUNT_ID, amount)
             );
             String expected = "The amount is a negative number (" + amount + ").";
             assertEquals(expected, throwable.getMessage());
