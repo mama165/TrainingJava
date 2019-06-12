@@ -7,13 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-
 public class Client {
-    private Server server;
     private final static Logger logger = LoggerFactory.getLogger(Client.class);
 
     public static void main(String[] args) {
-
         Server server = new Server(8080);
 
         ServletContextHandler ctx =
@@ -34,7 +31,7 @@ public class Client {
         } catch (Exception ex) {
             logger.warn("An error occured when server started...");
         } finally {
-            logger.warn("Shutting down server");
+            logger.info("Shutting down server");
             server.destroy();
         }
     }
