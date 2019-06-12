@@ -38,8 +38,8 @@ public class AccountService implements IDeposit, IWithdraw, IReport {
         BigDecimal amountExtracted = amount.getValue();
 
         Operation withdrawalOperation = Operation.create(accountID, amount, OperationType.WITHDRAWAL, dateService.getDate());
-        List<Operation> operations = Collections.unmodifiableList(operationRepository.findAll(accountID));
-        BigDecimal balance = computeBalance(operations);
+        List<Operation> unmodifiableOperations = Collections.unmodifiableList(operationRepository.findAll(accountID));
+        BigDecimal balance = computeBalance(unmodifiableOperations);
 
         if (balance.compareTo(amountExtracted) < 0) {
             throw new NotEnoughMoneyOnAccountException(amountExtracted);
@@ -49,8 +49,8 @@ public class AccountService implements IDeposit, IWithdraw, IReport {
 
     @Override
     public void printStatement(OperationPrinter operationPrinter, Long accountID) throws AccountNotFoundException {
-        List<Operation> operations = Collections.unmodifiableList(operationRepository.findAll(accountID));
-        operationPrinter.print(operations, computeBalance(operations));
+        List<Operation> unmodifiableOperations = Collections.unmodifiableList(operationRepository.findAll(accountID));
+        operationPrinter.print(unmodifiableOperations, computeBalance(unmodifiableOperations));
     }
 
     private BigDecimal computeBalance(List<Operation> operations) {
