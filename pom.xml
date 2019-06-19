@@ -13,6 +13,7 @@
         <module>DecisionTreeFlattening</module>
         <module>BankAccount</module>
         <module>StringCalculator</module>
+        <module>CsvReader</module>
         <module>CrackingTheCodingInterview</module>
     </modules>
 

@@ -3,6 +3,7 @@ package fr.coding.bankaccount.services;
 import fr.coding.bankaccount.exceptions.AccountNotFoundException;
 import fr.coding.bankaccount.exceptions.AmountNegativeException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
+import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;
@@ -20,7 +21,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static fr.coding.bankaccount.models.Amount.create;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -84,7 +84,7 @@ class AccountServiceTest {
 
             accountService.deposit(ACCOUNT_ID, amount);
 
-            Operation operationDeposit = Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate);
+            Operation operationDeposit = Operation.create(ACCOUNT_ID, Amount.create(amount), OperationType.DEPOSIT, mockedDate);
             verify(operationRepository, times(1)).add(operationDeposit);
             verifyNoMoreInteractions(operationRepository);
         }
@@ -123,7 +123,7 @@ class AccountServiceTest {
 
             when(dateService.getDate()).thenReturn(mockedDate);
 
-            Operation depositOperation = Operation.create(ACCOUNT_ID,  create(depositAmount), OperationType.DEPOSIT, mockedDate);
+            Operation depositOperation = Operation.create(ACCOUNT_ID,  Amount.create(depositAmount), OperationType.DEPOSIT, mockedDate);
 
             List<Operation> operations = Collections.singletonList(depositOperation);
 
@@ -142,7 +142,7 @@ class AccountServiceTest {
         @Test
         void should_record_operation_when_withdrawal() throws AmountNegativeException, NotEnoughMoneyOnAccountException, AccountNotFoundException {
             String amount = "50";
-            Operation operationDeposit = Operation.create(ACCOUNT_ID,  create(amount), OperationType.DEPOSIT, mockedDate);
+            Operation operationDeposit = Operation.create(ACCOUNT_ID,  Amount.create(amount), OperationType.DEPOSIT, mockedDate);
             List<Operation> operations = Collections.singletonList(operationDeposit);
 
             when(operationRepository.findAll(ACCOUNT_ID)).thenReturn(operations);
@@ -150,7 +150,7 @@ class AccountServiceTest {
 
             accountService.withdraw(ACCOUNT_ID, amount);
 
-            Operation operationWithdrawal = Operation.create(ACCOUNT_ID, create(amount), OperationType.WITHDRAWAL, mockedDate);
+            Operation operationWithdrawal = Operation.create(ACCOUNT_ID, Amount.create(amount), OperationType.WITHDRAWAL, mockedDate);
 
             verify(operationRepository, times(1)).add(operationWithdrawal);
             verifyNoMoreInteractions(operationRepository);
@@ -164,9 +164,9 @@ class AccountServiceTest {
             BigDecimal balance = new BigDecimal(150);
             String amount = "50";
             List<Operation> operations = Arrays.asList(
-                    Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate),
-                    Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate),
-                    Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate)
+                    Operation.create(ACCOUNT_ID, Amount.create(amount), OperationType.DEPOSIT, mockedDate),
+                    Operation.create(ACCOUNT_ID, Amount.create(amount), OperationType.DEPOSIT, mockedDate),
+                    Operation.create(ACCOUNT_ID, Amount.create(amount), OperationType.DEPOSIT, mockedDate)
             );
             when(operationRepository.findAll(ACCOUNT_ID)).thenReturn(operations);
 

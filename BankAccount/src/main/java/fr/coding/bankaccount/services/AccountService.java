@@ -28,7 +28,7 @@ public class AccountService implements IDeposit, IWithdraw, IReport {
     @Override
     public void deposit(Long accountID, String value) throws AmountNegativeException, AccountNotFoundException {
         Amount amount = Amount.create(value);
-        Operation depositOperation = Operation.create(accountID, amount, OperationType.DEPOSIT, dateService.getDate());
+        final Operation depositOperation = Operation.create(accountID, amount, OperationType.DEPOSIT, dateService.getDate());
         operationRepository.add(depositOperation);
     }
 
@@ -37,7 +37,7 @@ public class AccountService implements IDeposit, IWithdraw, IReport {
         Amount amount = Amount.create(value);
         BigDecimal amountExtracted = amount.getValue();
 
-        Operation withdrawalOperation = Operation.create(accountID, amount, OperationType.WITHDRAWAL, dateService.getDate());
+        final Operation withdrawalOperation = Operation.create(accountID, amount, OperationType.WITHDRAWAL, dateService.getDate());
         List<Operation> unmodifiableOperations = Collections.unmodifiableList(operationRepository.findAll(accountID));
         BigDecimal balance = computeBalance(unmodifiableOperations);
 

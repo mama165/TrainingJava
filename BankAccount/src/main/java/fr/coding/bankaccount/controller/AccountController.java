@@ -1,11 +1,14 @@
 package fr.coding.bankaccount.controller;
 
+import fr.coding.bankaccount.configuration.Application;
 import fr.coding.bankaccount.exceptions.AccountNotFoundException;
 import fr.coding.bankaccount.exceptions.AmountNegativeException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.services.AccountService;
 import fr.coding.bankaccount.services.DateServiceImpl;
 import fr.coding.bankaccount.services.OperationRepositoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,6 +20,7 @@ import javax.ws.rs.core.Response;
 
 @Path("accounts")
 public class AccountController {
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
     private final AccountService accountService = new AccountService(new OperationRepositoryImpl(), new DateServiceImpl());
 
     @POST

@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 import java.time.Instant;
 
 public class Application {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-    private static final int PORT = 8080;
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
     private static final String PATH_SPEC = "/*";
+    private static final int PORT = 8080;
+    private final Server server = new Server(PORT);
 
     void start() {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
 
-        Server server = new Server(PORT);
         server.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
@@ -31,14 +31,14 @@ public class Application {
                 AccountController.class.getCanonicalName());
 
         try {
+            logger.info(String.format("Server started at : %s", Instant.now()));
             server.start();
             server.join();
-            LOGGER.info(String.format("Server started at : %s", Instant.now()));
         } catch (Exception ex) {
-            LOGGER.warn("An error occured when server started...");
+            logger.error("An error occured when server started...");
         } finally {
             server.destroy();
-            LOGGER.info("Shutting down server");
+            logger.info("Shutting down server at : " + Instant.now());
         }
     }
 }
