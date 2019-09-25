@@ -14,6 +14,7 @@
         <module>BankAccount</module>
         <module>StringCalculator</module>
         <module>CrackingTheCodingInterview</module>
+        <module>Auction</module>
     </modules>
 
     <properties>
