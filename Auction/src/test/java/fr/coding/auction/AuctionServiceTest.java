@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -37,13 +38,13 @@ public class AuctionServiceTest {
         Throwable throwable = assertThrows(NegativePriceException.class, () ->
                 auctionService.find(Collections.emptyMap(), reservePrice)
         );
-        String expectedMessage = "The price is negative : -100";
+        String expectedMessage = "At least one price is negative : -100";
         assertEquals(throwable.getMessage(), expectedMessage);
     }
 
     @Test
     void should_throw_exception_on_auction_when_null_reserve_price() {
-        Throwable throwable = assertThrows(NegativePriceException.class, () ->
+        Throwable throwable = assertThrows(NullPointerException.class, () ->
                 auctionService.find(Collections.emptyMap(), null)
         );
         String expectedMessage = "The price is null";
@@ -63,33 +64,30 @@ public class AuctionServiceTest {
         Throwable throwable = assertThrows(NegativePriceException.class, () ->
                 auctionService.find(hashMap, reservePrice)
         );
-        String expectedMessage = "The price is negative : -593,-3988,-98";
+        String expectedMessage = "At least one price is negative : -593,-3988,-98";
         assertEquals(throwable.getMessage(), expectedMessage);
     }
 
     @Test
     void should_find_winner_on_auction() throws NegativePriceException {
         String reservePrice = "674";
+        BigDecimal reservePriceValue = new BigDecimal(reservePrice);
 
-        HashMap<String, List<String>> hashMap = new HashMap();
+        Map<String, List<String>> hashMap = new HashMap();
         hashMap.put("A", Arrays.asList("100", "3988"));
         hashMap.put("B", Arrays.asList("5646", "546"));
         hashMap.put("C", Arrays.asList("100", "593"));
-        hashMap.put("D", Arrays.asList("67'", "3988", "566", "98"));
 
-        List<BigDecimal> bigDecimals = Arrays.asList(
+        List<BigDecimal> bidsArgument = Arrays.asList(
                 new BigDecimal("100"),
                 new BigDecimal("3988"),
                 new BigDecimal("5646"),
                 new BigDecimal("546"),
                 new BigDecimal("100"),
-                new BigDecimal("593"),
-                new BigDecimal("67"),
-                new BigDecimal("3988"),
-                new BigDecimal("566"),
-                new BigDecimal("98")
+                new BigDecimal("593")
         );
+
         auctionService.find(hashMap, reservePrice);
-        verify(bidStarter, times(1)).acquire(bigDecimals, new BigDecimal(reservePrice));
+        verify(bidStarter, times(1)).acquire(bidsArgument, reservePriceValue);
     }
 }

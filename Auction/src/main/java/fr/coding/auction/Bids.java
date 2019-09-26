@@ -20,20 +20,20 @@ public class Bids {
         return bidsValue;
     }
 
-    public static Bids create(Map<String, List<String>> input) throws NegativePriceException {
-        if (input == null) throw new NullPointerException();
+    public static Bids create(Map<String, List<String>> inputBids) throws NegativePriceException {
+        if (inputBids == null) throw new NullPointerException();
 
         List<String> allValues = new LinkedList<>();
         List<String> negativeValues;
 
-        for (Map.Entry<String, List<String>> entry : input.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : inputBids.entrySet()) {
             List<String> values = new ArrayList<>(entry.getValue());
             allValues.addAll(values);
         }
 
         negativeValues = allValues
                 .stream()
-                .filter(v -> v.startsWith(MINUS_CHAR))
+                .filter(innerValues -> innerValues.startsWith(MINUS_CHAR))
                 .collect(Collectors.toList());
 
         if (!negativeValues.isEmpty()) {

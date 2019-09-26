@@ -5,18 +5,22 @@ import java.math.BigDecimal;
 public class Price {
     private BigDecimal priceValue;
 
-    private Price(String reservePrice) throws NegativePriceException {
-        if (reservePrice == null || new BigDecimal(reservePrice).compareTo(BigDecimal.ZERO) < 0) {
-            throw new NegativePriceException(reservePrice);
-        }
-        new BigDecimal(reservePrice);
+    private Price(BigDecimal priceValue) throws NegativePriceException {
+        this.priceValue = priceValue;
     }
 
     public BigDecimal getPriceValue() {
         return priceValue;
     }
 
-    public static Price create(String reservePrice) throws NegativePriceException {
-        return new Price(reservePrice);
+    public static Price create(String price) throws NegativePriceException {
+        if (price == null) throw new NullPointerException("The price is null");
+
+        BigDecimal priceValue = new BigDecimal(price);
+
+        if (priceValue.compareTo(BigDecimal.ZERO) < 0) {
+            throw new NegativePriceException(price);
+        }
+        return new Price(priceValue);
     }
 }
