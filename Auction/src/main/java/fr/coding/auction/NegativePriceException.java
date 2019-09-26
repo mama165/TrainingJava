@@ -1,4 +1,4 @@
-package fr.cracking.interview;
+package fr.coding.auction;
 
 public class NegativePriceException extends Exception {
     NegativePriceException(String price) {

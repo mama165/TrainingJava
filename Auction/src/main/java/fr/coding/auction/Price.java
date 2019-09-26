@@ -1,4 +1,4 @@
-package fr.cracking.interview;
+package fr.coding.auction;
 
 import java.math.BigDecimal;
 
