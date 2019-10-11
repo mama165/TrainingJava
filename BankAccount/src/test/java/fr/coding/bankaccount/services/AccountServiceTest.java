@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -24,11 +26,7 @@ import static fr.coding.bankaccount.models.Amount.create;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +34,8 @@ class AccountServiceTest {
     private static final Long OWNER_ID = 1L;
     private static final Long ACCOUNT_ID = 123L;
     private static final Instant mockedDate = Instant.ofEpochSecond(1558083897);
+
+    private  InOrder inOrder;
 
     private AccountService accountService;
     @Mock
@@ -48,6 +48,7 @@ class AccountServiceTest {
     @BeforeEach
     void setup() {
         accountService = new AccountService(operationRepository, dateService);
+        inOrder = inOrder(operationRepository);
     }
 
     @Nested
@@ -246,6 +247,26 @@ class AccountServiceTest {
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
+        }
+
+        @Test
+        void should_record_operation_on_transfer() throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
+            String initialAmount = "100";
+            String amountToTransfer = "50";
+
+            Operation depositOperation = Operation.create(OWNER_ID, create(initialAmount), OperationType.DEPOSIT, mockedDate);
+            Operation withdrawOperationOnOwner = Operation.create(OWNER_ID, create(amountToTransfer), OperationType.WITHDRAWAL, mockedDate);
+            Operation depositOperationOnBeneficiary = Operation.create(ACCOUNT_ID, create(amountToTransfer), OperationType.DEPOSIT, mockedDate);
+
+            when(dateService.getDate()).thenReturn(mockedDate);
+            when(operationRepository.findAll(OWNER_ID)).thenReturn(Collections.singletonList(depositOperation));
+
+            accountService.transfer(OWNER_ID, ACCOUNT_ID, amountToTransfer);
+
+            inOrder.verify(operationRepository, times(1)).add(withdrawOperationOnOwner);
+            inOrder.verify(operationRepository, times(1)).add(depositOperationOnBeneficiary);
+
+            verifyNoMoreInteractions(operationRepository);
         }
     }
 
