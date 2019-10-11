@@ -5,6 +5,7 @@ import fr.coding.bankaccount.exceptions.AmountNegativeException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.features.IDeposit;
 import fr.coding.bankaccount.features.IReport;
+import fr.coding.bankaccount.features.ITransfer;
 import fr.coding.bankaccount.features.IWithdraw;
 import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-public class AccountService implements IDeposit, IWithdraw, IReport {
+public class AccountService implements ITransfer, IDeposit, IWithdraw, IReport {
     private final OperationRepository operationRepository;
     private final DateService dateService;
 
@@ -45,6 +46,14 @@ public class AccountService implements IDeposit, IWithdraw, IReport {
             throw new NotEnoughMoneyOnAccountException(amountExtracted);
         }
         operationRepository.add(withdrawalOperation);
+    }
+
+    @Override
+    public void transfer(Long ownerID, Long accountID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
+        if (ownerID == null || accountID == null) throw new NullPointerException();
+
+        withdraw(ownerID, value);
+        deposit(accountID, value);
     }
 
     @Override
