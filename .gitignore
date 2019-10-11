@@ -1,5 +1,6 @@
 .attach_pid*
 
+*.iml
 # Created by https://www.gitignore.io/api/git,java,root,intellij
 # Edit at https://www.gitignore.io/?templates=git,java,root,intellij
 
