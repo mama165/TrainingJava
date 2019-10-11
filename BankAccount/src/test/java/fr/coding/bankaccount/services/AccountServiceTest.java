@@ -293,11 +293,17 @@ class AccountServiceTest {
 
         @Test
         void should_throw_exception_on_printing_when_account_doesnt_exist() throws AccountNotFoundException {
-            doThrow(AccountNotFoundException.class).when(operationRepository).findAll(any());
+            final AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_ID);
 
-            assertThrows(AccountNotFoundException.class, () ->
+            doThrow(accountNotFoundException).when(operationRepository).findAll(any());
+
+            Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
                     accountService.printStatement(operationPrinter, ACCOUNT_ID)
             );
+
+            String messageExpected = "Account with id : " + ACCOUNT_ID + " doesn't exist";
+
+            assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
         }
     }
