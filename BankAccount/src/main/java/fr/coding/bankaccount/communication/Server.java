@@ -1,5 +1,11 @@
 package fr.coding.bankaccount.communication;
 
+import fr.coding.bankaccount.exceptions.AccountNotFoundException;
+import fr.coding.bankaccount.exceptions.AmountNegativeException;
+import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
+import fr.coding.bankaccount.implementations.OperationRepositoryImpl;
+import fr.coding.bankaccount.services.AccountService;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -12,6 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server {
     private static final int  NUMBER_OF_THREADS  = 20;
+    private static AtomicInteger atomicInteger = new AtomicInteger(0);
+    private static final AccountService accountService = new AccountService(new OperationRepositoryImpl(), null);
 
     public static void main(String[] args) throws IOException {
         try (
@@ -26,7 +34,6 @@ public class Server {
 
     private static class ATMOperationHandler implements Runnable {
         private final Socket socket;
-        private static AtomicInteger atomicInteger = new AtomicInteger(0);
 
         public ATMOperationHandler(Socket socket) {
             this.socket = socket;
@@ -40,11 +47,17 @@ public class Server {
                 final PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 while (in.hasNextLine()) {
                     // Server operations !
-                    out.println(in.nextLine().toUpperCase());
+                    final String value = in.nextLine().toUpperCase();
+                    out.println(value);
+                    final long accountID = 0L;
+                    accountService.withdraw(accountID, value);
                     System.out.println("The client made : " + atomicInteger.incrementAndGet() + " request(s)");
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
+                e.printStackTrace();
                 System.out.println("Error:" + socket);
+            } catch (NotEnoughMoneyOnAccountException | AccountNotFoundException | AmountNegativeException e) {
+                System.out.println(e.getMessage());
             } finally {
                 try { socket.close(); } catch (IOException e) {
                     System.exit(1);

@@ -9,7 +9,7 @@ import java.util.List;
 public class TextOperationPrinter implements OperationPrinter {
     private final OperationFormatter operationFormatter;
 
-    TextOperationPrinter(OperationFormatter operationFormatter) {
+    public TextOperationPrinter(OperationFormatter operationFormatter) {
         this.operationFormatter = operationFormatter;
     }
 
