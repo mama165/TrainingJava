@@ -52,8 +52,8 @@ public class AccountService implements ITransfer, IDeposit, IWithdraw, IReport {
     public void transfer(Long ownerID, Long accountID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
         if (ownerID == null || accountID == null) throw new NullPointerException();
 
-        withdraw(ownerID, value);
-        deposit(accountID, value);
+        this.withdraw(ownerID, value);
+        this.deposit(accountID, value);
     }
 
     @Override
