@@ -11,6 +11,7 @@ import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;
+import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
 
 import java.math.BigDecimal;
@@ -19,10 +20,12 @@ import java.util.List;
 
 public class AccountService implements ITransfer, IDeposit, IWithdraw, IReport {
     private final OperationRepository operationRepository;
+    private final BeneficiaryRepository beneficiaryRepository;
     private final DateService dateService;
 
-    public AccountService(OperationRepository operationRepository, DateService dateService) {
+    public AccountService(OperationRepository operationRepository, BeneficiaryRepository beneficiaryRepository, DateService dateService) {
         this.operationRepository = operationRepository;
+        this.beneficiaryRepository = beneficiaryRepository;
         this.dateService = dateService;
     }
 
@@ -49,12 +52,20 @@ public class AccountService implements ITransfer, IDeposit, IWithdraw, IReport {
     }
 
     @Override
-    public void transfer(Long ownerID, Long accountID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
-        if (ownerID == null || accountID == null) throw new NullPointerException();
+    public void transfer(Long accountHolderID, Long accountBeneficiaryID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
+        if (accountHolderID == null || accountBeneficiaryID == null) throw new NullPointerException();
 
-        this.withdraw(ownerID, value);
-        this.deposit(accountID, value);
+        this.withdraw(accountHolderID, value);
+        this.deposit(accountBeneficiaryID, value);
     }
+
+    public void attachBeneficiary(Long accountHolderID, Long accountBeneficiaryID)  throws AccountNotFoundException{
+        if (accountHolderID == null || accountBeneficiaryID == null) throw new NullPointerException();
+
+        beneficiaryRepository.add(accountHolderID, accountBeneficiaryID);
+    }
+
+
 
     @Override
     public void printStatement(OperationPrinter operationPrinter, Long accountID) throws AccountNotFoundException {

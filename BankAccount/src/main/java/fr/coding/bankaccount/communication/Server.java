@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Server {
     private static final int  NUMBER_OF_THREADS  = 20;
     private static AtomicInteger atomicInteger = new AtomicInteger(0);
-    private static final AccountService accountService = new AccountService(new OperationRepositoryImpl(), null);
+    private static final AccountService accountService = new AccountService(new OperationRepositoryImpl(), new BeneficiaryOperationImpl(), null);
 
     public static void main(String[] args) throws IOException {
         try (

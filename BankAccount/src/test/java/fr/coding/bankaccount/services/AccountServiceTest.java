@@ -6,6 +6,7 @@ import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;
+import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -31,8 +31,8 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
-    private static final Long OWNER_ID = 1L;
-    private static final Long ACCOUNT_ID = 123L;
+    private static final Long ACCOUNT_HOLDER_ID = 1L;
+    private static final Long ACCOUNT_BENEFICIARY_ID = 123L;
     private static final Instant mockedDate = Instant.ofEpochSecond(1558083897);
 
     private  InOrder inOrder;
@@ -41,13 +41,15 @@ class AccountServiceTest {
     @Mock
     private OperationRepository operationRepository;
     @Mock
+    private BeneficiaryRepository beneficiaryRepository;
+    @Mock
     private OperationPrinter operationPrinter;
     @Mock
     private DateService dateService;
 
     @BeforeEach
     void setup() {
-        accountService = new AccountService(operationRepository, dateService);
+        accountService = new AccountService(operationRepository, beneficiaryRepository, dateService);
         inOrder = inOrder(operationRepository);
     }
 
@@ -58,7 +60,7 @@ class AccountServiceTest {
             String amount = "-564";
 
             Throwable throwable = assertThrows(AmountNegativeException.class, () ->
-                    accountService.deposit(ACCOUNT_ID, amount)
+                    accountService.deposit(ACCOUNT_BENEFICIARY_ID, amount)
             );
 
             String messageExpected = "The amount is a negative number (" + amount + ").";
@@ -70,16 +72,16 @@ class AccountServiceTest {
         @Test
         void should_throw_exception_on_deposit_when_account_doesnt_exist() throws AccountNotFoundException {
             String amount = "50";
-            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_ID);
+            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
 
             when(dateService.getDate()).thenReturn(mockedDate);
             doThrow(accountNotFoundExceptionToThrow).when(operationRepository).add(any());
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
-                    accountService.deposit(ACCOUNT_ID, amount)
+                    accountService.deposit(ACCOUNT_BENEFICIARY_ID, amount)
             );
 
-            String messageExpected = "Account with id : " + ACCOUNT_ID + " doesn't exist";
+            String messageExpected = "Account with id : " + ACCOUNT_BENEFICIARY_ID + " doesn't exist";
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
@@ -90,9 +92,9 @@ class AccountServiceTest {
             String amount = "50";
             when(dateService.getDate()).thenReturn(mockedDate);
 
-            accountService.deposit(ACCOUNT_ID, amount);
+            accountService.deposit(ACCOUNT_BENEFICIARY_ID, amount);
 
-            Operation operationDeposit = Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate);
+            Operation operationDeposit = Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.DEPOSIT, mockedDate);
             verify(operationRepository, times(1)).add(operationDeposit);
             verifyNoMoreInteractions(operationRepository);
         }
@@ -105,7 +107,7 @@ class AccountServiceTest {
             String amount = "-50";
 
             Throwable throwable = assertThrows(AmountNegativeException.class, () ->
-                    accountService.withdraw(ACCOUNT_ID, amount)
+                    accountService.withdraw(ACCOUNT_BENEFICIARY_ID, amount)
             );
 
             String messageExpected = "The amount is a negative number (" + amount + ").";
@@ -117,16 +119,16 @@ class AccountServiceTest {
         @Test
         void should_throw_exception_on_withdrawal_when_account_doesnt_exist() throws AccountNotFoundException {
             String amount = "50";
-            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_ID);
+            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
 
-            when(operationRepository.findAll(ACCOUNT_ID)).thenThrow(accountNotFoundExceptionToThrow);
+            when(operationRepository.findAll(ACCOUNT_BENEFICIARY_ID)).thenThrow(accountNotFoundExceptionToThrow);
             when(dateService.getDate()).thenReturn(mockedDate);
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
-                    accountService.withdraw(ACCOUNT_ID, amount)
+                    accountService.withdraw(ACCOUNT_BENEFICIARY_ID, amount)
             );
 
-            String messageExpected = "Account with id : " + ACCOUNT_ID + " doesn't exist";
+            String messageExpected = "Account with id : " + ACCOUNT_BENEFICIARY_ID + " doesn't exist";
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
@@ -139,14 +141,14 @@ class AccountServiceTest {
 
             when(dateService.getDate()).thenReturn(mockedDate);
 
-            Operation depositOperation = Operation.create(ACCOUNT_ID,  create(depositAmount), OperationType.DEPOSIT, mockedDate);
+            Operation depositOperation = Operation.create(ACCOUNT_BENEFICIARY_ID,  create(depositAmount), OperationType.DEPOSIT, mockedDate);
 
             List<Operation> operations = Collections.singletonList(depositOperation);
 
-            when(operationRepository.findAll(ACCOUNT_ID)).thenReturn(operations);
+            when(operationRepository.findAll(ACCOUNT_BENEFICIARY_ID)).thenReturn(operations);
 
             Throwable throwable = assertThrows(NotEnoughMoneyOnAccountException.class, () ->
-                    accountService.withdraw(ACCOUNT_ID, withdrawalAmount)
+                    accountService.withdraw(ACCOUNT_BENEFICIARY_ID, withdrawalAmount)
             );
 
             String messageExpected = "Withdrawal impossible with amount : " + withdrawalAmount;
@@ -158,15 +160,15 @@ class AccountServiceTest {
         @Test
         void should_record_operation_when_withdrawal() throws AmountNegativeException, NotEnoughMoneyOnAccountException, AccountNotFoundException {
             String amount = "50";
-            Operation operationDeposit = Operation.create(ACCOUNT_ID,  create(amount), OperationType.DEPOSIT, mockedDate);
+            Operation operationDeposit = Operation.create(ACCOUNT_BENEFICIARY_ID,  create(amount), OperationType.DEPOSIT, mockedDate);
             List<Operation> operations = Collections.singletonList(operationDeposit);
 
-            when(operationRepository.findAll(ACCOUNT_ID)).thenReturn(operations);
+            when(operationRepository.findAll(ACCOUNT_BENEFICIARY_ID)).thenReturn(operations);
             when(dateService.getDate()).thenReturn(mockedDate);
 
-            accountService.withdraw(ACCOUNT_ID, amount);
+            accountService.withdraw(ACCOUNT_BENEFICIARY_ID, amount);
 
-            Operation operationWithdrawal = Operation.create(ACCOUNT_ID, create(amount), OperationType.WITHDRAWAL, mockedDate);
+            Operation operationWithdrawal = Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.WITHDRAWAL, mockedDate);
 
             verify(operationRepository, times(1)).add(operationWithdrawal);
             verifyNoMoreInteractions(operationRepository);
@@ -180,7 +182,7 @@ class AccountServiceTest {
             String amount = "-50";
 
             Throwable throwable = assertThrows(AmountNegativeException.class, () ->
-                    accountService.transfer(OWNER_ID, ACCOUNT_ID, amount)
+                    accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amount)
             );
 
             String messageExpected = "The amount is a negative number (" + amount + ").";
@@ -192,16 +194,16 @@ class AccountServiceTest {
         @Test
         void should_throw_exception_on_transfer_when_owner_account_doesnt_exist() throws AccountNotFoundException {
             String amount = "50";
-            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(OWNER_ID);
+            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_HOLDER_ID);
 
             when(dateService.getDate()).thenReturn(mockedDate);
-            when(operationRepository.findAll(OWNER_ID)).thenThrow(accountNotFoundExceptionToThrow);
+            when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenThrow(accountNotFoundExceptionToThrow);
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
-                    accountService.transfer(OWNER_ID, ACCOUNT_ID, amount)
+                    accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amount)
             );
 
-            String messageExpected = "Account with id : " + OWNER_ID + " doesn't exist";
+            String messageExpected = "Account with id : " + ACCOUNT_HOLDER_ID + " doesn't exist";
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
@@ -211,20 +213,20 @@ class AccountServiceTest {
         void should_throw_exception_on_transfer_when_beneficiary_account_doesnt_exist() throws AccountNotFoundException, AmountNegativeException {
             String amount = "50";
             List<Operation> beneficiaryOperations = Collections.singletonList(
-                    Operation.create(OWNER_ID, create(amount), OperationType.DEPOSIT, mockedDate)
+                    Operation.create(ACCOUNT_HOLDER_ID, create(amount), OperationType.DEPOSIT, mockedDate)
             );
 
-            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_ID);
+            AccountNotFoundException accountNotFoundExceptionToThrow = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
 
             when(dateService.getDate()).thenReturn(mockedDate);
-            when(operationRepository.findAll(OWNER_ID)).thenReturn(beneficiaryOperations);
+            when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(beneficiaryOperations);
             doThrow(accountNotFoundExceptionToThrow).when(operationRepository).add(any());
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
-                    accountService.transfer(OWNER_ID, ACCOUNT_ID, amount)
+                    accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amount)
             );
 
-            String messageExpected = "Account with id : " + ACCOUNT_ID + " doesn't exist";
+            String messageExpected = "Account with id : " + ACCOUNT_BENEFICIARY_ID + " doesn't exist";
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
@@ -234,13 +236,13 @@ class AccountServiceTest {
         void should_throw_exception_on_transfer_when_when_not_enough_money_on_beneficiary_account() throws AmountNegativeException, AccountNotFoundException {
             String depositAmount = "50";
             String withdrawalAmount = "51";
-            Operation depositOperation = Operation.create(ACCOUNT_ID,  create(depositAmount), OperationType.DEPOSIT, mockedDate);
+            Operation depositOperation = Operation.create(ACCOUNT_BENEFICIARY_ID,  create(depositAmount), OperationType.DEPOSIT, mockedDate);
 
             when(dateService.getDate()).thenReturn(mockedDate);
-            when(operationRepository.findAll(OWNER_ID)).thenReturn(Collections.singletonList(depositOperation));
+            when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(depositOperation));
 
             Throwable throwable = assertThrows(NotEnoughMoneyOnAccountException.class, () ->
-                    accountService.transfer(OWNER_ID, ACCOUNT_ID, withdrawalAmount)
+                    accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, withdrawalAmount)
             );
 
             String messageExpected = "Withdrawal impossible with amount : " + withdrawalAmount;
@@ -254,19 +256,48 @@ class AccountServiceTest {
             String initialAmount = "100";
             String amountToTransfer = "50";
 
-            Operation depositOperation = Operation.create(OWNER_ID, create(initialAmount), OperationType.DEPOSIT, mockedDate);
-            Operation withdrawOperationOnOwner = Operation.create(OWNER_ID, create(amountToTransfer), OperationType.WITHDRAWAL, mockedDate);
-            Operation depositOperationOnBeneficiary = Operation.create(ACCOUNT_ID, create(amountToTransfer), OperationType.DEPOSIT, mockedDate);
+            Operation depositOperation = Operation.create(ACCOUNT_HOLDER_ID, create(initialAmount), OperationType.DEPOSIT, mockedDate);
+            Operation withdrawOperationOnOwner = Operation.create(ACCOUNT_HOLDER_ID, create(amountToTransfer), OperationType.WITHDRAWAL, mockedDate);
+            Operation depositOperationOnBeneficiary = Operation.create(ACCOUNT_BENEFICIARY_ID, create(amountToTransfer), OperationType.DEPOSIT, mockedDate);
 
             when(dateService.getDate()).thenReturn(mockedDate);
-            when(operationRepository.findAll(OWNER_ID)).thenReturn(Collections.singletonList(depositOperation));
+            when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(depositOperation));
 
-            accountService.transfer(OWNER_ID, ACCOUNT_ID, amountToTransfer);
+            accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amountToTransfer);
 
             inOrder.verify(operationRepository, times(1)).add(withdrawOperationOnOwner);
             inOrder.verify(operationRepository, times(1)).add(depositOperationOnBeneficiary);
 
             verifyNoMoreInteractions(operationRepository);
+        }
+    }
+
+    @Nested
+    class Beneficiary {
+        @Test
+        void should_throw_exception_when_account_holder_doesnt_exist() throws AccountNotFoundException {
+            AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_HOLDER_ID);
+            doThrow(accountNotFoundException).when(beneficiaryRepository).add(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
+
+            Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
+                    accountService.attachBeneficiary(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID));
+
+            String messageExpected = "Account with id : " + ACCOUNT_HOLDER_ID + " doesn't exist";;
+
+            assertEquals(messageExpected, throwable.getMessage());
+        }
+
+        @Test
+        void should_throw_exception_when_accout_beneficiary_doest_exist() throws AccountNotFoundException {
+            AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
+            doThrow(accountNotFoundException).when(beneficiaryRepository).add(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
+
+            Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
+                    accountService.attachBeneficiary(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID));
+
+            String messageExpected = "Account with id : " + ACCOUNT_BENEFICIARY_ID + " doesn't exist";;
+
+            assertEquals(messageExpected, throwable.getMessage());
         }
     }
 
@@ -277,15 +308,15 @@ class AccountServiceTest {
             BigDecimal balance = new BigDecimal(150);
             String amount = "50";
             List<Operation> operations = Arrays.asList(
-                    Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate),
-                    Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate),
-                    Operation.create(ACCOUNT_ID, create(amount), OperationType.DEPOSIT, mockedDate)
+                    Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.DEPOSIT, mockedDate),
+                    Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.DEPOSIT, mockedDate),
+                    Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.DEPOSIT, mockedDate)
             );
-            when(operationRepository.findAll(ACCOUNT_ID)).thenReturn(operations);
+            when(operationRepository.findAll(ACCOUNT_BENEFICIARY_ID)).thenReturn(operations);
 
-            accountService.printStatement(operationPrinter, ACCOUNT_ID);
+            accountService.printStatement(operationPrinter, ACCOUNT_BENEFICIARY_ID);
 
-            verify(operationRepository, times(1)).findAll(ACCOUNT_ID);
+            verify(operationRepository, times(1)).findAll(ACCOUNT_BENEFICIARY_ID);
             verify(operationPrinter, times(1)).print(operations, balance);
             verifyNoMoreInteractions(operationRepository);
             verifyNoMoreInteractions(operationPrinter);
@@ -293,15 +324,15 @@ class AccountServiceTest {
 
         @Test
         void should_throw_exception_on_printing_when_account_doesnt_exist() throws AccountNotFoundException {
-            final AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_ID);
+            final AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
 
             doThrow(accountNotFoundException).when(operationRepository).findAll(any());
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
-                    accountService.printStatement(operationPrinter, ACCOUNT_ID)
+                    accountService.printStatement(operationPrinter, ACCOUNT_BENEFICIARY_ID)
             );
 
-            String messageExpected = "Account with id : " + ACCOUNT_ID + " doesn't exist";
+            String messageExpected = "Account with id : " + ACCOUNT_BENEFICIARY_ID + " doesn't exist";
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
