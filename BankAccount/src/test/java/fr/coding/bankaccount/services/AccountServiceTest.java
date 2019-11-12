@@ -2,6 +2,7 @@ package fr.coding.bankaccount.services;
 
 import fr.coding.bankaccount.exceptions.AccountNotFoundException;
 import fr.coding.bankaccount.exceptions.AmountNegativeException;
+import fr.coding.bankaccount.exceptions.BeneficiaryUnrecognizedException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
@@ -178,8 +179,9 @@ class AccountServiceTest {
     @Nested
     class TransferMoney {
         @Test
-        void should_not_record_when_an_exception_occured_on_transfer_negative_value() {
+        void should_not_record_when_an_exception_occured_on_transfer_negative_value() throws AccountNotFoundException {
             String amount = "-50";
+            when(beneficiaryRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(ACCOUNT_BENEFICIARY_ID));
 
             Throwable throwable = assertThrows(AmountNegativeException.class, () ->
                     accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amount)
@@ -198,6 +200,7 @@ class AccountServiceTest {
 
             when(dateService.getDate()).thenReturn(mockedDate);
             when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenThrow(accountNotFoundExceptionToThrow);
+            when(beneficiaryRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(ACCOUNT_BENEFICIARY_ID));
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
                     accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amount)
@@ -220,6 +223,7 @@ class AccountServiceTest {
 
             when(dateService.getDate()).thenReturn(mockedDate);
             when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(beneficiaryOperations);
+            when(beneficiaryRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(ACCOUNT_BENEFICIARY_ID));
             doThrow(accountNotFoundExceptionToThrow).when(operationRepository).add(any());
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
@@ -240,6 +244,7 @@ class AccountServiceTest {
 
             when(dateService.getDate()).thenReturn(mockedDate);
             when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(depositOperation));
+            when(beneficiaryRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(ACCOUNT_BENEFICIARY_ID));
 
             Throwable throwable = assertThrows(NotEnoughMoneyOnAccountException.class, () ->
                     accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, withdrawalAmount)
@@ -252,7 +257,20 @@ class AccountServiceTest {
         }
 
         @Test
-        void should_record_operation_on_transfer() throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
+        void should_throw_exception_when_beneficiary_unrecognized() {
+            String amount = "51";
+
+            Throwable throwable = assertThrows(BeneficiaryUnrecognizedException.class, () ->
+                    accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amount)
+            );
+
+            String messageExpected = "The account with id : " + ACCOUNT_BENEFICIARY_ID + " is not a beneficiary of account " + ACCOUNT_HOLDER_ID;
+
+            assertEquals(messageExpected, throwable.getMessage());
+        }
+
+        @Test
+        void should_record_operation_on_transfer() throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException, BeneficiaryUnrecognizedException {
             String initialAmount = "100";
             String amountToTransfer = "50";
 
@@ -262,6 +280,7 @@ class AccountServiceTest {
 
             when(dateService.getDate()).thenReturn(mockedDate);
             when(operationRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(depositOperation));
+            when(beneficiaryRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(ACCOUNT_BENEFICIARY_ID));
 
             accountService.transfer(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID, amountToTransfer);
 

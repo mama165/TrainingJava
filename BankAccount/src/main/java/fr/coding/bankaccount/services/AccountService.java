@@ -2,11 +2,9 @@ package fr.coding.bankaccount.services;
 
 import fr.coding.bankaccount.exceptions.AccountNotFoundException;
 import fr.coding.bankaccount.exceptions.AmountNegativeException;
+import fr.coding.bankaccount.exceptions.BeneficiaryUnrecognizedException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
-import fr.coding.bankaccount.features.IDeposit;
-import fr.coding.bankaccount.features.IReport;
-import fr.coding.bankaccount.features.ITransfer;
-import fr.coding.bankaccount.features.IWithdraw;
+import fr.coding.bankaccount.features.*;
 import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
@@ -17,8 +15,9 @@ import fr.coding.bankaccount.repositories.OperationRepository;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-public class AccountService implements ITransfer, IDeposit, IWithdraw, IReport {
+public class AccountService implements ITransfer, IDeposit, IWithdraw, IBeneficiary, IReport {
     private final OperationRepository operationRepository;
     private final BeneficiaryRepository beneficiaryRepository;
     private final DateService dateService;
@@ -52,20 +51,26 @@ public class AccountService implements ITransfer, IDeposit, IWithdraw, IReport {
     }
 
     @Override
-    public void transfer(Long accountHolderID, Long accountBeneficiaryID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException {
+    public void transfer(Long accountHolderID, Long accountBeneficiaryID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException, BeneficiaryUnrecognizedException {
         if (accountHolderID == null || accountBeneficiaryID == null) throw new NullPointerException();
+
+        List<Long> beneficiaryIDsNotNullable = Optional.ofNullable(beneficiaryRepository.findAll(accountHolderID)).orElse(Collections.emptyList());
+        List<Long> unmodifiableBeneficiaryIDs = Collections.unmodifiableList(beneficiaryIDsNotNullable);
+
+        if(!unmodifiableBeneficiaryIDs.contains(accountBeneficiaryID)) {
+            throw new BeneficiaryUnrecognizedException(accountHolderID, accountBeneficiaryID);
+        }
 
         this.withdraw(accountHolderID, value);
         this.deposit(accountBeneficiaryID, value);
     }
 
+    @Override
     public void attachBeneficiary(Long accountHolderID, Long accountBeneficiaryID)  throws AccountNotFoundException{
         if (accountHolderID == null || accountBeneficiaryID == null) throw new NullPointerException();
 
         beneficiaryRepository.add(accountHolderID, accountBeneficiaryID);
     }
-
-
 
     @Override
     public void printStatement(OperationPrinter operationPrinter, Long accountID) throws AccountNotFoundException {
