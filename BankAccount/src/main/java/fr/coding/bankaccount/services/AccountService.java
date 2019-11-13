@@ -42,12 +42,16 @@ public final class AccountService implements ITransfer, IDeposit, IWithdraw, IBe
 
         Operation withdrawalOperation = Operation.create(accountID, amount, OperationType.WITHDRAWAL, dateService.getDate());
         List<Operation> unmodifiableOperations = Collections.unmodifiableList(operationRepository.findAll(accountID));
-        BigDecimal balance = computeBalance(unmodifiableOperations);
+        BigDecimal newBalance = computeBalance(unmodifiableOperations).subtract(amountExtracted);
 
-        if (balance.compareTo(amountExtracted) < 0) {
-            throw new NotEnoughMoneyOnAccountException(amountExtracted);
-        }
+        validate(newBalance);
         operationRepository.add(withdrawalOperation);
+    }
+
+    private void validate(BigDecimal balance) throws NotEnoughMoneyOnAccountException {
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new NotEnoughMoneyOnAccountException(balance);
+        }
     }
 
     @Override
