@@ -3,6 +3,7 @@ package fr.coding.bankaccount.communication;
 import fr.coding.bankaccount.exceptions.AccountNotFoundException;
 import fr.coding.bankaccount.exceptions.AmountNegativeException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
+import fr.coding.bankaccount.implementations.BeneficiaryOperationImpl;
 import fr.coding.bankaccount.implementations.OperationRepositoryImpl;
 import fr.coding.bankaccount.services.AccountService;
 

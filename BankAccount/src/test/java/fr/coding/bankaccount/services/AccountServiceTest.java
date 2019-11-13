@@ -318,6 +318,12 @@ class AccountServiceTest {
 
             assertEquals(messageExpected, throwable.getMessage());
         }
+
+        @Test
+        void should_add_beneficiary_when_attach() throws AccountNotFoundException {
+            accountService.attachBeneficiary(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
+            verify(beneficiaryRepository, times(1)) .add(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
+        }
     }
 
     @Nested

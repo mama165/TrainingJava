@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class AccountService implements ITransfer, IDeposit, IWithdraw, IBeneficiary, IReport {
+public final class AccountService implements ITransfer, IDeposit, IWithdraw, IBeneficiary, IReport {
     private final OperationRepository operationRepository;
     private final BeneficiaryRepository beneficiaryRepository;
     private final DateService dateService;
@@ -54,8 +54,8 @@ public class AccountService implements ITransfer, IDeposit, IWithdraw, IBenefici
     public void transfer(Long accountHolderID, Long accountBeneficiaryID, String value) throws AmountNegativeException, AccountNotFoundException, NotEnoughMoneyOnAccountException, BeneficiaryUnrecognizedException {
         if (accountHolderID == null || accountBeneficiaryID == null) throw new NullPointerException();
 
-        List<Long> beneficiaryIDsNotNullable = Optional.ofNullable(beneficiaryRepository.findAll(accountHolderID)).orElse(Collections.emptyList());
-        List<Long> unmodifiableBeneficiaryIDs = Collections.unmodifiableList(beneficiaryIDsNotNullable);
+        List<Long> beneficiaryIDs = beneficiaryRepository.findAll(accountHolderID);
+        List<Long> unmodifiableBeneficiaryIDs = Collections.unmodifiableList(beneficiaryIDs);
 
         if(!unmodifiableBeneficiaryIDs.contains(accountBeneficiaryID)) {
             throw new BeneficiaryUnrecognizedException(accountHolderID, accountBeneficiaryID);
