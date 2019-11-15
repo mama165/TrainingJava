@@ -1,12 +1,11 @@
 package fr.coding.bankaccount.services;
 
-import fr.coding.bankaccount.exceptions.AccountNotFoundException;
-import fr.coding.bankaccount.exceptions.AmountNegativeException;
-import fr.coding.bankaccount.exceptions.BeneficiaryUnrecognizedException;
-import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
+import fr.coding.bankaccount.exceptions.*;
+import fr.coding.bankaccount.models.Account;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;
+import fr.coding.bankaccount.repositories.AccountRepository;
 import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,14 +43,44 @@ class AccountServiceTest {
     @Mock
     private BeneficiaryRepository beneficiaryRepository;
     @Mock
+    private AccountRepository accountRepository;
+    @Mock
     private OperationPrinter operationPrinter;
     @Mock
     private DateService dateService;
 
     @BeforeEach
     void setup() {
-        accountService = new AccountService(operationRepository, beneficiaryRepository, dateService);
+        accountService = new AccountService(operationRepository, beneficiaryRepository, accountRepository, dateService);
         inOrder = inOrder(operationRepository);
+    }
+
+    @Nested
+    class OpenAccount {
+        @Test
+        void should_throw_exception_on_opening_when_account_already_exists() throws AccountAlreadyExistsExceptions {
+            Account account = new Account("john", "wick", mockedDate);
+            AccountAlreadyExistsExceptions accountAlreadyExistsExceptions = new AccountAlreadyExistsExceptions(ACCOUNT_HOLDER_ID);
+            doThrow(accountAlreadyExistsExceptions).when(accountRepository).add(account);
+            when(dateService.getDate()).thenReturn(mockedDate);
+
+            Throwable throwable = assertThrows(AccountAlreadyExistsExceptions.class, () ->
+                    accountService.open("john", "wick")
+            );
+
+            String messageExpected = "Account with id : " + ACCOUNT_HOLDER_ID + " already exists";
+
+            assertEquals(messageExpected, throwable.getMessage());
+        }
+
+        @Test
+        void should_record_account_when_opening() throws AccountAlreadyExistsExceptions {
+            Account account = new Account("john", "wick", mockedDate);
+            when(dateService.getDate()).thenReturn(mockedDate);
+            accountService.open("john", "wick");
+
+            verify(accountRepository, times(1)).add(account);
+        }
     }
 
     @Nested

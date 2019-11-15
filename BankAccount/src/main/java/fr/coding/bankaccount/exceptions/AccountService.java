@@ -1,31 +1,38 @@
-package fr.coding.bankaccount.services;
+package fr.coding.bankaccount.exceptions;
 
-import fr.coding.bankaccount.exceptions.AccountNotFoundException;
-import fr.coding.bankaccount.exceptions.AmountNegativeException;
-import fr.coding.bankaccount.exceptions.BeneficiaryUnrecognizedException;
-import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.features.*;
+import fr.coding.bankaccount.models.Account;
 import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;
+import fr.coding.bankaccount.repositories.AccountRepository;
 import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
+import fr.coding.bankaccount.services.DateService;
+import fr.coding.bankaccount.features.IAccount;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-public final class AccountService implements ITransfer, IDeposit, IWithdraw, IBeneficiary, IReport {
+public final class AccountService implements ITransfer, IDeposit, IWithdraw, IBeneficiary, IAccount, IReport {
     private final OperationRepository operationRepository;
     private final BeneficiaryRepository beneficiaryRepository;
+    private final AccountRepository accountRepository;
     private final DateService dateService;
 
-    public AccountService(OperationRepository operationRepository, BeneficiaryRepository beneficiaryRepository, DateService dateService) {
+    public AccountService(OperationRepository operationRepository, BeneficiaryRepository beneficiaryRepository, AccountRepository accountRepository, DateService dateService) {
         this.operationRepository = operationRepository;
         this.beneficiaryRepository = beneficiaryRepository;
+        this.accountRepository = accountRepository;
         this.dateService = dateService;
+    }
+
+    @Override
+    public void open(String firstName, String lastName) throws AccountAlreadyExistsExceptions {
+        Account account = new Account(firstName, lastName, dateService.getDate());
+        accountRepository.add(account);
     }
 
     @Override

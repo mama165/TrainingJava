@@ -5,7 +5,7 @@ import fr.coding.bankaccount.exceptions.AmountNegativeException;
 import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.implementations.BeneficiaryOperationImpl;
 import fr.coding.bankaccount.implementations.OperationRepositoryImpl;
-import fr.coding.bankaccount.services.AccountService;
+import fr.coding.bankaccount.exceptions.AccountService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Server {
     private static final int  NUMBER_OF_THREADS  = 20;
     private static AtomicInteger atomicInteger = new AtomicInteger(0);
-    private static final AccountService accountService = new AccountService(new OperationRepositoryImpl(), new BeneficiaryOperationImpl(), null);
+    private static final AccountService accountService = new AccountService(new OperationRepositoryImpl(), new BeneficiaryOperationImpl(), new AccountRepositoryImpl() , null);
 
     public static void main(String[] args) throws IOException {
         try (
