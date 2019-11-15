@@ -1,4 +1,4 @@
-package fr.coding.bankaccount;
+package fr.coding.bankaccount.implementations;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;

@@ -71,6 +71,7 @@ class AccountServiceTest {
             String messageExpected = "Account with id : " + ACCOUNT_HOLDER_ID + " already exists";
 
             assertEquals(messageExpected, throwable.getMessage());
+            verifyZeroInteractions(accountRepository);
         }
 
         @Test
@@ -296,6 +297,7 @@ class AccountServiceTest {
             String messageExpected = "The account with id : " + ACCOUNT_BENEFICIARY_ID + " is not a beneficiary of account " + ACCOUNT_HOLDER_ID;
 
             assertEquals(messageExpected, throwable.getMessage());
+            verifyZeroInteractions(operationRepository);
         }
 
         @Test
@@ -333,10 +335,11 @@ class AccountServiceTest {
             String messageExpected = "Account with id : " + ACCOUNT_HOLDER_ID + " doesn't exist";;
 
             assertEquals(messageExpected, throwable.getMessage());
+            verifyZeroInteractions(beneficiaryRepository);
         }
 
         @Test
-        void should_throw_exception_when_accout_beneficiary_doest_exist() throws AccountNotFoundException {
+        void should_throw_exception_when_account_beneficiary_doest_exist() throws AccountNotFoundException {
             AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
             doThrow(accountNotFoundException).when(beneficiaryRepository).add(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
 
@@ -346,6 +349,7 @@ class AccountServiceTest {
             String messageExpected = "Account with id : " + ACCOUNT_BENEFICIARY_ID + " doesn't exist";;
 
             assertEquals(messageExpected, throwable.getMessage());
+            verifyZeroInteractions(beneficiaryRepository);
         }
 
         @Test
@@ -361,6 +365,7 @@ class AccountServiceTest {
         void should_print_all_operation_reported() throws AmountNegativeException, AccountNotFoundException {
             BigDecimal balance = new BigDecimal(150);
             String amount = "50";
+
             List<Operation> operations = Arrays.asList(
                     Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.DEPOSIT, mockedDate),
                     Operation.create(ACCOUNT_BENEFICIARY_ID, create(amount), OperationType.DEPOSIT, mockedDate),
