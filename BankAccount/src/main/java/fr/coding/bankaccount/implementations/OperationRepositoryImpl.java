@@ -4,7 +4,6 @@ import fr.coding.bankaccount.exceptions.AccountNotFoundException;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.repositories.OperationRepository;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;

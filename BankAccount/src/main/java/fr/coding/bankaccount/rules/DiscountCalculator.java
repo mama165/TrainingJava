@@ -1,7 +1,9 @@
 package fr.coding.bankaccount.rules;
 
 import fr.coding.bankaccount.exceptions.AccountNotFoundException;
+import fr.coding.bankaccount.repositories.AccountRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
+import fr.coding.bankaccount.services.DateService;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -12,8 +14,8 @@ public class DiscountCalculator implements IDiscountCalculator {
     private static final BigDecimal defaultDiscount = new BigDecimal(500);
     private static final int defaultYears = 5;
 
-    DiscountCalculator(OperationRepository operationRepository) {
-        rules.add(new LoyalAccountRule(defaultYears, defaultDiscount));
+    DiscountCalculator(AccountRepository accountRepository, OperationRepository operationRepository, DateService dateService) {
+        rules.add(new LoyalAccountRule(accountRepository, dateService, defaultYears, defaultDiscount));
         rules.add(new NegativeAccountRule(operationRepository, defaultDiscount));
     }
 

@@ -12,7 +12,7 @@ public class NegativeAccountRule implements IDiscountRule{
     private final OperationRepository operationRepository;
     private static final int maxWithdrawal = 5;
 
-    public NegativeAccountRule(OperationRepository operationRepository, BigDecimal discount) {
+    NegativeAccountRule(OperationRepository operationRepository, BigDecimal discount) {
         this.operationRepository = operationRepository;
         this.discount = discount;
     }
@@ -22,7 +22,11 @@ public class NegativeAccountRule implements IDiscountRule{
         List<Operation> operations = operationRepository.findAll(accountID);
         int negativeNumbersTime = negativeOperationsNumber(operations);
 
-        return negativeNumbersTime > maxWithdrawal ? BigDecimal.ZERO : BigDecimal.TEN;
+        if(negativeNumbersTime < maxWithdrawal) {
+            return BigDecimal.TEN;
+        }
+
+        return BigDecimal.ZERO;
     }
 
     private int negativeOperationsNumber(List<Operation> operations) {

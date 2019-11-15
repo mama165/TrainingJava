@@ -1,6 +1,7 @@
 package fr.coding.bankaccount.models;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Account {
@@ -24,6 +25,10 @@ public class Account {
 
     public Instant getTime() {
         return time;
+    }
+
+    public boolean hasBeenLoyal(int years, Instant today) {
+        return today.compareTo(time.plus(years, ChronoUnit.HOURS)) < 0;
     }
 
     @Override
