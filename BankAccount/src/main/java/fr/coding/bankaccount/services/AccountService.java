@@ -1,5 +1,10 @@
-package fr.coding.bankaccount.exceptions;
+package fr.coding.bankaccount.services;
 
+import fr.coding.bankaccount.exceptions.AccountAlreadyExistsExceptions;
+import fr.coding.bankaccount.exceptions.AccountNotFoundException;
+import fr.coding.bankaccount.exceptions.AmountNegativeException;
+import fr.coding.bankaccount.exceptions.BeneficiaryUnrecognizedException;
+import fr.coding.bankaccount.exceptions.NotEnoughMoneyOnAccountException;
 import fr.coding.bankaccount.features.*;
 import fr.coding.bankaccount.models.Account;
 import fr.coding.bankaccount.models.Amount;
@@ -9,6 +14,7 @@ import fr.coding.bankaccount.printers.OperationPrinter;
 import fr.coding.bankaccount.repositories.AccountRepository;
 import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
+import fr.coding.bankaccount.rules.DiscountCalculator;
 import fr.coding.bankaccount.services.DateService;
 import fr.coding.bankaccount.features.IAccount;
 
@@ -16,7 +22,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-public final class AccountService implements ITransfer, IDeposit, IWithdraw, IBeneficiary, IAccount, IReport {
+public final class AccountService implements ITransfer, IDeposit, IWithdraw, IAccount, IReport {
     private final OperationRepository operationRepository;
     private final BeneficiaryRepository beneficiaryRepository;
     private final AccountRepository accountRepository;
@@ -83,6 +89,15 @@ public final class AccountService implements ITransfer, IDeposit, IWithdraw, IBe
     public void printStatement(OperationPrinter operationPrinter, Long accountID) throws AccountNotFoundException {
         List<Operation> unmodifiableOperations = Collections.unmodifiableList(operationRepository.findAll(accountID));
         operationPrinter.print(unmodifiableOperations, computeBalance(unmodifiableOperations));
+    }
+
+    @Override
+    public void applyDiscount(DiscountCalculator discountCalculator, Long accountID) throws AccountNotFoundException, AmountNegativeException {
+        BigDecimal discount = discountCalculator.calculateDiscountPercentage(accountID);
+        if (discount.compareTo(BigDecimal.ZERO) != 0) {
+            Operation depositOperation = Operation.create(accountID, Amount.create(discount.toString()), OperationType.DEPOSIT, dateService.getDate());
+            operationRepository.add(depositOperation);
+        }
     }
 
     private BigDecimal computeBalance(List<Operation> operations) {

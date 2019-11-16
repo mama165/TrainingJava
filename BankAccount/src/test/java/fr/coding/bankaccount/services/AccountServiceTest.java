@@ -2,12 +2,14 @@ package fr.coding.bankaccount.services;
 
 import fr.coding.bankaccount.exceptions.*;
 import fr.coding.bankaccount.models.Account;
+import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;
 import fr.coding.bankaccount.repositories.AccountRepository;
 import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
+import fr.coding.bankaccount.rules.DiscountCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -46,6 +48,8 @@ class AccountServiceTest {
     private AccountRepository accountRepository;
     @Mock
     private OperationPrinter operationPrinter;
+    @Mock
+    private DiscountCalculator discountCalculator;
     @Mock
     private DateService dateService;
 
@@ -358,6 +362,30 @@ class AccountServiceTest {
             accountService.attachBeneficiary(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
             verify(beneficiaryRepository, times(1)) .add(ACCOUNT_HOLDER_ID, ACCOUNT_BENEFICIARY_ID);
             verifyNoMoreInteractions(beneficiaryRepository);
+        }
+    }
+
+    @Nested
+    class ApplyDiscount {
+        @Test
+        void should_apply_discount_on_account_when_not_zero() throws AccountNotFoundException, AmountNegativeException {
+            BigDecimal discount = new BigDecimal("500");
+            when(discountCalculator.calculateDiscountPercentage(ACCOUNT_HOLDER_ID)).thenReturn(discount);
+            when(dateService.getDate()).thenReturn(mockedDate);
+            Operation depositOperation = Operation.create(ACCOUNT_HOLDER_ID, create(discount.toString()), OperationType.DEPOSIT, dateService.getDate());
+
+            accountService.applyDiscount(discountCalculator, ACCOUNT_HOLDER_ID);
+            verify(operationRepository, times(1)).add(depositOperation);
+            verifyNoMoreInteractions(operationRepository);
+        }
+
+        @Test
+        void should_ot_apply_discount_on_account_when_zero() throws AccountNotFoundException, AmountNegativeException {
+            BigDecimal discount = BigDecimal.ZERO;
+            when(discountCalculator.calculateDiscountPercentage(ACCOUNT_HOLDER_ID)).thenReturn(discount);
+
+            accountService.applyDiscount(discountCalculator, ACCOUNT_HOLDER_ID);
+            verifyZeroInteractions(operationRepository);
         }
     }
 

@@ -77,7 +77,9 @@ class DiscountCalculatorTest {
         BigDecimal expected = new BigDecimal("500");
 
         assertEquals(expected, output);
+        verify(accountRepository, times(1)).find(ACCOUNT_ID);
         verify(operationRepository, times(1)).findAll(ACCOUNT_ID);
+        verifyNoMoreInteractions(accountRepository);
         verifyNoMoreInteractions(operationRepository);
     }
 }
