@@ -13,10 +13,11 @@ public class DiscountCalculator implements IDiscountCalculator {
     private final List<IDiscountRule> rules = new LinkedList<>();
     private static final BigDecimal defaultDiscount = new BigDecimal(500);
     private static final int defaultYears = 5;
+    private static final int maxWithdrawal = 5;
 
     DiscountCalculator(AccountRepository accountRepository, OperationRepository operationRepository, DateService dateService) {
         rules.add(new LoyalAccountRule(accountRepository, dateService, defaultYears, defaultDiscount));
-        rules.add(new NegativeAccountRule(operationRepository, defaultDiscount));
+        rules.add(new NegativeAccountRule(operationRepository, maxWithdrawal,  defaultDiscount));
     }
 
     @Override

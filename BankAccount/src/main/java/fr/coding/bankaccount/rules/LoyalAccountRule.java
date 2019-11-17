@@ -7,7 +7,7 @@ import fr.coding.bankaccount.services.DateService;
 
 import java.math.BigDecimal;
 
-public class LoyalAccountRule implements IDiscountRule {
+public final class LoyalAccountRule implements IDiscountRule {
     private final int years;
     private final BigDecimal discount;
     private final AccountRepository accountRepository;
