@@ -90,6 +90,30 @@ class AccountServiceTest {
     }
 
     @Nested
+    class CloseAccount {
+        @Test
+        void should_throw_an_exception_on_opening_when_account_not_existing() throws AccountNotFoundException {
+            AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_HOLDER_ID);
+            doThrow(accountNotFoundException).when(accountRepository).remove(ACCOUNT_HOLDER_ID);
+
+            Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
+                    accountService.close(ACCOUNT_HOLDER_ID)
+            );
+
+            String messageExpected = "Account with id : " + ACCOUNT_HOLDER_ID + " doesn't exist";
+
+            assertEquals(messageExpected, throwable.getMessage());
+        }
+
+        @Test
+        void should_delete_account_when_close() throws AccountNotFoundException {
+            accountService.close(ACCOUNT_HOLDER_ID);
+            verify(accountRepository, times(1)).remove(ACCOUNT_HOLDER_ID);
+            verifyNoMoreInteractions(accountRepository);
+        }
+    }
+
+    @Nested
     class DepositMoney {
         @Test
         void should_not_record_when_an_exception_occured_on_deposit_negative_amount() {
@@ -415,7 +439,7 @@ class AccountServiceTest {
         void should_throw_exception_on_printing_when_account_doesnt_exist() throws AccountNotFoundException {
             final AccountNotFoundException accountNotFoundException = new AccountNotFoundException(ACCOUNT_BENEFICIARY_ID);
 
-            doThrow(accountNotFoundException).when(operationRepository).findAll(any());
+            doThrow(accountNotFoundException).when(operationRepository).findAll(ACCOUNT_BENEFICIARY_ID);
 
             Throwable throwable = assertThrows(AccountNotFoundException.class, () ->
                     accountService.printStatement(operationPrinter, ACCOUNT_BENEFICIARY_ID)
@@ -425,6 +449,7 @@ class AccountServiceTest {
 
             assertEquals(messageExpected, throwable.getMessage());
             verifyZeroInteractions(operationRepository);
+            verifyZeroInteractions(operationPrinter);
         }
     }
 }

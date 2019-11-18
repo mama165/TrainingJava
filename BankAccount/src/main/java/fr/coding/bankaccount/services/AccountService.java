@@ -15,7 +15,6 @@ import fr.coding.bankaccount.repositories.AccountRepository;
 import fr.coding.bankaccount.repositories.BeneficiaryRepository;
 import fr.coding.bankaccount.repositories.OperationRepository;
 import fr.coding.bankaccount.rules.DiscountCalculator;
-import fr.coding.bankaccount.services.DateService;
 import fr.coding.bankaccount.features.IAccount;
 
 import java.math.BigDecimal;
@@ -39,6 +38,11 @@ public final class AccountService implements ITransfer, IDeposit, IWithdraw, IAc
     public void open(String firstName, String lastName) throws AccountAlreadyExistsExceptions {
         Account account = new Account(firstName, lastName, dateService.getDate());
         accountRepository.add(account);
+    }
+
+    @Override
+    public void close(Long accountID) throws AccountNotFoundException {
+        accountRepository.remove(accountID);
     }
 
     @Override

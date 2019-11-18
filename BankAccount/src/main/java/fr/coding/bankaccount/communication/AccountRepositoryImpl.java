@@ -12,6 +12,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public void remove(Long accountID) {
+
+    }
+
+    @Override
     public Account find(Long accountID) throws AccountNotFoundException {
         return null;
     }
