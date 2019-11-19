@@ -1,5 +1,9 @@
 package fr.coding.bankaccount.features;
 
+import akka.Done;
+
+import java.util.concurrent.CompletionStage;
+
 public interface ICsvImporter  {
-    void importFromFiles();
+    CompletionStage<Done> importFromFiles();
 }

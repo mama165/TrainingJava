@@ -1,16 +1,18 @@
 package fr.coding.bankaccount.models;
 
+import fr.coding.bankaccount.importer.BaseOperation;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Operation {
+public class Operation  implements BaseOperation {
     private final Long accountID;
     private final BigDecimal amount;
-    private final Instant time;
     private final OperationType operationType;
+    private final Instant time;
 
     private Operation(Long accountID, BigDecimal amount, OperationType operationType, Instant time) {
         this.accountID = accountID;
@@ -42,6 +44,7 @@ public class Operation {
         }
     }
 
+    @Override
     public Long getAccountID() {
         return accountID;
     }
