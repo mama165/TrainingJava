@@ -1,4 +1,4 @@
-package fr.coding.bankaccount.Balancer;
+package fr.coding.bankaccount.balancer;
 
 import akka.NotUsed;
 import akka.stream.FlowShape;
