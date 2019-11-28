@@ -2,7 +2,6 @@ package fr.coding.bankaccount.services;
 
 import fr.coding.bankaccount.exceptions.*;
 import fr.coding.bankaccount.models.Account;
-import fr.coding.bankaccount.models.Amount;
 import fr.coding.bankaccount.models.Operation;
 import fr.coding.bankaccount.models.OperationType;
 import fr.coding.bankaccount.printers.OperationPrinter;

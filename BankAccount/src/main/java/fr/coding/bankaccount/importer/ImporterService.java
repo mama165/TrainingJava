@@ -94,6 +94,35 @@ public class ImporterService implements ICsvImporter {
                 .via(parseFile())
                 .via(compute());
     }
+    private Flow<File, BaseOperation, NotUsed> parseFile() {
+        return Flow.of(File.class).flatMapConcat(file -> {
+            GZIPInputStream inputStream = new GZIPInputStream(new FileInputStream(file));
+            return StreamConverters.fromInputStream(() -> inputStream)
+                    .via(lineDelimiter)
+                    .drop(linesToSkip)
+                    .map(ByteString::utf8String)
+                    .mapAsync(nonIOParallelism, this::parseLine);
+        });
+    }
+
+    private CompletionStage<BaseOperation> parseLine(String line) {
+        return CompletableFuture.supplyAsync(() -> {
+            String[] fields = line.split(",");
+            Long accountID = Long.parseLong(fields[0]);
+
+            return Try
+                    .of(() ->{
+                        Amount amount = Amount.create(fields[1]);
+                        String depositValue = OperationType.DEPOSIT.toString();
+                        OperationType operationType = depositValue.equals(fields[2]) ? OperationType.DEPOSIT : OperationType.WITHDRAWAL;
+                        Instant time = Instant.parse(fields[3]);
+                        BaseOperation baseOperation = Operation.create(accountID, amount, operationType, time);
+                        return baseOperation;
+                    })
+                    .onFailure(e -> logger.error("Unable to parse line: {}: {}", line, e.getMessage()))
+                    .getOrElse(new InvalidOperation(accountID));
+        });
+    }
 
     private Flow<BaseOperation, Operation, NotUsed> compute() {
         return Flow.of(BaseOperation.class)
@@ -118,37 +147,5 @@ public class ImporterService implements ICsvImporter {
             }
         }
         return currentBalance;
-    }
-
-
-    private Flow<File, BaseOperation, NotUsed> parseFile() {
-        return Flow.of(File.class).flatMapConcat(file -> {
-            GZIPInputStream inputStream = new GZIPInputStream(new FileInputStream(file));
-            return StreamConverters.fromInputStream(() -> inputStream)
-                    .via(lineDelimiter)
-                    .drop(linesToSkip)
-                    .map(ByteString::utf8String)
-                    .mapAsync(nonIOParallelism, this::parseLine);
-        });
-    }
-
-
-    private CompletionStage<BaseOperation> parseLine(String line) {
-        return CompletableFuture.supplyAsync(() -> {
-            String[] fields = line.split(",");
-            Long accountID = Long.parseLong(fields[0]);
-
-            return Try
-                    .of(() ->{
-                        Amount amount = Amount.create(fields[1]);
-                        String depositValue = OperationType.DEPOSIT.toString();
-                        OperationType operationType = depositValue.equals(fields[2]) ? OperationType.DEPOSIT : OperationType.WITHDRAWAL;
-                        Instant time = Instant.parse(fields[3]);
-                        BaseOperation baseOperation = Operation.create(accountID, amount, operationType, time);
-                        return baseOperation;
-                    })
-                    .onFailure(e -> logger.error("Unable to parse line: {}: {}", line, e.getMessage()))
-                    .getOrElse(new InvalidOperation(accountID));
-        });
     }
 }
