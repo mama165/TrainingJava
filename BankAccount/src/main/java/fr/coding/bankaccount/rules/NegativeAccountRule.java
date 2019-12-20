@@ -7,7 +7,7 @@ import fr.coding.bankaccount.repositories.OperationRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
-public final class NegativeAccountRule implements IDiscountRule{
+public final class NegativeAccountRule implements IDiscountRule {
     private final BigDecimal discount;
     private final OperationRepository operationRepository;
     private final int maxWithdrawal;
@@ -23,7 +23,7 @@ public final class NegativeAccountRule implements IDiscountRule{
         List<Operation> operations = operationRepository.findAll(accountID);
         int negativeNumbersTime = negativeOperationsNumber(operations);
 
-        if(negativeNumbersTime < maxWithdrawal) {
+        if (negativeNumbersTime < maxWithdrawal) {
             return discount;
         }
 
@@ -47,7 +47,7 @@ public final class NegativeAccountRule implements IDiscountRule{
                     break;
             }
             if (currentBalance.compareTo(BigDecimal.ZERO) < 0) {
-                count ++;
+                count++;
             }
         }
         return count;

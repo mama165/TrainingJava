@@ -115,7 +115,7 @@ class AccountServiceTest {
     @Nested
     class DepositMoney {
         @Test
-        void should_not_record_when_an_exception_occured_on_deposit_negative_amount() {
+        void should_not_record_when_an_exception_occurred_on_deposit_negative_amount() {
             String amount = "-564";
 
             Throwable throwable = assertThrows(AmountNegativeException.class, () ->
@@ -162,7 +162,7 @@ class AccountServiceTest {
     @Nested
     class WithdrawMoney {
         @Test
-        void should_not_record_when_an_exception_occured_on_withdrawal_negative_value() {
+        void should_not_record_when_an_exception_occurred_on_withdrawal_negative_value() {
             String amount = "-50";
 
             Throwable throwable = assertThrows(AmountNegativeException.class, () ->
@@ -237,7 +237,7 @@ class AccountServiceTest {
     @Nested
     class TransferMoney {
         @Test
-        void should_not_record_when_an_exception_occured_on_transfer_negative_value() throws AccountNotFoundException {
+        void should_not_record_when_an_exception_occurred_on_transfer_negative_value() throws AccountNotFoundException {
             String amount = "-50";
             when(beneficiaryRepository.findAll(ACCOUNT_HOLDER_ID)).thenReturn(Collections.singletonList(ACCOUNT_BENEFICIARY_ID));
 

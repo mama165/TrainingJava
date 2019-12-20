@@ -1,7 +1,7 @@
 device_type=pc||or||browser=7 & os_family=5 & browser=8 & language=2 & leaf=0.000559453
 device_type=pc||or||browser=7 & os_family=5 & browser=8 & language!=2 & leaf=0.000594593
-device_type=pc||or||browser=7 & os_family=5 & brower!=8 & size=300x600 & leaf=0.000597397
-device_type=pc||or||browser=7 & os_family=5 & brower!=8 & size!=300x600 & leaf=0.00063461
+device_type=pc||or||browser=7 & os_family=5 & browser!=8 & size=300x600 & leaf=0.000597397
+device_type=pc||or||browser=7 & os_family=5 & browser!=8 & size!=300x600 & leaf=0.00063461
 device_type=pc||or||browser=7 & os_family!=5 & browser=8||or||browser=5 & leaf=0.000625534
 device_type=pc||or||browser=7 & os_family!=5 & browser!=8 & browser!=5 & position=2 & leaf=0.00066727
 device_type=pc||or||browser=7 & os_family!=5 & browser!=8 & browser!=5 & position!=2 & leaf=0.000708484
